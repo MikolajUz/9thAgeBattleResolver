@@ -1,1 +1,2 @@
 <app-unit *ngFor="let unit of armyList$ | async" [unit]="unit"> </app-unit>>
+<div>{{ (unit$ | async)?.name }}</div>

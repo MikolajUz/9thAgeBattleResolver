@@ -8,5 +8,7 @@ import { ArmyService } from '../services/army.service';
 })
 export class ArmyListComponent {
   armyList$ = this.armyService.getArmy();
+  unit$? = this.armyService.getUnit('Bruisers');
+
   constructor(private armyService: ArmyService) {}
 }

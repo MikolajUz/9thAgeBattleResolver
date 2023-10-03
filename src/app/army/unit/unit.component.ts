@@ -8,4 +8,6 @@ import { Unit } from '../interfaces/unit.interface';
 })
 export class UnitComponent {
   @Input() unit!: Unit;
+
+  constructor() {}
 }

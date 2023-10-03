@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ArmyAPI } from '../interfaces/armyAPI.interface';
 import { map } from 'rxjs';
 import { Unit } from '../interfaces/unit.interface';
+import { getNumberOfCurrencyDigits } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +17,22 @@ export class ArmyService {
   getArmy(): Observable<Unit[]> {
     let temp = this.http.get<ArmyAPI>(this.url).pipe(
       map((ApiData) => {
-        console.log(ApiData.units);
-        return ApiData.units;
+        console.log(ApiData);
+        return ApiData.units.filter((unit) => !unit.is_mount);
       })
     );
 
-    //console.log(temp);
+    return temp;
+  }
+
+  getUnit(name: string): Observable<Unit | undefined> {
+    let temp = this.http.get<ArmyAPI>(this.url).pipe(
+      map((ApiData) => {
+        let temp2=ApiData.units.find((unit) => unit.name === name);
+        console.log(temp2)
+        return temp2
+      })
+    );
     return temp;
   }
 }
