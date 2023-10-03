@@ -25,7 +25,7 @@ export interface Unit {
   all_organisation_ids: string[];
   all_organisations: string[];
   troops: string[];
-  model_rule_unit_troops: ModelRuleUnitTroops;
-  unit_options: UnitOptions;
+  model_rule_unit_troops: ModelRuleUnitTroops[];
+  unit_options: UnitOptions[];
   organisation_changes: string[];
 }

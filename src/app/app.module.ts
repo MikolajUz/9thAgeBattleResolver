@@ -8,11 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { ArmyListComponent } from './army/armyList/armyList.component';
 import { UnitComponent } from './army/unit/unit.component';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [AppComponent, ArmyListComponent, UnitComponent],
   imports: [
     BrowserModule,
+    MaterialModule,
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
