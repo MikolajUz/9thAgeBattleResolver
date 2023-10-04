@@ -1,0 +1,8 @@
+<label
+  class="file-upload"
+  (dragover)="onDragOver($event)"
+  (drop)="onDropSuccess($event)"
+>
+  Upload Rooster
+  <input (change)="onChange($event)" type="file" />
+</label>
