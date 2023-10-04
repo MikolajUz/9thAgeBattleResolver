@@ -6,7 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./get-rooster.component.scss'],
 })
 export class GetRoosterComponent {
-  
+  validFile = false;
+
   onDragOver(event: any) {
     event.preventDefault();
   }
@@ -19,11 +20,17 @@ export class GetRoosterComponent {
     this.onFileChange(event.target.files);
   }
 
+  isTxt(name: string) {
+    return name.slice(-4) === '.txt';
+  }
+
   private onFileChange(files: any) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      console.log(reader.result);
-    });
-    reader.readAsText(files[0]);
+    if (this.isTxt(files[0].name)) {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        console.log(reader.result);
+      });
+      reader.readAsText(files[0]);
+    } else this.validFile = true;
   }
 }
