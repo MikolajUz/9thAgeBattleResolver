@@ -13,10 +13,15 @@ import { RootStoreModule } from './root-store/root-store.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { GetRoosterComponent } from './get-rooster/get-rooster.component';
+import { GetRoosterComponent } from './army/get-rooster/get-rooster.component';
 
 @NgModule({
-  declarations: [AppComponent, ArmyListComponent, UnitComponent, GetRoosterComponent],
+  declarations: [
+    AppComponent,
+    ArmyListComponent,
+    UnitComponent,
+    GetRoosterComponent,
+  ],
   imports: [
     BrowserModule,
     MaterialModule,

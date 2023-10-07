@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ArmyService } from '../services/army.service';
 
 @Component({
   selector: 'app-get-rooster',
@@ -7,6 +8,8 @@ import { Component } from '@angular/core';
 })
 export class GetRoosterComponent {
   validFile = false;
+
+  constructor(private armyService: ArmyService) {}
 
   onDragOver(event: any) {
     event.preventDefault();
@@ -28,7 +31,8 @@ export class GetRoosterComponent {
     if (this.isTxt(files[0].name)) {
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        console.log(reader.result);
+        if (typeof reader.result === 'string')
+          this.armyService.readRooster(reader.result);
       });
       reader.readAsText(files[0]);
     } else this.validFile = true;
