@@ -1,6 +1,7 @@
 import { Characteristics } from './characteristics.interface';
 import { ModelRuleUnitTroops } from './modelRuleUnitTroops.interface';
 import { UnitOptions } from './unit-options.interface';
+//import {roosterUnit} from './rooster.interface'
 
 export interface Unit {
   id: string;
@@ -20,7 +21,7 @@ export interface Unit {
   army_organisation_activator_id: string;
   value_points: number;
   add_value_points: number;
-  carac: Characteristics;
+  carac: Characteristics ;
   organisation_ids: string[];
   all_organisation_ids: string[];
   all_organisations: string[];
