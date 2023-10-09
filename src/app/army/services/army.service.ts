@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, from, of, tap } from 'rxjs';
 import { HttpClient, withNoXsrfProtection } from '@angular/common/http';
 import { ArmyAPI } from '../interfaces/armyAPI.interface';
 import { map } from 'rxjs';
 import { Unit } from '../interfaces/unit.interface';
 import { readyUnit } from '../interfaces/rooster.interface';
-import { Characteristics } from '../interfaces/characteristics.interface';
 import { ArmyRoosterAPI } from '../interfaces/armyRoosterAPI.interface';
 
 @Injectable({
@@ -17,42 +16,25 @@ export class ArmyService {
   url = 'https://www.9thbuilder.com/api/v1/ninth_age/armies/207';
 
   getArmy(): Observable<Unit[]> {
-    let temp = this.http.get<ArmyAPI>(this.url).pipe(
-      map((ApiData) => {
-        console.log(ApiData);
-        return ApiData.units.filter((unit) => !unit.is_mount);
-      })
-    );
-
-    return temp;
+    return this.http
+      .get<ArmyAPI>(this.url)
+      .pipe(map((ApiData) => ApiData.units.filter((unit) => !unit.is_mount)));
   }
 
   getUnit(name: string): Observable<Unit | undefined> {
-    let temp = this.http.get<ArmyAPI>(this.url).pipe(
-      map((ApiData) => {
-        let temp2 = ApiData.units.find((unit) => unit.name === name);
-        //console.log('getUnit=', temp2);
-        return temp2;
-      })
-    );
-    return temp;
+    return this.http
+      .get<ArmyAPI>(this.url)
+      .pipe(map((ApiData) => ApiData.units.find((unit) => unit.name === name)));
   }
 
   getRoosterUnit(name: string): Observable<readyUnit | undefined> {
-    let temp = this.http.get<ArmyRoosterAPI>(this.url).pipe(
-      map((ApiData) => {
-        //console.log('getUnit=', ApiData);
-        let temp2 = ApiData.units.find((unit) => unit.name === name);
-        return temp2;
-      }),
+    return this.http.get<ArmyRoosterAPI>(this.url).pipe(
+      map((ApiData) => ApiData.units.find((unit) => unit.name === name)),
       map((unit) => unit?.carac)
     );
-    return temp;
   }
 
-  // Observable<readyUnit | undefined[]>
-
-  readRooster(rooster: string): void {
+  readRooster(rooster: string): Observable<(readyUnit | undefined)[]> {
     const roosterArray = (rooster: string) => {
       let correctRooster = rooster.replaceAll('-', ',');
       let lineArray = correctRooster.split('\n');
@@ -80,46 +62,39 @@ export class ArmyService {
 
       return wordsArray;
     };
+
     let wordsArray = roosterArray(rooster);
+    let arrayTemp$ = new BehaviorSubject<(readyUnit | undefined)[]>([]);
+    let arrayTemp: (readyUnit | undefined)[] = [];
+    let roosterArray$!: Observable<(readyUnit | undefined)[]>;
 
-    let roosterArray1: Observable<readyUnit | undefined[]>;
+    roosterArray$;
 
-    wordsArray.forEach((line, index) => {
-      if (line[2]) {
-        console.log(line[2]);
-        let unit = this.getRoosterUnit(line[2]).pipe(
-          map((elem) => {
-            if (elem) {
-              elem.pts = line[0];
-              elem.quantity = line[1];
-              elem.name = line[2];
+    wordsArray.forEach((line) => {
+      this.getRoosterUnit(line[2])
+        .pipe(
+          map((unit) => {
+            if (unit) {
+              unit.pts = line[0];
+              unit.quantity = line[1];
+              unit.name = line[2];
               let optionsArray: string[] = [];
-              line.forEach((elem, index) => {
+              line.forEach((unit, index) => {
                 if (index > 2) optionsArray.push(line[index]);
               });
-              elem.options = optionsArray;
+              unit.options = optionsArray;
             }
-
-            return elem;
-          }),
-          tap((output2) => console.log('roosterTyp?=', output2))
-        );
-        unit.subscribe((elem) => elem);
-        //  roosterArray1.subscribe((elem1) =>{
-        //   unit.subscribe((elem) =>
-        //   {
-        //     // elem1.push(elem)
-        //     return elem
-        //   } )
-
-        // return elem1
-        // })
-      }
+            return unit;
+          })
+        )
+        .subscribe((unit) => arrayTemp$.next([unit]));
     });
-    //roosterArray1.push(unit);
-    //unit.subscribe((elem) => elem);
-    // return roosterArray1;
+
+    arrayTemp$.subscribe((elem) => {
+      if (elem[0] !== undefined) arrayTemp.push(elem[0]);
+      roosterArray$ = of(arrayTemp);
+    });
+
+    return roosterArray$;
   }
 }
-
-//console.log(unit);
