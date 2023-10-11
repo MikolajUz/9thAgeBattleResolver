@@ -18,10 +18,10 @@ export const currentRoosterReducer = createReducer(
       rooster: action.rooster,
     };
   }),
-  on(RoosterStoreActions.addReadyUnitToRooster, (state,action)=>{
-    return{
+  on(RoosterStoreActions.addReadyUnitToRooster, (state, action) => {
+    return {
       ...state,
-      rooster: [...state.rooster,action.nextUnit]
-    }
+      rooster: [...state.rooster, action.nextUnit],
+    };
   })
 );

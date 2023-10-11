@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ArmyListStoreModule } from './army-list-store/army-list.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { CurrentRoosterStoreModule } from './current-rooster-store/current-rooster-store.module';
 
 @NgModule({
   declarations: [],
@@ -11,6 +12,7 @@ import { StoreModule } from '@ngrx/store';
     ArmyListStoreModule,
     EffectsModule.forRoot([]),
     StoreModule.forRoot(),
+    CurrentRoosterStoreModule,
   ],
 })
 export class RootStoreModule {}

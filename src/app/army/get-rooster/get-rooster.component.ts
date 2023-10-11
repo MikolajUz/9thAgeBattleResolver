@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { ArmyService } from '../services/army.service';
-import { Observable } from 'rxjs';
-import { readyUnit } from '../interfaces/rooster.interface';
+import { CurrentRoosterService } from '../services/current-rooster.service';
+import { Store } from '@ngrx/store';
+import {
+  RoosterStoreActions,
+  RoosterStoreSelectors,
+} from 'src/app/root-store/current-rooster-store/current-rooster.index';
 
 @Component({
   selector: 'app-get-rooster',
@@ -10,9 +13,14 @@ import { readyUnit } from '../interfaces/rooster.interface';
 })
 export class GetRoosterComponent {
   validFile = false;
-  roosterList$?:Observable<(readyUnit | undefined)[]>;
+  roosterList$ = this.store.select(
+    RoosterStoreSelectors.selectCurrentRoosterState
+  );
 
-  constructor(private armyService: ArmyService) {}
+  constructor(
+    private currentRoosterService: CurrentRoosterService,
+    private store: Store
+  ) {}
 
   onDragOver(event: any) {
     event.preventDefault();
@@ -35,7 +43,11 @@ export class GetRoosterComponent {
       const reader = new FileReader();
       reader.addEventListener('load', () => {
         if (typeof reader.result === 'string')
-          this.roosterList$=this.armyService.readRooster(reader.result);
+          this.store.dispatch(
+            RoosterStoreActions.requestRoosterLoad({
+              roosterTxT: reader.result,
+            })
+          );
       });
       reader.readAsText(files[0]);
     } else this.validFile = true;
