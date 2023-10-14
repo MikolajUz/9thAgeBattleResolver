@@ -1,4 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+@use "sass:map";
+@include mat.core();
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+$my-primary: mat.define-palette(mat.$blue-palette, 500);
+$my-accent: mat.define-palette(mat.$green-palette, A200, A400);
+$my-warn: mat.define-palette(mat.$red-palette);
+
+.mat-typography {
+  --color-primary: #{mat.get-color-from-palette($my-primary)};
+  --color-accent: #{mat.get-color-from-palette($my-accent)};
+  --color-warn: #{mat.get-color-from-palette($my-warn)};
+}

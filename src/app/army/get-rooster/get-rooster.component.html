@@ -1,13 +1,5 @@
-<label
-  class="file-upload"
-  (dragover)="onDragOver($event)"
-  (drop)="onDropSuccess($event)"
->
-  Upload Rooster
+<label (dragover)="onDragOver($event)" (drop)="onDropSuccess($event)" class="dropdown">
+  Choose a file or drag it here
   <input (change)="onChange($event)" type="file" />
 </label>
 <mat-hint *ngIf="validFile">Choose txt file</mat-hint>
-
-<div *ngFor="let unit of roosterList$ | async">
-  {{ unit?.name }}
-</div>

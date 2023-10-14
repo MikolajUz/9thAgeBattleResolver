@@ -1,0 +1,209 @@
+<div class="wrapper">
+  <div class="sideOne">
+    <div class="mat-headline-5">Player One</div>
+    <app-get-rooster class="plrOne"></app-get-rooster>
+
+    <table mat-table [dataSource]="dataSourcePlr1" multiTemplateDataRows>
+      <ng-container
+        matColumnDef="{{ column }}"
+        *ngFor="let column of columnsToDisplay"
+      >
+        <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+        <td mat-cell *matCellDef="let unit">{{ unit[column] }}</td>
+      </ng-container>
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+          &nbsp;
+        </th>
+        <td mat-cell *matCellDef="let Unit">
+          <button
+            mat-icon-button
+            aria-label="expand row"
+            (click)="
+              expandedUnit = expandedUnit === Unit ? null : Unit;
+              $event.stopPropagation()
+            "
+          >
+            <mat-icon *ngIf="expandedUnit !== Unit"
+              >keyboard_arrow_down</mat-icon
+            >
+            <mat-icon *ngIf="expandedUnit === Unit">keyboard_arrow_up</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let Unit"
+          [attr.colspan]="columnsToDisplayWithExpand.length"
+        >
+          <div
+            class="example-Unit-detail"
+            [@detailExpand]="Unit == expandedUnit ? 'expanded' : 'collapsed'"
+          >
+            <div class="example-Unit-diagram">
+              <div>{{ Unit.pts }} - {{ Unit.name }}, {{ Unit.options }}</div>
+
+              <div class="btn-line">
+                Quantity:
+                <button
+                  id="add_quantity"
+                  mat-icon-button
+                  aria-label="Icon Add button "
+                  (click)="changeStat(Unit, 'Add quantity Player One')"
+                >
+                  <mat-icon color="primary">add_circle</mat-icon>
+                </button>
+                {{ Unit.quantity }}
+                <button
+                  mat-icon-button
+                  aria-label="Icon Add button "
+                  (click)="changeStat(Unit, 'Subtract quantity Player One')"
+                >
+                  <mat-icon color="primary">remove_circle</mat-icon>
+                </button>
+              </div>
+
+              <div class="btn-line">
+                Wounds:
+                <button
+                  mat-icon-button
+                  aria-label="Icon Add button "
+                  (click)="changeStat(Unit, 'Add wounds Player One')"
+                >
+                  <mat-icon color="primary">add_circle</mat-icon>
+                </button>
+                {{ Unit.wounds }}
+                <button
+                  mat-icon-button
+                  aria-label="Icon Add button "
+                  (click)="changeStat(Unit, 'Subtract wounds Player One')"
+                >
+                  <mat-icon color="primary">remove_circle</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+      <tr
+        mat-row
+        *matRowDef="let Unit; columns: columnsToDisplayWithExpand"
+        [class.example-expanded-row]="expandedUnit === Unit"
+        (click)="expandedUnit = expandedUnit === Unit ? null : Unit"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="example-detail-row"
+      ></tr>
+    </table>
+  </div>
+  <div class="battleField"></div>
+  <div class="sideTwo">
+    <div class="mat-headline-5">Player Two</div>
+    <app-get-rooster class="plrTwo"></app-get-rooster>
+
+    <table mat-table [dataSource]="dataSourcePlr2" multiTemplateDataRows>
+      <ng-container
+        matColumnDef="{{ column }}"
+        *ngFor="let column of columnsToDisplay"
+      >
+        <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+        <td mat-cell *matCellDef="let unit">{{ unit[column] }}</td>
+      </ng-container>
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+          &nbsp;
+        </th>
+        <td mat-cell *matCellDef="let Unit">
+          <button
+            mat-icon-button
+            aria-label="expand row"
+            (click)="
+              expandedUnit = expandedUnit === Unit ? null : Unit;
+              $event.stopPropagation()
+            "
+          >
+            <mat-icon *ngIf="expandedUnit !== Unit"
+              >keyboard_arrow_down</mat-icon
+            >
+            <mat-icon *ngIf="expandedUnit === Unit">keyboard_arrow_up</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let Unit"
+          [attr.colspan]="columnsToDisplayWithExpand.length"
+        >
+          <div
+            class="example-Unit-detail"
+            [@detailExpand]="Unit == expandedUnit ? 'expanded' : 'collapsed'"
+          >
+            <div class="example-Unit-diagram">
+              <div>{{ Unit.pts }} - {{ Unit.name }}, {{ Unit.options }}</div>
+
+              <div class="btn-line">
+                Quantity:
+                <button
+                  id="add_quantity"
+                  mat-icon-button
+                  aria-label="Icon Add button "
+                  (click)="changeStat(Unit, 'Add quantity Player One')"
+                >
+                  <mat-icon color="primary">add_circle</mat-icon>
+                </button>
+                {{ Unit.quantity }}
+                <button
+                  mat-icon-button
+                  aria-label="Icon Add button "
+                  (click)="changeStat(Unit, 'Subtract quantity Player One')"
+                >
+                  <mat-icon color="primary">remove_circle</mat-icon>
+                </button>
+              </div>
+
+              <div class="btn-line">
+                Wounds:
+                <button
+                  mat-icon-button
+                  aria-label="Icon Add button "
+                  (click)="changeStat(Unit, 'Add wounds Player One')"
+                >
+                  <mat-icon color="primary">add_circle</mat-icon>
+                </button>
+                {{ Unit.wounds }}
+                <button
+                  mat-icon-button
+                  aria-label="Icon Add button "
+                  (click)="changeStat(Unit, 'Subtract wounds Player One')"
+                >
+                  <mat-icon color="primary">remove_circle</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+      <tr
+        mat-row
+        *matRowDef="let Unit; columns: columnsToDisplayWithExpand"
+        [class.example-expanded-row]="expandedUnit === Unit"
+        (click)="expandedUnit = expandedUnit === Unit ? null : Unit"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="example-detail-row"
+      ></tr>
+    </table>
+  </div>
+</div>

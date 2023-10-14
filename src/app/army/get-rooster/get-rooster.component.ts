@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CurrentRoosterService } from '../services/current-rooster.service';
 import { Store } from '@ngrx/store';
 import {
   RoosterStoreActions,
@@ -13,12 +12,9 @@ import {
 })
 export class GetRoosterComponent {
   validFile = false;
-  roosterList$ = this.store.select(
-    RoosterStoreSelectors.selectCurrentRoosterState
-  );
+  
 
   constructor(
-    private currentRoosterService: CurrentRoosterService,
     private store: Store
   ) {}
 

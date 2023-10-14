@@ -17,4 +17,5 @@ export interface readyUnit {
   pts: string;
   options: string[];
   name: string;
+  wounds: number;
 }

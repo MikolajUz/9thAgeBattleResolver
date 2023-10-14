@@ -1,12 +1,13 @@
 input[type="file"] {
   display: none;
 }
-.file-upload {
-  height: 5rem;
-  width: 10rem;
-  border: 0.1rem black solid;
-  padding: 2rem;
+
+body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.dropdown {
+  padding: 2rem;
 }
