@@ -87,6 +87,16 @@ export class MainPageComponent {
           RoosterStoreActions.removeWoundPlr2({ ID: unit.ID })
         );
         break;
+      case 'Delete unit of player one':
+        this.store.dispatch(
+          RoosterStoreActions.deleteUnitPlr1({ ID: unit.ID })
+        );
+        break;
+      case 'Delete unit of player two':
+        this.store.dispatch(
+          RoosterStoreActions.deleteUnitPlr2({ ID: unit.ID })
+        );
+        break;
       default:
         console.log('Error button stat changer');
     }
