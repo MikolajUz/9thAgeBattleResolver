@@ -76,7 +76,7 @@ export class ArmyService {
           map((unit) => {
             if (unit) {
               unit.pts = line[0];
-              unit.quantity = line[1];
+              unit.quantity = Number(line[1]);
               unit.name = line[2];
               let optionsArray: string[] = [];
               line.forEach((unit, index) => {

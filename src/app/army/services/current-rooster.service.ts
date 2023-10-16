@@ -64,7 +64,7 @@ export class CurrentRoosterService {
             if (unit) {
               unit.ID = index;
               unit.pts = line[0];
-              unit.quantity = line[1];
+              unit.quantity = Number(line[1]);
               unit.name = line[2];
               unit.wounds = 0;
               let optionsArray: string[] = [];

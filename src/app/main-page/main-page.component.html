@@ -1,7 +1,11 @@
 <div class="wrapper">
   <div class="sideOne">
     <div class="mat-headline-5">Player One</div>
-    <app-get-rooster class="plrOne" id="plrOne" [player]="Plr1"></app-get-rooster>
+    <app-get-rooster
+      class="plrOne"
+      id="plrOne"
+      [player]="Plr1"
+    ></app-get-rooster>
 
     <table mat-table [dataSource]="dataSourcePlr1" multiTemplateDataRows>
       <ng-container
@@ -51,7 +55,7 @@
                   id="add_quantity"
                   mat-icon-button
                   aria-label="Icon Add button "
-                  (click)="changeStat(Unit, 'Add quantity Player One')"
+                  (click)="changeStat(Unit, 'Increase quantity Player One')"
                 >
                   <mat-icon color="primary">add_circle</mat-icon>
                 </button>
@@ -59,7 +63,7 @@
                 <button
                   mat-icon-button
                   aria-label="Icon Add button "
-                  (click)="changeStat(Unit, 'Subtract quantity Player One')"
+                  (click)="changeStat(Unit, 'Decrease quantity Player One')"
                 >
                   <mat-icon color="primary">remove_circle</mat-icon>
                 </button>
@@ -78,7 +82,7 @@
                 <button
                   mat-icon-button
                   aria-label="Icon Add button "
-                  (click)="changeStat(Unit, 'Subtract wounds Player One')"
+                  (click)="changeStat(Unit, 'Remove wounds Player One')"
                 >
                   <mat-icon color="primary">remove_circle</mat-icon>
                 </button>
@@ -155,7 +159,7 @@
                   id="add_quantity"
                   mat-icon-button
                   aria-label="Icon Add button "
-                  (click)="changeStat(Unit, 'Add quantity Player One')"
+                  (click)="changeStat(Unit, 'Increase quantity Player Two')"
                 >
                   <mat-icon color="primary">add_circle</mat-icon>
                 </button>
@@ -163,7 +167,7 @@
                 <button
                   mat-icon-button
                   aria-label="Icon Add button "
-                  (click)="changeStat(Unit, 'Subtract quantity Player One')"
+                  (click)="changeStat(Unit, 'Decrease quantity Player Two')"
                 >
                   <mat-icon color="primary">remove_circle</mat-icon>
                 </button>
@@ -174,7 +178,7 @@
                 <button
                   mat-icon-button
                   aria-label="Icon Add button "
-                  (click)="changeStat(Unit, 'Add wounds Player One')"
+                  (click)="changeStat(Unit, 'Add wounds Player Two')"
                 >
                   <mat-icon color="primary">add_circle</mat-icon>
                 </button>
@@ -182,7 +186,7 @@
                 <button
                   mat-icon-button
                   aria-label="Icon Add button "
-                  (click)="changeStat(Unit, 'Subtract wounds Player One')"
+                  (click)="changeStat(Unit, 'Remove wounds Player Two')"
                 >
                   <mat-icon color="primary">remove_circle</mat-icon>
                 </button>

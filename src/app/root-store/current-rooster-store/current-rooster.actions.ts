@@ -29,3 +29,45 @@ export const selectUnit = createAction(
   '[Rooster Section] request to add unit to rooster',
   props<{ ID: number }>()
 );
+
+export const increaseQuantityPlr1 = createAction(
+  '[Rooster Section] increase quantity of unit of player one',
+  props<{ ID: number }>()
+);
+
+export const decreaseQuantityPlr1 = createAction(
+  '[Rooster Section] decrease quantity of unit of player one',
+  props<{ ID: number }>()
+);
+
+export const addWoundPlr1 = createAction(
+  '[Rooster Section] add wound to unit of player one',
+  props<{ ID: number }>()
+);
+
+export const removeWoundPlr1 = createAction(
+  '[Rooster Section] remove wound from unit of player one',
+  props<{ ID: number }>()
+);
+
+//Player two
+
+export const increaseQuantityPlr2 = createAction(
+  '[Rooster Section] increase quantity of unit of player two',
+  props<{ ID: number }>()
+);
+
+export const decreaseQuantityPlr2 = createAction(
+  '[Rooster Section] decrease quantity of unit of player two',
+  props<{ ID: number }>()
+);
+
+export const addWoundPlr2 = createAction(
+  '[Rooster Section] add wound to unit of player two',
+  props<{ ID: number }>()
+);
+
+export const removeWoundPlr2 = createAction(
+  '[Rooster Section] remove wound from unit of player two',
+  props<{ ID: number }>()
+);

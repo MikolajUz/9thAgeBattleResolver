@@ -13,6 +13,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { ActConfig } from '@ngrx/effects/src/act';
 
 @Component({
   selector: 'app-main-page',
@@ -48,6 +49,46 @@ export class MainPageComponent {
   constructor(private store: Store) {}
 
   changeStat(unit: any, action: string) {
-    console.log(action);
+    switch (action) {
+      case 'Increase quantity Player One':
+        this.store.dispatch(
+          RoosterStoreActions.increaseQuantityPlr1({ ID: unit.ID })
+        );
+        break;
+      case 'Decrease quantity Player One':
+        this.store.dispatch(
+          RoosterStoreActions.decreaseQuantityPlr1({ ID: unit.ID })
+        );
+        break;
+      case 'Add wounds Player One':
+        this.store.dispatch(RoosterStoreActions.addWoundPlr1({ ID: unit.ID }));
+        break;
+      case 'Remove wounds Player One':
+        this.store.dispatch(
+          RoosterStoreActions.removeWoundPlr1({ ID: unit.ID })
+        );
+        break;
+      ////////////
+      case 'Increase quantity Player Two':
+        this.store.dispatch(
+          RoosterStoreActions.increaseQuantityPlr2({ ID: unit.ID })
+        );
+        break;
+      case 'Decrease quantity Player Two':
+        this.store.dispatch(
+          RoosterStoreActions.decreaseQuantityPlr2({ ID: unit.ID })
+        );
+        break;
+      case 'Add wounds Player Two':
+        this.store.dispatch(RoosterStoreActions.addWoundPlr2({ ID: unit.ID }));
+        break;
+      case 'Remove wounds Player Two':
+        this.store.dispatch(
+          RoosterStoreActions.removeWoundPlr2({ ID: unit.ID })
+        );
+        break;
+      default:
+        console.log('Error button stat changer');
+    }
   }
 }

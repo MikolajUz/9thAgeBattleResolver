@@ -13,7 +13,7 @@ export interface readyUnit {
   str: string;
   type: string;
   unit_type: string;
-  quantity: string;
+  quantity: number;
   pts: string;
   options: string[];
   name: string;
