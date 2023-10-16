@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="sideOne">
     <div class="mat-headline-5">Player One</div>
-    <app-get-rooster class="plrOne"></app-get-rooster>
+    <app-get-rooster class="plrOne" id="plrOne" [player]="Plr1"></app-get-rooster>
 
     <table mat-table [dataSource]="dataSourcePlr1" multiTemplateDataRows>
       <ng-container
@@ -105,7 +105,7 @@
   <div class="battleField"></div>
   <div class="sideTwo">
     <div class="mat-headline-5">Player Two</div>
-    <app-get-rooster class="plrTwo"></app-get-rooster>
+    <app-get-rooster class="plrTwo" [player]="Plr2"></app-get-rooster>
 
     <table mat-table [dataSource]="dataSourcePlr2" multiTemplateDataRows>
       <ng-container

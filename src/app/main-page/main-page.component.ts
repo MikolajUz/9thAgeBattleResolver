@@ -31,12 +31,15 @@ import {
 })
 export class MainPageComponent {
   dataSourcePlr1: Observable<(readyUnit | undefined)[]> = this.store.select(
-    RoosterStoreSelectors.selectCurrentRoosterState
+    RoosterStoreSelectors.selectCurrentRoosterStatePlr1
   );
 
   dataSourcePlr2: Observable<(readyUnit | undefined)[]> = this.store.select(
-    RoosterStoreSelectors.selectCurrentRoosterState
+    RoosterStoreSelectors.selectCurrentRoosterStatePlr2
   );
+
+  Plr1 = 'Plr1';
+  Plr2 = 'Plr2';
 
   columnsToDisplay = ['name', 'quantity', 'wounds', 'pts'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];

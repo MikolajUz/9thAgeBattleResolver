@@ -1,9 +1,11 @@
 import { readyUnit } from 'src/app/army/interfaces/rooster.interface';
 
 export interface currentRoosterState {
-  rooster: (readyUnit | undefined)[];
+  roosterPlr1: (readyUnit | undefined)[];
+  roosterPlr2: (readyUnit | undefined)[];
 }
 
 export const initialCurrentRoosterState: currentRoosterState = {
-  rooster: [],
+  roosterPlr1: [],
+  roosterPlr2: [],
 };

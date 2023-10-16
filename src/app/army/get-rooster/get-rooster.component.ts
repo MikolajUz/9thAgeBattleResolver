@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   RoosterStoreActions,
@@ -11,20 +11,18 @@ import {
   styleUrls: ['./get-rooster.component.scss'],
 })
 export class GetRoosterComponent {
+  @Input() player!: string;
   validFile = false;
-  
-
-  constructor(
-    private store: Store
-  ) {}
+  constructor(private store: Store) {}
 
   onDragOver(event: any) {
     event.preventDefault();
   }
   onDropSuccess(event: any) {
     event.preventDefault();
-    if (event.dataTransfer.files.length < '2')
+    if (event.dataTransfer.files.length < '2') {
       this.onFileChange(event.dataTransfer.files);
+    }
   }
   onChange(event: any) {
     this.onFileChange(event.target.files);
@@ -42,6 +40,7 @@ export class GetRoosterComponent {
           this.store.dispatch(
             RoosterStoreActions.requestRoosterLoad({
               roosterTxT: reader.result,
+              player:this.player
             })
           );
       });

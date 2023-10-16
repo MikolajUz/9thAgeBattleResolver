@@ -16,7 +16,10 @@ export class currentRoosterStoreEffects {
       this.action$.pipe(
         ofType(RoosterStoreActions.requestRoosterLoad),
         tap((roosterName) =>
-          this.roosterService.readRooster(roosterName.roosterTxT)
+          this.roosterService.readRooster(
+            roosterName.roosterTxT,
+            roosterName.player
+          )
         )
       ),
     { dispatch: false }

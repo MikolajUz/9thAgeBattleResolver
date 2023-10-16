@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { RoosterStoreActions } from './current-rooster.index';
 import { initialCurrentRoosterState } from './current-rooster.state';
+import { act } from '@ngrx/effects';
 
 export const currentRoosterFeatureKey = 'currentRooster';
 
@@ -18,10 +19,21 @@ export const currentRoosterReducer = createReducer(
       rooster: action.rooster,
     };
   }),
-  on(RoosterStoreActions.addReadyUnitToRooster, (state, action) => {
+  on(RoosterStoreActions.addReadyUnitToRoosterPlr1, (state, action) => {
     return {
       ...state,
-      rooster: [...state.rooster, action.nextUnit],
+      roosterPlr1: [...state.roosterPlr1, action.nextUnit],
+    };
+  }),
+  on(RoosterStoreActions.addReadyUnitToRoosterPlr2, (state, action) => {
+    return {
+      ...state,
+      roosterPlr2: [...state.roosterPlr2, action.nextUnit],
+    };
+  }),
+  on(RoosterStoreActions.selectUnit, (state, action) => {
+    return {
+      ...state,
     };
   })
 );

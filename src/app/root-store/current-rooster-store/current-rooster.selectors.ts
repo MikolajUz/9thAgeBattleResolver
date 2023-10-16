@@ -7,7 +7,12 @@ export const selectSharedRoosterState =
     "currentRooster"
   );
 
-export const selectCurrentRoosterState = createSelector(
+export const selectCurrentRoosterStatePlr1 = createSelector(
   selectSharedRoosterState,
-  (roosterState) => roosterState.rooster
+  (roosterState) => roosterState.roosterPlr1
+);
+
+export const selectCurrentRoosterStatePlr2 = createSelector(
+  selectSharedRoosterState,
+  (roosterState) => roosterState.roosterPlr2
 );
