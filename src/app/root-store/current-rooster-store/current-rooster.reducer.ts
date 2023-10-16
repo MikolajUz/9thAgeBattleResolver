@@ -135,7 +135,14 @@ export const currentRoosterReducer = createReducer(
   on(RoosterStoreActions.deleteUnitPlr1, (state, action) => {
     return {
       ...state,
+
       roosterPlr1: state.roosterPlr1.filter((unit) => unit?.ID !== action.ID),
+    };
+  }),
+  on(RoosterStoreActions.deleteUnitPlr2, (state, action) => {
+    return {
+      ...state,
+      roosterPlr2: state.roosterPlr2.filter((unit) => unit?.ID !== action.ID),
     };
   }),
 
