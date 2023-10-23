@@ -19,6 +19,7 @@ import { BattlefieldComponent } from './UI/battlefield/battlefield.component';
 
 import { AngularDraggableModule } from 'angular2-draggable';
 import { UnitUIComponent } from './UI/unit-ui/unit-ui.component';
+import { UnitDirective } from './UI/unit-ui/unit.directive';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { UnitUIComponent } from './UI/unit-ui/unit-ui.component';
     MainPageComponent,
     BattlefieldComponent,
     UnitUIComponent,
+    UnitDirective,
 
   ],
   imports: [
