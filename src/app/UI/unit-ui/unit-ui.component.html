@@ -1,0 +1,65 @@
+<div
+  #unit
+  [ngDraggable]="true"
+  [bounds]="myBounds"
+  [inBounds]="true"
+  [handle]="handler"
+  [gridSize]="gridUnit"
+  zIndex="100"
+  [preventDefaultEvent]="false"
+  class="drag-grid"
+  (mouseleave)="onDrop($event)"
+  zIndexMoving="200"
+  [position]="{ x: 180, y: 250 }"
+>
+  <div zIndex="1000" [ngDraggable]="false" #handler class="handler">
+    <mat-icon class="material-symbols-outlined">open_with</mat-icon>
+  </div>
+
+  <div *ngFor="let x of unitRankGrids">
+    <div *ngFor="let y of unitFileGrids">
+      <div
+        [gridSize]="gridUnit"
+        ngDraggable
+        [bounds]="unit"
+        [inBounds]="true"
+        [position]="{ x: x * unitRFWidth, y: y * unitRFHeight }"
+        class="drag-grid2"
+        zIndex="110"
+      ></div>
+    </div>
+  </div>
+  <div *ngFor="let file of fileYPlaces; index as y">
+    <div *ngFor="let rank of rankXPlaces; index as x">
+      <div
+        class="RankAndFile"
+        ngDraggable
+        [bounds]="unit"
+        [inBounds]="true"
+        [gridSize]="gridUnit"
+        zIndex="200"
+        id="x={{ rank }},y={{ y }} "
+        [position]="{
+          x: rank * unitRFWidth,
+          y: (unitFileGrids.length - file - 1) * unitRFHeight
+        }"
+      ></div>
+    </div>
+  </div>
+  <div *ngIf="RaFRest">
+    <div
+      *ngFor="let rank of RaFRest"
+      class="RankAndFile"
+      ngDraggable
+      [bounds]="unit"
+      [inBounds]="true"
+      [gridSize]="gridUnit"
+      zIndex="200"
+      id="x={{ rank }},y={{ fileYPlaces.length + 1 }} "
+      [position]="{
+        x: rank * unitRFWidth,
+        y: (-1 + unitFileGrids.length - fileYPlaces.length) * unitRFHeight
+      }"
+    ></div>
+  </div>
+</div>
