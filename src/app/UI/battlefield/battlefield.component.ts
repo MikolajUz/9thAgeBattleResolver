@@ -1,8 +1,6 @@
 import { Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { UIService } from '../services/ui.service';
 import { UnitDirective } from '../unit-ui/unit.directive';
-import { UnitUITopComponent } from '../unit-ui/unit-ui-top.component';
-import { UnitUiBottomComponent } from '../unit-ui/unit-ui-bottom/unit-ui-bottom.component';
 
 @Component({
   selector: 'app-battlefield',
@@ -10,8 +8,8 @@ import { UnitUiBottomComponent } from '../unit-ui/unit-ui-bottom/unit-ui-bottom.
   styleUrls: ['./battlefield.component.scss'],
 })
 export class BattlefieldComponent {
-  @ViewChild(UnitDirective, { static: true }) appUnit!: UnitDirective;
-  @ViewChild('myBounds') div: ElementRef | undefined;
+  @ViewChild(UnitDirective, { static: true }) unitInjectPlace!: UnitDirective;
+  @ViewChild('battlefieldBoundaries') battlefield: ElementRef | undefined;
 
   createUnitButton(
     quantity: number,
@@ -19,29 +17,14 @@ export class BattlefieldComponent {
     base: string,
     type: string
   ) {
-    let adUnit;
-    switch (type) {
-      case 'UnitUiBottomComponent':
-        adUnit = this.uiService.getUnit(
-          quantity,
-          fileLength,
-          base,
-          UnitUiBottomComponent
-        );
-        break;
-      case 'UnitUITopComponent':
-        adUnit = this.uiService.getUnit(
-          quantity,
-          fileLength,
-          base,
-          UnitUITopComponent
-        );
-
-        break;
-    }
-    const viewContainerRef = this.appUnit.viewContainerRef;
-    const componentRef = viewContainerRef.createComponent(adUnit!.component);
-    componentRef.instance.myBounds = this.div?.nativeElement;
+    this.uiService.createUnitUI(
+      quantity,
+      fileLength,
+      base,
+      type,
+      this.unitInjectPlace,
+      this.battlefield
+    );
   }
 
   gridUnit: number = 10;
