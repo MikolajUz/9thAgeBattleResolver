@@ -1,10 +1,7 @@
-
-
 .drag-grid {
   position: absolute;
   width: var(--unitWidthScss);
   height: var(--unitHeightScss);
-  
 }
 .drag-grid2 {
   position: absolute;
@@ -25,6 +22,12 @@
   font-size: 100%;
   border: 0.05rem solid black;
 }
-.handler {
+.handler-top {
   position: absolute;
+}
+
+.handler-bottom {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }

@@ -18,8 +18,9 @@ import { MainPageComponent } from './UI/main-page/main-page.component';
 import { BattlefieldComponent } from './UI/battlefield/battlefield.component';
 
 import { AngularDraggableModule } from 'angular2-draggable';
-import { UnitUIComponent } from './UI/unit-ui/unit-ui.component';
+import { UnitUITopComponent } from './UI/unit-ui/unit-ui-top.component';
 import { UnitDirective } from './UI/unit-ui/unit.directive';
+import { UnitUiBottomComponent } from './UI/unit-ui/unit-ui-bottom/unit-ui-bottom.component';
 
 @NgModule({
   declarations: [
@@ -29,9 +30,9 @@ import { UnitDirective } from './UI/unit-ui/unit.directive';
     GetRoosterComponent,
     MainPageComponent,
     BattlefieldComponent,
-    UnitUIComponent,
+    UnitUITopComponent,
     UnitDirective,
-
+    UnitUiBottomComponent,
   ],
   imports: [
     BrowserModule,

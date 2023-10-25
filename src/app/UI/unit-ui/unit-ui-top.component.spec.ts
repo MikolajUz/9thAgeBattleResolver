@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UnitUIComponent } from './unit-ui.component';
+import { UnitUITopComponent } from './unit-ui-top.component';
 
 describe('UnitUIComponent', () => {
-  let component: UnitUIComponent;
-  let fixture: ComponentFixture<UnitUIComponent>;
+  let component: UnitUITopComponent;
+  let fixture: ComponentFixture<UnitUITopComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UnitUIComponent]
+      declarations: [UnitUITopComponent],
     });
-    fixture = TestBed.createComponent(UnitUIComponent);
+    fixture = TestBed.createComponent(UnitUITopComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,6 +1,8 @@
 import { Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { UIService } from '../services/ui.service';
 import { UnitDirective } from '../unit-ui/unit.directive';
+import { UnitUITopComponent } from '../unit-ui/unit-ui-top.component';
+import { UnitUiBottomComponent } from '../unit-ui/unit-ui-bottom/unit-ui-bottom.component';
 
 @Component({
   selector: 'app-battlefield',
@@ -11,10 +13,34 @@ export class BattlefieldComponent {
   @ViewChild(UnitDirective, { static: true }) appUnit!: UnitDirective;
   @ViewChild('myBounds') div: ElementRef | undefined;
 
-  createUnit(quantity: number, fileLength: number, base: string) {
-    const adUnit = this.uiService.getUnit(quantity, fileLength, base);
+  createUnitButton(
+    quantity: number,
+    fileLength: number,
+    base: string,
+    type: string
+  ) {
+    let adUnit;
+    switch (type) {
+      case 'UnitUiBottomComponent':
+        adUnit = this.uiService.getUnit(
+          quantity,
+          fileLength,
+          base,
+          UnitUiBottomComponent
+        );
+        break;
+      case 'UnitUITopComponent':
+        adUnit = this.uiService.getUnit(
+          quantity,
+          fileLength,
+          base,
+          UnitUITopComponent
+        );
+
+        break;
+    }
     const viewContainerRef = this.appUnit.viewContainerRef;
-    const componentRef = viewContainerRef.createComponent(adUnit.component);
+    const componentRef = viewContainerRef.createComponent(adUnit!.component);
     componentRef.instance.myBounds = this.div?.nativeElement;
   }
 

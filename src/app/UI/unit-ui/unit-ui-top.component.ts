@@ -1,12 +1,15 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+} from '@angular/core';
 import { UIService } from '../services/ui.service';
 
 @Component({
-  selector: 'app-unit-ui',
-  templateUrl: './unit-ui.component.html',
-  styleUrls: ['./unit-ui.component.scss'],
+  selector: 'app-unit-ui-top',
+  templateUrl: './unit-ui-top.component.html',
+  styleUrls: ['./unit-ui-top.component.scss'],
 })
-export class UnitUIComponent {
+export class UnitUITopComponent {
   onDrop($event: any) {
     console.log($event.target);
     //console.log($event.target.style.transform);
@@ -14,7 +17,6 @@ export class UnitUIComponent {
 
   myBounds!: HTMLElement;
   data = this.uiService.unitData;
-
   constructor(private uiService: UIService) {}
 
   @HostBinding('style.--unitRFWidthScss')

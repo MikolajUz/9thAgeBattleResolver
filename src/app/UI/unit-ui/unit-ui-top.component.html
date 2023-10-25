@@ -12,7 +12,7 @@
   zIndexMoving="200"
   [position]="{ x: 180, y: 250 }"
 >
-  <div zIndex="1000" [ngDraggable]="false" #handler class="handler">
+  <div zIndex="1000" [ngDraggable]="false" #handler class="handler-top">
     <mat-icon class="material-symbols-outlined">open_with</mat-icon>
   </div>
 
@@ -20,7 +20,7 @@
     <div *ngFor="let y of data.unitFileGrids">
       <div
         [gridSize]="data.gridUnit"
-        ngDraggable
+        [ngDraggable]="false"
         [bounds]="unit"
         [inBounds]="true"
         [position]="{ x: x * data.unitRFWidth, y: y * data.unitRFHeight }"
@@ -58,7 +58,9 @@
       id="x={{ rank }},y={{ data.fileYPlaces.length + 1 }} "
       [position]="{
         x: rank * data.unitRFWidth,
-        y: (-1 + data.unitFileGrids.length - data.fileYPlaces.length) * data.unitRFHeight
+        y:
+          (-1 + data.unitFileGrids.length - data.fileYPlaces.length) *
+          data.unitRFHeight
       }"
     ></div>
   </div>

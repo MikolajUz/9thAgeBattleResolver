@@ -1,9 +1,25 @@
-<button mat-raised-button (click)="createUnit(20, 5, '25x25')">
+<button
+  mat-raised-button
+  (click)="createUnitButton(20, 8, '20x20', 'UnitUITopComponent')"
+>
   Create Unit
 </button>
+<button
+  mat-raised-button
+  (click)="createUnitButton(20, 8, '25x25', 'UnitUiBottomComponent')"
+>
+  Create Unit2
+</button>
+<button
+  mat-raised-button
+  (click)="createUnitButton(20, 5, '25x25', 'UnitUITopComponent')"
+>
+  Create Unit3
+</button>
+
 <div class="container">
   <div class="grid-container" #myBounds id="battlefield">
-    <ng-template appUnit ></ng-template>
+    <ng-template appUnit></ng-template>
     <div *ngFor="let x of grids">
       <div *ngFor="let y of grids">
         <div
