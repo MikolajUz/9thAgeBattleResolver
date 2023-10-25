@@ -15,15 +15,18 @@ export class BattlefieldComponent {
     quantity: number,
     fileLength: number,
     base: string,
-    type: string
+    type: string,
+    player:string
   ) {
     this.uiService.createUnitUI(
       quantity,
       fileLength,
       base,
       type,
+      player,
       this.unitInjectPlace,
-      this.battlefield
+      this.battlefield,
+      
     );
   }
 

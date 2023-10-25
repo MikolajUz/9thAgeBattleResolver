@@ -9,4 +9,5 @@ export interface unitUI {
   unitRFHeight: number;
   unitWidth: number;
   unitHeight: number;
+  player: string;
 }

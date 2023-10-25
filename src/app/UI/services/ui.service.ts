@@ -2,7 +2,7 @@ import { ElementRef, Injectable } from '@angular/core';
 import { AdUnit } from '../unit-ui/ad-unit';
 import { unitUI } from '../unit-ui/unit-ui.interface';
 import { UnitUiBottomComponent } from '../unit-ui/unit-ui-bottom/unit-ui-bottom.component';
-import { UnitUITopComponent } from '../unit-ui/unit-ui-top.component';
+import { UnitUITopComponent } from '../unit-ui/unit-ui-top/unit-ui-top.component';
 import { UnitDirective } from '../unit-ui/unit.directive';
 
 @Injectable({
@@ -22,13 +22,15 @@ export class UIService {
     fileLength: number,
     base: string,
     type: string,
+    player: string,
     injectPlace: UnitDirective,
     battlefieldBoundaries: ElementRef | undefined
   ) {
     const createUnitData = (
       quantity: number,
       fileLength: number,
-      base: string
+      base: string,
+      player: string
     ): void => {
       let unitData: unitUI = {
         gridUnit: 0,
@@ -41,6 +43,7 @@ export class UIService {
         unitRFHeight: 0,
         unitWidth: 0,
         unitHeight: 0,
+        player: '',
       };
 
       if (quantity < fileLength) {
@@ -68,6 +71,8 @@ export class UIService {
       unitData.unitWidth = unitData.unitRankGrids.length * unitData.unitRFWidth;
       unitData.unitHeight = nmbFiles * unitData.unitRFHeight;
 
+      if (player === 'plrOne') unitData.player = 'RankAndFile';
+      if (player === 'plrTwo') unitData.player = 'RankAndFile2';
       this.unitData = unitData;
     };
 
@@ -77,7 +82,7 @@ export class UIService {
       base: string,
       type: any
     ) => {
-      createUnitData(quantity, fileLength, base);
+      createUnitData(quantity, fileLength, base, player);
       return new AdUnit(type);
     };
 

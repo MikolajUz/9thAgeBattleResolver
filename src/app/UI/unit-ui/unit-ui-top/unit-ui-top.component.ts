@@ -1,8 +1,5 @@
-import {
-  Component,
-  HostBinding,
-} from '@angular/core';
-import { UIService } from '../services/ui.service';
+import { Component, HostBinding } from '@angular/core';
+import { UIService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-unit-ui-top',
@@ -17,7 +14,9 @@ export class UnitUITopComponent {
 
   myBounds!: HTMLElement;
   data = this.uiService.unitData;
-  constructor(private uiService: UIService) {}
+  constructor(private uiService: UIService) {
+    console.log(this.unitColorScss);
+  }
 
   @HostBinding('style.--unitRFWidthScss')
   unitRFWidthScss = `${this.data.unitRFWidth}px`;
@@ -27,4 +26,6 @@ export class UnitUITopComponent {
   unitWidthScss = `${this.data.unitWidth}px`;
   @HostBinding('style.--unitHeightScss')
   unitHeightScss = `${this.data.unitHeight}px`;
+  @HostBinding('style.--unitColorScss')
+  unitColorScss = this.data.player;
 }

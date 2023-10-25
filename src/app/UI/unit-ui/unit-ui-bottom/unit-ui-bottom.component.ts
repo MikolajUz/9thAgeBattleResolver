@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UnitUITopComponent } from '../unit-ui-top.component';
+import { UnitUITopComponent } from '../unit-ui-top/unit-ui-top.component';
 
 @Component({
   selector: 'app-unit-ui-bottom',
