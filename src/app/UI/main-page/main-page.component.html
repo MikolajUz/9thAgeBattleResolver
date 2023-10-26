@@ -96,6 +96,17 @@
               >
                 Delete
               </button>
+
+              <mat-form-field class="file-length-inputs">
+                <input
+                  matInput
+                  type="number"
+                  min="0"
+                  max="100"
+                  (input)="setFileLength($event, Unit, 'plrOne')"
+                  value="{{ Unit.fileLength }}"
+                />
+              </mat-form-field>
             </div>
           </div>
         </td>
@@ -217,6 +228,17 @@
               >
                 Delete
               </button>
+
+              <mat-form-field class="file-length-inputs">
+                <input
+                  matInput
+                  type="number"
+                  min="0"
+                  max="100"
+                  (input)="setFileLength($event, Unit, 'plrTwo')"
+                  value="{{ Unit.fileLength }}"
+                />
+              </mat-form-field>
             </div>
           </div>
         </td>

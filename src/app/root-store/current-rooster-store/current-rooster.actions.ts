@@ -76,6 +76,16 @@ export const deleteUnitPlr2 = createAction(
   props<{ ID: number }>()
 );
 
+export const setFileLengthPlr1 = createAction(
+  '[Rooster Section] set unit file length of player one',
+  props<{ ID: number; fileLength: number }>()
+);
+
+export const setFileLengthPlr2 = createAction(
+  '[Rooster Section] set unit file length of player two',
+  props<{ ID: number; fileLength: number }>()
+);
+
 export const selectUnit = createAction(
   '[Rooster Section] request to add unit to rooster',
   props<{ ID: number }>()

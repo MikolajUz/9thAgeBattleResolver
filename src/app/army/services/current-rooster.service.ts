@@ -67,6 +67,7 @@ export class CurrentRoosterService {
               unit.Qty = Number(line[1]);
               unit.Name = line[2];
               unit.Wds = 0;
+              unit.fileLength = 1;
               let optionsArray: string[] = [];
               line.forEach((unit, index) => {
                 if (index > 2) optionsArray.push(line[index]);

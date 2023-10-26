@@ -145,6 +145,32 @@ export const currentRoosterReducer = createReducer(
       roosterPlr2: state.roosterPlr2.filter((unit) => unit?.ID !== action.ID),
     };
   }),
+  on(RoosterStoreActions.setFileLengthPlr1, (state, action) => {
+    return {
+      ...state,
+      roosterPlr1: [...state.roosterPlr1].map((unit) => {
+        if (unit?.ID === action.ID){
+           unit = { ...unit };
+        if(unit!==undefined)
+        unit.fileLength = action.fileLength;
+        }
+        return unit;
+      }),
+    };
+  }),
+  on(RoosterStoreActions.setFileLengthPlr2, (state, action) => {
+    return {
+      ...state,
+      roosterPlr2: [...state.roosterPlr2].map((unit) => {
+        if (unit?.ID === action.ID){
+           unit = { ...unit };
+        if(unit!==undefined) 
+        unit.fileLength = action.fileLength;
+        }
+        return unit;
+      }),
+    };
+  }),
 
   on(RoosterStoreActions.selectUnit, (state, action) => {
     return {

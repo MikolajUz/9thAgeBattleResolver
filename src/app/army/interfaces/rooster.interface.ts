@@ -19,4 +19,5 @@ export interface readyUnit {
   Name: string;
   Wds: number;
   ID: number;
+  fileLength: number;
 }
