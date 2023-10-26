@@ -63,10 +63,10 @@ export class CurrentRoosterService {
           map((unit) => {
             if (unit) {
               unit.ID = index;
-              unit.pts = line[0];
-              unit.quantity = Number(line[1]);
-              unit.name = line[2];
-              unit.wounds = 0;
+              unit.Pts = line[0];
+              unit.Qty = Number(line[1]);
+              unit.Name = line[2];
+              unit.Wds = 0;
               let optionsArray: string[] = [];
               line.forEach((unit, index) => {
                 if (index > 2) optionsArray.push(line[index]);

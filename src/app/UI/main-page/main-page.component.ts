@@ -31,14 +31,18 @@ import { ActConfig } from '@ngrx/effects/src/act';
   ],
 })
 export class MainPageComponent {
+  pickUnit($event: any) {
+    $event.stopPropagation();
+    console.log('Method not implemented.');
+  }
   chooseUnit($event: Event) {
     console.log('event');
   }
-  // dataSourcePlr1: Observable<(readyUnit | undefined)[]> = this.store.select(
-  //   RoosterStoreSelectors.selectCurrentRoosterStatePlr1
-  // );
+  dataSourcePlr1: Observable<(readyUnit | undefined)[]> = this.store.select(
+    RoosterStoreSelectors.selectCurrentRoosterStatePlr1
+  );
 
-  dataSourcePlr1 = DATATEMP;
+  // dataSourcePlr1 = DATATEMP;
 
   dataSourcePlr2: Observable<(readyUnit | undefined)[]> = this.store.select(
     RoosterStoreSelectors.selectCurrentRoosterStatePlr2
@@ -47,8 +51,8 @@ export class MainPageComponent {
   Plr1 = 'Plr1';
   Plr2 = 'Plr2';
 
-  columnsToDisplay = ['name', 'quantity', 'wounds', 'pts'];
-  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
+  columnsToDisplay = ['Name', 'Qty', 'Wds', 'Pts'];
+  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand', 'pick'];
   expandedUnit: readyUnit | undefined;
 
   constructor(private store: Store) {}
@@ -59,6 +63,7 @@ export class MainPageComponent {
         this.store.dispatch(
           RoosterStoreActions.increaseQuantityPlr1({ ID: unit.ID })
         );
+
         break;
       case 'Decrease quantity Player One':
         this.store.dispatch(
@@ -110,10 +115,10 @@ export class MainPageComponent {
 
 const DATATEMP = [
   {
-    name: 'GreatKhan',
-    quantity: 1,
-    wounds: 0,
-    pts: '560',
+    Name: 'GreatKhan',
+    Qty: 1,
+    Wds: 0,
+    Pts: '560',
     size: '40x40',
   },
 ];

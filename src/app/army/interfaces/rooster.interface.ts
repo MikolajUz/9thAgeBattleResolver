@@ -13,10 +13,10 @@ export interface readyUnit {
   str: string;
   type: string;
   unit_type: string;
-  quantity: number;
-  pts: string;
+  Qty: number;
+  Pts: string;
   options: string[];
-  name: string;
-  wounds: number;
+  Name: string;
+  Wds: number;
   ID: number;
 }

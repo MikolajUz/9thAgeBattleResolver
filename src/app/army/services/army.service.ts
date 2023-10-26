@@ -75,9 +75,9 @@ export class ArmyService {
         .pipe(
           map((unit) => {
             if (unit) {
-              unit.pts = line[0];
-              unit.quantity = Number(line[1]);
-              unit.name = line[2];
+              unit.Pts = line[0];
+              unit.Qty = Number(line[1]);
+              unit.Name = line[2];
               let optionsArray: string[] = [];
               line.forEach((unit, index) => {
                 if (index > 2) optionsArray.push(line[index]);

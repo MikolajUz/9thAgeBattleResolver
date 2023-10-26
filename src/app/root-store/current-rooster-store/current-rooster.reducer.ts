@@ -41,7 +41,7 @@ export const currentRoosterReducer = createReducer(
       roosterPlr1: [...state.roosterPlr1].map((unit) => {
         if (unit?.ID === action.ID) {
           unit = { ...unit };
-          if (unit.wounds + 1 < Number(unit.hp)) unit.wounds++;
+          if (unit.Wds + 1 < Number(unit.hp)) unit.Wds++;
         }
         return unit;
       }),
@@ -53,7 +53,7 @@ export const currentRoosterReducer = createReducer(
       roosterPlr1: [...state.roosterPlr1].map((unit) => {
         if (unit?.ID === action.ID) {
           unit = { ...unit };
-          if (unit.wounds) unit.wounds--;
+          if (unit.Wds) unit.Wds--;
         }
         return unit;
       }),
@@ -65,7 +65,7 @@ export const currentRoosterReducer = createReducer(
       roosterPlr1: [...state.roosterPlr1].map((unit) => {
         if (unit?.ID === action.ID) {
           unit = { ...unit };
-          unit.quantity++;
+          unit.Qty++;
         }
         return unit;
       }),
@@ -77,7 +77,7 @@ export const currentRoosterReducer = createReducer(
       roosterPlr1: [...state.roosterPlr1].map((unit) => {
         if (unit?.ID === action.ID) {
           unit = { ...unit };
-          if (unit.quantity !== 1) unit.quantity--;
+          if (unit.Qty !== 1) unit.Qty--;
         }
         return unit;
       }),
@@ -90,7 +90,7 @@ export const currentRoosterReducer = createReducer(
       roosterPlr2: [...state.roosterPlr2].map((unit) => {
         if (unit?.ID === action.ID) {
           unit = { ...unit };
-          if (unit.wounds + 1 < Number(unit.hp)) unit.wounds++;
+          if (unit.Wds + 1 < Number(unit.hp)) unit.Wds++;
         }
         return unit;
       }),
@@ -102,7 +102,7 @@ export const currentRoosterReducer = createReducer(
       roosterPlr2: [...state.roosterPlr2].map((unit) => {
         if (unit?.ID === action.ID) {
           unit = { ...unit };
-          if (unit.wounds) unit.wounds--;
+          if (unit.Wds) unit.Wds--;
         }
         return unit;
       }),
@@ -114,7 +114,7 @@ export const currentRoosterReducer = createReducer(
       roosterPlr2: [...state.roosterPlr2].map((unit) => {
         if (unit?.ID === action.ID) {
           unit = { ...unit };
-          unit.quantity++;
+          unit.Qty++;
         }
         return unit;
       }),
@@ -126,7 +126,7 @@ export const currentRoosterReducer = createReducer(
       roosterPlr2: [...state.roosterPlr2].map((unit) => {
         if (unit?.ID === action.ID) {
           unit = { ...unit };
-          if (unit.quantity !== 1) unit.quantity--;
+          if (unit.Qty !== 1) unit.Qty--;
         }
         return unit;
       }),
