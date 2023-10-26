@@ -14,7 +14,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { GetRoosterComponent } from './army/get-rooster/get-rooster.component';
-import { MainPageComponent } from './main-page/main-page.component';
+import { MainPageComponent } from './UI/main-page/main-page.component';
+import { BattlefieldComponent } from './UI/battlefield/battlefield.component';
+
+import { AngularDraggableModule } from 'angular2-draggable';
+import { UnitUITopComponent } from './UI/unit-ui/unit-ui-top/unit-ui-top.component';
+import { UnitDirective } from './UI/unit-ui/unit.directive';
+import { UnitUiBottomComponent } from './UI/unit-ui/unit-ui-bottom/unit-ui-bottom.component';
 
 @NgModule({
   declarations: [
@@ -23,9 +29,14 @@ import { MainPageComponent } from './main-page/main-page.component';
     UnitComponent,
     GetRoosterComponent,
     MainPageComponent,
+    BattlefieldComponent,
+    UnitUITopComponent,
+    UnitDirective,
+    UnitUiBottomComponent,
   ],
   imports: [
     BrowserModule,
+    AngularDraggableModule,
     MaterialModule,
     HttpClientModule,
     AppRoutingModule,

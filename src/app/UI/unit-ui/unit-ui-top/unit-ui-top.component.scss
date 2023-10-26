@@ -1,0 +1,42 @@
+.drag-grid {
+  position: absolute;
+  width: var(--unitWidthScss);
+  height: var(--unitHeightScss);
+}
+.drag-grid2 {
+  position: absolute;
+  border: 0.1rem solid black;
+  width: var(--unitRFWidthScss);
+  height: var(--unitRFHeightScss);
+  background-color: antiquewhite;
+}
+
+.RankAndFile,
+.RankAndFile2 {
+  width: var(--unitRFWidthScss);
+  height: var(--unitRFHeightScss);
+  position: absolute;
+  color: white;
+  text-align: center;
+  line-height: var(--unitRFHeightScss);
+  font-size: 100%;
+  border: 0.05rem solid black;
+}
+
+.RankAndFile {
+  background-color: var(--color-primary);
+}
+
+.RankAndFile2 {
+  background-color: var(--color-accent);
+}
+
+.handler-top {
+  position: absolute;
+}
+
+.handler-bottom {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}

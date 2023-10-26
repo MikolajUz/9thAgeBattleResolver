@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { readyUnit } from '../army/interfaces/rooster.interface';
+import { readyUnit } from '../../army/interfaces/rooster.interface';
 import {
   RoosterStoreActions,
   RoosterStoreSelectors,
@@ -31,9 +31,14 @@ import { ActConfig } from '@ngrx/effects/src/act';
   ],
 })
 export class MainPageComponent {
-  dataSourcePlr1: Observable<(readyUnit | undefined)[]> = this.store.select(
-    RoosterStoreSelectors.selectCurrentRoosterStatePlr1
-  );
+  chooseUnit($event: Event) {
+    console.log('event');
+  }
+  // dataSourcePlr1: Observable<(readyUnit | undefined)[]> = this.store.select(
+  //   RoosterStoreSelectors.selectCurrentRoosterStatePlr1
+  // );
+
+  dataSourcePlr1 = DATATEMP;
 
   dataSourcePlr2: Observable<(readyUnit | undefined)[]> = this.store.select(
     RoosterStoreSelectors.selectCurrentRoosterStatePlr2
@@ -102,3 +107,13 @@ export class MainPageComponent {
     }
   }
 }
+
+const DATATEMP = [
+  {
+    name: 'GreatKhan',
+    quantity: 1,
+    wounds: 0,
+    pts: '560',
+    size: '40x40',
+  },
+];
