@@ -1,31 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from, of, tap } from 'rxjs';
-import { HttpClient, withNoXsrfProtection } from '@angular/common/http';
-import { ArmyAPI } from '../interfaces/armyAPI.interface';
+import { Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
-import { Unit } from '../interfaces/unit.interface';
 import { readyUnit } from '../interfaces/rooster.interface';
 import { ArmyRoosterAPI } from '../interfaces/armyRoosterAPI.interface';
+import { Store } from '@ngrx/store';
+import { RoosterStoreActions } from 'src/app/root-store/current-rooster-store/current-rooster.index';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ArmyService {
-  constructor(private http: HttpClient) {}
+export class CurrentRoosterService {
+  constructor(private http: HttpClient, private store: Store) {}
 
   url = 'https://www.9thbuilder.com/api/v1/ninth_age/armies/207';
-
-  getArmy(): Observable<Unit[]> {
-    return this.http
-      .get<ArmyAPI>(this.url)
-      .pipe(map((ApiData) => ApiData.units.filter((unit) => !unit.is_mount)));
-  }
-
-  getUnit(name: string): Observable<Unit | undefined> {
-    return this.http
-      .get<ArmyAPI>(this.url)
-      .pipe(map((ApiData) => ApiData.units.find((unit) => unit.name === name)));
-  }
 
   getRoosterUnit(name: string): Observable<readyUnit | undefined> {
     return this.http.get<ArmyRoosterAPI>(this.url).pipe(
@@ -34,7 +22,7 @@ export class ArmyService {
     );
   }
 
-  readRooster(rooster: string): Observable<(readyUnit | undefined)[]> {
+  readRooster(rooster: string, player: string): void {
     const roosterArray = (rooster: string) => {
       let correctRooster = rooster.replaceAll('-', ',');
       let lineArray = correctRooster.split('\n');
@@ -43,17 +31,21 @@ export class ArmyService {
       lineArray.forEach((string) => {
         wordsArray.push(string.split(','));
       });
-      wordsArray.forEach((line, index) => {
+      wordsArray.forEach((line) => {
         line.forEach((word, index) => {
           line[index] = word.trim();
         });
       });
+
       wordsArray.forEach((line, index) => {
         if (line[1]) {
           let nameSplit = line[1].split(' ');
           if (!Number.isNaN(Number(nameSplit[0]))) {
             line.splice(1, 1, nameSplit[0]);
-            line.splice(2, 0, nameSplit[1]);
+            nameSplit.shift();
+            let unitName = nameSplit.toString();
+            unitName = unitName.replaceAll(',', ' ');
+            line.splice(2, 0, unitName);
           } else {
             line.splice(1, 0, '1');
           }
@@ -64,20 +56,17 @@ export class ArmyService {
     };
 
     let wordsArray = roosterArray(rooster);
-    let arrayTemp$ = new BehaviorSubject<(readyUnit | undefined)[]>([]);
-    let arrayTemp: (readyUnit | undefined)[] = [];
-    let roosterArray$!: Observable<(readyUnit | undefined)[]>;
 
-    roosterArray$;
-
-    wordsArray.forEach((line) => {
+    wordsArray.forEach((line, index) => {
       this.getRoosterUnit(line[2])
         .pipe(
           map((unit) => {
             if (unit) {
+              unit.ID = index;
               unit.pts = line[0];
               unit.quantity = Number(line[1]);
               unit.name = line[2];
+              unit.wounds = 0;
               let optionsArray: string[] = [];
               line.forEach((unit, index) => {
                 if (index > 2) optionsArray.push(line[index]);
@@ -87,14 +76,23 @@ export class ArmyService {
             return unit;
           })
         )
-        .subscribe((unit) => arrayTemp$.next([unit]));
+        .subscribe((unit) => {
+          if (unit !== undefined) {
+            if (player === 'Plr1') {
+              this.store.dispatch(
+                RoosterStoreActions.addReadyUnitToRoosterPlr1({
+                  nextUnit: unit,
+                })
+              );
+            } else {
+              this.store.dispatch(
+                RoosterStoreActions.addReadyUnitToRoosterPlr2({
+                  nextUnit: unit,
+                })
+              );
+            }
+          }
+        });
     });
-
-    arrayTemp$.subscribe((elem) => {
-      if (elem[0] !== undefined) arrayTemp.push(elem[0]);
-      roosterArray$ = of(arrayTemp);
-    });
-
-    return roosterArray$;
   }
 }

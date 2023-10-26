@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { ArmyService } from '../services/army.service';
-import { Observable } from 'rxjs';
-import { readyUnit } from '../interfaces/rooster.interface';
+import { Component, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
+import {
+  RoosterStoreActions,
+  RoosterStoreSelectors,
+} from 'src/app/root-store/current-rooster-store/current-rooster.index';
 
 @Component({
   selector: 'app-get-rooster',
@@ -9,18 +11,18 @@ import { readyUnit } from '../interfaces/rooster.interface';
   styleUrls: ['./get-rooster.component.scss'],
 })
 export class GetRoosterComponent {
+  @Input() player!: string;
   validFile = false;
-  roosterList$?:Observable<(readyUnit | undefined)[]>;
-
-  constructor(private armyService: ArmyService) {}
+  constructor(private store: Store) {}
 
   onDragOver(event: any) {
     event.preventDefault();
   }
   onDropSuccess(event: any) {
     event.preventDefault();
-    if (event.dataTransfer.files.length < '2')
+    if (event.dataTransfer.files.length < '2') {
       this.onFileChange(event.dataTransfer.files);
+    }
   }
   onChange(event: any) {
     this.onFileChange(event.target.files);
@@ -35,7 +37,12 @@ export class GetRoosterComponent {
       const reader = new FileReader();
       reader.addEventListener('load', () => {
         if (typeof reader.result === 'string')
-          this.roosterList$=this.armyService.readRooster(reader.result);
+          this.store.dispatch(
+            RoosterStoreActions.requestRoosterLoad({
+              roosterTxT: reader.result,
+              player:this.player
+            })
+          );
       });
       reader.readAsText(files[0]);
     } else this.validFile = true;

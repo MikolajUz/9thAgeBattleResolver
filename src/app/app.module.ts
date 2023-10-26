@@ -14,6 +14,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { GetRoosterComponent } from './army/get-rooster/get-rooster.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { GetRoosterComponent } from './army/get-rooster/get-rooster.component';
     ArmyListComponent,
     UnitComponent,
     GetRoosterComponent,
+    MainPageComponent,
   ],
   imports: [
     BrowserModule,
