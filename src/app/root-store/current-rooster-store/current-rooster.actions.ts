@@ -1,4 +1,6 @@
+import { ElementRef } from '@angular/core';
 import { createAction, props } from '@ngrx/store';
+import { UnitDirective } from 'src/app/UI/unit-ui/unit.directive';
 import { readyUnit } from 'src/app/army/interfaces/rooster.interface';
 
 export const requestRoosterLoad = createAction(
@@ -84,6 +86,29 @@ export const setFileLengthPlr1 = createAction(
 export const setFileLengthPlr2 = createAction(
   '[Rooster Section] set unit file length of player two',
   props<{ ID: number; fileLength: number }>()
+);
+
+export const createUnitUIPlr1 = createAction(
+  '[Rooster Section] create unit on battlefield of player one',
+
+  props<{
+    quantity: number;
+    fileLength: number;
+    base: string;
+    type_: string;
+    player: string;
+  }>()
+);
+export const createUnitUIPlr2 = createAction(
+  '[Rooster Section] create unit on battlefield of player two',
+
+  props<{
+    quantity: number;
+    fileLength: number;
+    base: string;
+    type_: string;
+    player: string;
+  }>()
 );
 
 export const selectUnit = createAction(

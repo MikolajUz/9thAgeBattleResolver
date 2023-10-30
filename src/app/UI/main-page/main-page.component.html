@@ -115,7 +115,7 @@
       <ng-container matColumnDef="pick">
         <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
         <td mat-cell *matCellDef="let Unit">
-          <button mat-icon-button (click)="pickUnit($event)">
+          <button mat-icon-button (click)="pickUnit($event, Unit, 'plrOne')">
             <mat-icon>arrow_forward</mat-icon>
           </button>
         </td>
@@ -246,8 +246,8 @@
 
       <ng-container matColumnDef="pick">
         <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
-        <td mat-cell *matCellDef>
-          <button mat-icon-button (click)="pickUnit($event)">
+        <td mat-cell *matCellDef="let Unit">
+          <button mat-icon-button (click)="pickUnit($event, Unit, 'plrTwo')">
             <mat-icon>arrow_back</mat-icon>
           </button>
         </td>

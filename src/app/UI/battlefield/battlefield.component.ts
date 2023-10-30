@@ -11,25 +11,6 @@ export class BattlefieldComponent {
   @ViewChild(UnitDirective, { static: true }) unitInjectPlace!: UnitDirective;
   @ViewChild('battlefieldBoundaries') battlefield: ElementRef | undefined;
 
-  createUnitButton(
-    quantity: number,
-    fileLength: number,
-    base: string,
-    type: string,
-    player:string
-  ) {
-    this.uiService.createUnitUI(
-      quantity,
-      fileLength,
-      base,
-      type,
-      player,
-      this.unitInjectPlace,
-      this.battlefield,
-      
-    );
-  }
-
   gridUnit: number = 10;
   grids: number[];
 
@@ -38,6 +19,18 @@ export class BattlefieldComponent {
 
   constructor(private uiService: UIService) {
     this.grids = this.uiService.createGridArray(50);
-    this.uiService.setGridUnit(this.gridUnit);
+    this.uiService.setGridUnit(
+      this.gridUnit,
+      this.unitInjectPlace,
+      this.battlefield
+    );
+  }
+
+  ngAfterViewInit(): void {
+    this.uiService.setGridUnit(
+      this.gridUnit,
+      this.unitInjectPlace,
+      this.battlefield
+    );
   }
 }

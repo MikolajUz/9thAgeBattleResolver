@@ -11,9 +11,17 @@ import { UnitDirective } from '../unit-ui/unit.directive';
 export class UIService {
   unitData!: unitUI;
   gridUnit!: number;
+  injectPlace!: UnitDirective;
+  battlefieldBoundaries: ElementRef | undefined;
 
-  setGridUnit(gridUnit: number) {
+  setGridUnit(
+    gridUnit: number,
+    injectPlace: UnitDirective,
+    battlefieldBoundaries: ElementRef | undefined
+  ) {
     this.gridUnit = gridUnit;
+    this.injectPlace = injectPlace;
+    this.battlefieldBoundaries = battlefieldBoundaries;
   }
   createGridArray = (x: number) => Array.from(Array(x).keys());
 
@@ -22,9 +30,7 @@ export class UIService {
     fileLength: number,
     base: string,
     type: string,
-    player: string,
-    injectPlace: UnitDirective,
-    battlefieldBoundaries: ElementRef | undefined
+    player: string
   ) {
     const createUnitData = (
       quantity: number,
@@ -106,8 +112,9 @@ export class UIService {
 
         break;
     }
-    const viewContainerRef = injectPlace.viewContainerRef;
+
+    const viewContainerRef = this.injectPlace.viewContainerRef;
     const componentRef = viewContainerRef.createComponent(adUnit!.component);
-    componentRef.instance.myBounds = battlefieldBoundaries?.nativeElement;
+    componentRef.instance.myBounds = this.battlefieldBoundaries?.nativeElement;
   }
 }

@@ -32,8 +32,6 @@ import { ActConfig } from '@ngrx/effects/src/act';
 })
 export class MainPageComponent {
   setFileLength($event: any, unit: readyUnit, player: string) {
-    console.log('sets lenght of file,value', typeof($event.target.value));
-    console.log('unit ID ', unit.ID);
     if (player === 'plrOne')
       this.store.dispatch(
         RoosterStoreActions.setFileLengthPlr1({
@@ -45,21 +43,33 @@ export class MainPageComponent {
       this.store.dispatch(
         RoosterStoreActions.setFileLengthPlr2({
           ID: unit.ID,
-          fileLength: $event.target.value,
+          fileLength: Number($event.target.value),
         })
       );
   }
   numOfPlayers: number = 0;
-  pickUnit($event: any) {
+  pickUnit($event: any, unit: readyUnit, player: string) {
     $event.stopPropagation();
-    console.log('Method not implemented.');
+    console.log(' pickup event', $event.target);
+    console.log('unit', unit);
+    console.log('player ', player);
+
+    this.store.dispatch(
+      RoosterStoreActions.createUnitUIPlr1({
+        quantity: unit.Qty,
+        fileLength: unit.fileLength,
+        base: unit.base,
+        type_: unit.type,
+        player: player,
+      })
+    );
   }
 
-  dataSourcePlr1: Observable<(readyUnit | undefined)[]> = this.store.select(
-    RoosterStoreSelectors.selectCurrentRoosterStatePlr1
-  );
+  // dataSourcePlr1: Observable<(readyUnit | undefined)[]> = this.store.select(
+  //   RoosterStoreSelectors.selectCurrentRoosterStatePlr1
+  // );
 
-//  dataSourcePlr1 = DATATEMP;
+  dataSourcePlr1 = DATATEMP;
 
   dataSourcePlr2: Observable<(readyUnit | undefined)[]> = this.store.select(
     RoosterStoreSelectors.selectCurrentRoosterStatePlr2
@@ -138,5 +148,7 @@ const DATATEMP = [
     Pts: '560',
     size: '40x40',
     ID: 1,
+    fileLength: 1,
+    base: '40x40',
   },
 ];

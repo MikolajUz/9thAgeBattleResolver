@@ -149,10 +149,9 @@ export const currentRoosterReducer = createReducer(
     return {
       ...state,
       roosterPlr1: [...state.roosterPlr1].map((unit) => {
-        if (unit?.ID === action.ID){
-           unit = { ...unit };
-        if(unit!==undefined)
-        unit.fileLength = action.fileLength;
+        if (unit?.ID === action.ID) {
+          unit = { ...unit };
+          if (unit !== undefined) unit.fileLength = action.fileLength;
         }
         return unit;
       }),
@@ -162,13 +161,22 @@ export const currentRoosterReducer = createReducer(
     return {
       ...state,
       roosterPlr2: [...state.roosterPlr2].map((unit) => {
-        if (unit?.ID === action.ID){
-           unit = { ...unit };
-        if(unit!==undefined) 
-        unit.fileLength = action.fileLength;
+        if (unit?.ID === action.ID) {
+          unit = { ...unit };
+          if (unit !== undefined) unit.fileLength = action.fileLength;
         }
         return unit;
       }),
+    };
+  }),
+  on(RoosterStoreActions.createUnitUIPlr1, (state, action) => {
+    return {
+      ...state,
+    };
+  }),
+  on(RoosterStoreActions.createUnitUIPlr2, (state, action) => {
+    return {
+      ...state,
     };
   }),
 
