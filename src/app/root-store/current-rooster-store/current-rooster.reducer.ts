@@ -66,7 +66,7 @@ export const currentRoosterReducer = createReducer(
         if (unit?.ID === action.ID) {
           unit = { ...unit };
           unit.Qty++;
-        }
+                  }
         return unit;
       }),
     };
@@ -179,10 +179,41 @@ export const currentRoosterReducer = createReducer(
       ...state,
     };
   }),
-
-  on(RoosterStoreActions.selectUnit, (state, action) => {
+  on(RoosterStoreActions.updateUnitUIDataPlr1, (state, action) => {
     return {
       ...state,
+      roosterPlr1: [...state.roosterPlr1].map((unit) => {
+        if (unit?.ID === action.ID) {
+          unit = { ...unit };
+          if (unit !== undefined) unit.unitUI = action.unitUI;
+        }
+        return unit;
+      }),
+    };
+  }),
+
+  on(RoosterStoreActions.selectUnitPlr1, (state, action) => {
+    return {
+      ...state,
+      roosterPlr1: [...state.roosterPlr1].map((unit) => {
+        if (unit?.ID === action.ID) {
+          unit = { ...unit };
+          unit.selected = !unit.selected;
+        }
+        return unit;
+      }),
+    };
+  }),
+  on(RoosterStoreActions.selectUnitPlr2, (state, action) => {
+    return {
+      ...state,
+roosterPlr2: [...state.roosterPlr2].map((unit) => {
+        if (unit?.ID === action.ID) {
+          unit = { ...unit };
+          unit.selected = !unit.selected;
+        }
+        return unit;
+      }),
     };
   })
 );

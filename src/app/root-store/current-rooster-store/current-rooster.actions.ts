@@ -1,6 +1,5 @@
-import { ElementRef } from '@angular/core';
 import { createAction, props } from '@ngrx/store';
-import { UnitDirective } from 'src/app/UI/unit-ui/unit.directive';
+import { unitUI } from 'src/app/UI/unit-ui/unit-ui.interface';
 import { readyUnit } from 'src/app/army/interfaces/rooster.interface';
 
 export const requestRoosterLoad = createAction(
@@ -97,8 +96,19 @@ export const createUnitUIPlr1 = createAction(
     base: string;
     type_: string;
     player: string;
+    ID: number;
   }>()
 );
+
+export const updateUnitUIDataPlr1 = createAction(
+  '[Rooster Section] create unit on battlefield of player one',
+
+  props<{
+    unitUI: unitUI;
+    ID: number;
+  }>()
+);
+
 export const createUnitUIPlr2 = createAction(
   '[Rooster Section] create unit on battlefield of player two',
 
@@ -108,10 +118,16 @@ export const createUnitUIPlr2 = createAction(
     base: string;
     type_: string;
     player: string;
+    ID: number;
   }>()
 );
 
-export const selectUnit = createAction(
-  '[Rooster Section] request to add unit to rooster',
+export const selectUnitPlr1 = createAction(
+  '[Rooster Section] change selected property of player one unit',
+  props<{ ID: number }>()
+);
+
+export const selectUnitPlr2 = createAction(
+  '[Rooster Section] change selected property of player two unit',
   props<{ ID: number }>()
 );

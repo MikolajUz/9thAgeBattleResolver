@@ -1,3 +1,5 @@
+import { unitUI } from 'src/app/UI/unit-ui/unit-ui.interface';
+
 export interface readyUnit {
   aeg: string | null;
   agi: string;
@@ -20,4 +22,6 @@ export interface readyUnit {
   Wds: number;
   ID: number;
   fileLength: number;
+  selected: boolean;
+  unitUI: unitUI;
 }

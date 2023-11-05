@@ -1,5 +1,6 @@
 <div class="wrapper">
   <div class="sideOne">
+    
     <div class="mat-headline-5">Player One</div>
     <app-get-rooster
       class="plrOne"
@@ -25,15 +26,10 @@
           <button
             mat-icon-button
             aria-label="expand row"
-            (click)="
-              expandedUnit = expandedUnit === Unit ? null : Unit;
-              $event.stopPropagation()
-            "
+            (click)="selectUnit($event, Unit, 'plrOne')"
           >
-            <mat-icon *ngIf="expandedUnit !== Unit"
-              >keyboard_arrow_down</mat-icon
-            >
-            <mat-icon *ngIf="expandedUnit === Unit">keyboard_arrow_up</mat-icon>
+            <mat-icon *ngIf="Unit.selected">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="!Unit.selected">keyboard_arrow_up</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -46,7 +42,7 @@
         >
           <div
             class="example-Unit-detail"
-            [@detailExpand]="Unit == expandedUnit ? 'expanded' : 'collapsed'"
+            [@detailExpand]="Unit.selected ? 'expanded' : 'collapsed'"
           >
             <div class="example-Unit-diagram">
               <div>{{ Unit.Pts }} - {{ Unit.Name }}, {{ Unit.options }}</div>
@@ -107,6 +103,7 @@
                   value="{{ Unit.fileLength }}"
                 />
               </mat-form-field>
+              <button mat-raised-button (click)="deleteUnit(this)">Delete</button>
             </div>
           </div>
         </td>
@@ -118,15 +115,17 @@
           <button mat-icon-button (click)="pickUnit($event, Unit, 'plrOne')">
             <mat-icon>arrow_forward</mat-icon>
           </button>
+          
         </td>
       </ng-container>
+     
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
       <tr
         mat-row
         *matRowDef="let Unit; columns: columnsToDisplayWithExpand"
         [class.example-expanded-row]="expandedUnit === Unit"
-        (click)="expandedUnit = expandedUnit === Unit ? null : Unit"
+        (click)="selectUnit($event, Unit, 'plrOne')"
       ></tr>
       <tr
         mat-row
@@ -136,7 +135,7 @@
     </table>
   </div>
 
-  <app-battlefield class="battleField"></app-battlefield>
+  <app-battlefield class="battleField"> </app-battlefield>
   <div class="sideTwo">
     <div class="mat-headline-5">Player Two</div>
     <app-get-rooster class="plrTwo" [player]="Plr2"></app-get-rooster>
@@ -157,15 +156,10 @@
           <button
             mat-icon-button
             aria-label="expand row"
-            (click)="
-              expandedUnit = expandedUnit === Unit ? null : Unit;
-              $event.stopPropagation()
-            "
+            (click)="selectUnit($event, Unit, 'plrTwo')"
           >
-            <mat-icon *ngIf="expandedUnit !== Unit"
-              >keyboard_arrow_down</mat-icon
-            >
-            <mat-icon *ngIf="expandedUnit === Unit">keyboard_arrow_up</mat-icon>
+            <mat-icon *ngIf="Unit.selected">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="!Unit.selected">keyboard_arrow_up</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -178,7 +172,7 @@
         >
           <div
             class="example-Unit-detail"
-            [@detailExpand]="Unit == expandedUnit ? 'expanded' : 'collapsed'"
+            [@detailExpand]="Unit.selected ? 'expanded' : 'collapsed'"
           >
             <div class="example-Unit-diagram">
               <div>{{ Unit.Pts }} - {{ Unit.Name }}, {{ Unit.options }}</div>
@@ -191,7 +185,7 @@
                   aria-label="Icon Add button "
                   (click)="changeStat(Unit, 'Increase quantity Player Two')"
                 >
-                  <mat-icon color="primary">add_circle</mat-icon>
+                  <mat-icon color="accent">add_circle</mat-icon>
                 </button>
                 {{ Unit.quantity }}
                 <button
@@ -199,7 +193,7 @@
                   aria-label="Icon Add button "
                   (click)="changeStat(Unit, 'Decrease quantity Player Two')"
                 >
-                  <mat-icon color="primary">remove_circle</mat-icon>
+                  <mat-icon color="accent">remove_circle</mat-icon>
                 </button>
               </div>
 
@@ -210,7 +204,7 @@
                   aria-label="Icon Add button "
                   (click)="changeStat(Unit, 'Add wounds Player Two')"
                 >
-                  <mat-icon color="primary">add_circle</mat-icon>
+                  <mat-icon color="accent">add_circle</mat-icon>
                 </button>
                 {{ Unit.wounds }}
                 <button
@@ -218,12 +212,12 @@
                   aria-label="Icon Add button "
                   (click)="changeStat(Unit, 'Remove wounds Player Two')"
                 >
-                  <mat-icon color="primary">remove_circle</mat-icon>
+                  <mat-icon color="accent">remove_circle</mat-icon>
                 </button>
               </div>
               <button
                 mat-raised-button
-                color="primary"
+                color="accent"
                 (click)="changeStat(Unit, 'Delete unit of player two')"
               >
                 Delete
@@ -258,7 +252,7 @@
         mat-row
         *matRowDef="let Unit; columns: columnsToDisplayWithExpand"
         [class.example-expanded-row]="expandedUnit === Unit"
-        (click)="expandedUnit = expandedUnit === Unit ? null : Unit"
+        (click)="selectUnit($event, Unit, 'plrTwo')"
       ></tr>
       <tr
         mat-row

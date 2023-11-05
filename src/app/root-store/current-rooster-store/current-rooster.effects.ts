@@ -37,7 +37,8 @@ export class currentRoosterStoreEffects {
             unitData.fileLength,
             unitData.base,
             'UnitUITopComponent',
-            'plrOne'
+            'plrOne',
+            unitData.ID
           );
         })
       ),
@@ -53,8 +54,9 @@ export class currentRoosterStoreEffects {
             unitData.quantity,
             unitData.fileLength,
             unitData.base,
-            'UnitUITopComponent',
-            'plrTwo'
+            'UnitUiBottomComponent',
+            'plrTwo',
+            unitData.ID
           );
         })
       ),

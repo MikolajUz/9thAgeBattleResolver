@@ -6,12 +6,13 @@ import { readyUnit } from '../interfaces/rooster.interface';
 import { ArmyRoosterAPI } from '../interfaces/armyRoosterAPI.interface';
 import { Store } from '@ngrx/store';
 import { RoosterStoreActions } from 'src/app/root-store/current-rooster-store/current-rooster.index';
+import { UIService } from 'src/app/UI/services/ui.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrentRoosterService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient, private store: Store, private uiService:UIService) {}
 
   url = 'https://www.9thbuilder.com/api/v1/ninth_age/armies/207';
 

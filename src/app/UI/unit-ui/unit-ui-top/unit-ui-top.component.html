@@ -1,10 +1,11 @@
 <div
   #unit
+  #test
   [ngDraggable]="true"
   [bounds]="myBounds"
   [inBounds]="true"
   [handle]="handler"
-  [gridSize]="data.gridUnit"
+  [gridSize]="(data | async)!.gridUnit"
   zIndex="100"
   [preventDefaultEvent]="false"
   class="drag-grid"
@@ -16,52 +17,61 @@
     <mat-icon class="material-symbols-outlined">open_with</mat-icon>
   </div>
 
-  <div *ngFor="let x of data.unitRankGrids">
-    <div *ngFor="let y of data.unitFileGrids">
+  <div *ngFor="let x of (data | async)?.unitRankGrids">
+    <div *ngFor="let y of (data | async)?.unitFileGrids">
       <div
-        [gridSize]="data.gridUnit"
+        [gridSize]="(data | async)!.gridUnit"
         [ngDraggable]="false"
         [bounds]="unit"
         [inBounds]="true"
-        [position]="{ x: x * data.unitRFWidth, y: y * data.unitRFHeight }"
+        [position]="{
+          x: x * (data | async)!.unitRFWidth,
+          y: y * (data | async)!.unitRFHeight
+        }"
         class="drag-grid2"
         zIndex="110"
       ></div>
     </div>
   </div>
-  <div *ngFor="let file of data.fileYPlaces; index as y">
-    <div *ngFor="let rank of data.rankXPlaces; index as x">
+  <div *ngFor="let file of (data | async)!.fileYPlaces; index as y">
+    <div *ngFor="let rank of (data | async)!.rankXPlaces; index as x">
       <div
         [class]="unitColorScss"
         ngDraggable
         [bounds]="unit"
         [inBounds]="true"
-        [gridSize]="data.gridUnit"
+        [gridSize]="(data | async)!.gridUnit"
         zIndex="200"
         id="x={{ rank }},y={{ y }} "
         [position]="{
-          x: rank * data.unitRFWidth,
-          y: (data.unitFileGrids.length - file - 1) * data.unitRFHeight
+          x: rank * (data | async)!.unitRFWidth,
+          y:
+            ((data | async)!.unitFileGrids.length - file - 1) *
+            (data | async)!.unitRFHeight
         }"
       ></div>
     </div>
   </div>
-  <div *ngIf="data.RaFRest">
+  <div *ngIf="(data | async)!.RaFRest">
     <div
-      *ngFor="let rank of data.RaFRest"
+      *ngFor="let rank of (data | async)!.RaFRest"
       [class]="unitColorScss"
       ngDraggable
       [bounds]="unit"
       [inBounds]="true"
-      [gridSize]="data.gridUnit"
+      [gridSize]="(data | async)!.gridUnit"
       zIndex="200"
-      id="x={{ rank }},y={{ data.fileYPlaces.length + 1 }} "
+      id="x={{ rank }},y={{ (data | async)!.fileYPlaces.length + 1 }} "
       [position]="{
-        x: rank * data.unitRFWidth,
+        x: rank * (data | async)!.unitRFWidth,
         y:
-          (-1 + data.unitFileGrids.length - data.fileYPlaces.length) *
-          data.unitRFHeight
+          (-1 +
+            (data | async)!.unitFileGrids.length -
+            (data | async)!.fileYPlaces.length) *
+          (data | async)!.unitRFHeight
       }"
     ></div>
   </div>
 </div>
+<div>rankPlaces {{ (data | async)?.fileYPlaces }}</div>
+<div>rankPlaces {{ ID }}</div>
