@@ -1,6 +1,5 @@
 <div class="wrapper">
   <div class="sideOne">
-    
     <div class="mat-headline-5">Player One</div>
     <app-get-rooster
       class="plrOne"
@@ -103,7 +102,6 @@
                   value="{{ Unit.fileLength }}"
                 />
               </mat-form-field>
-              <button mat-raised-button (click)="deleteUnit(this)">Delete</button>
             </div>
           </div>
         </td>
@@ -115,10 +113,8 @@
           <button mat-icon-button (click)="pickUnit($event, Unit, 'plrOne')">
             <mat-icon>arrow_forward</mat-icon>
           </button>
-          
         </td>
       </ng-container>
-     
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
       <tr

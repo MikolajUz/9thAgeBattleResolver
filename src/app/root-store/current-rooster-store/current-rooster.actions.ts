@@ -67,6 +67,13 @@ export const removeWoundPlr2 = createAction(
   '[Rooster Section] remove wound from unit of player two',
   props<{ ID: number }>()
 );
+
+export const requestDeleteUnitPlr1 = createAction(
+  '[Rooster Section] request delete unit of player one',
+  props<{ ID: number }>()
+);
+
+
 export const deleteUnitPlr1 = createAction(
   '[Rooster Section] delete unit of player one',
   props<{ ID: number }>()
@@ -91,17 +98,12 @@ export const createUnitUIPlr1 = createAction(
   '[Rooster Section] create unit on battlefield of player one',
 
   props<{
-    quantity: number;
-    fileLength: number;
-    base: string;
-    type_: string;
-    player: string;
     ID: number;
   }>()
 );
 
 export const updateUnitUIDataPlr1 = createAction(
-  '[Rooster Section] create unit on battlefield of player one',
+  '[Rooster Section] update unit visual data of player one',
 
   props<{
     unitUI: unitUI;
@@ -130,4 +132,14 @@ export const selectUnitPlr1 = createAction(
 export const selectUnitPlr2 = createAction(
   '[Rooster Section] change selected property of player two unit',
   props<{ ID: number }>()
+);
+
+export const viewIDsetPlr1 = createAction(
+  '[Rooster Section] set unit viewID',
+  props<{ ID: number; viewID: number }>()
+);
+
+export const viewIDsetPlr2 = createAction(
+  '[Rooster Section] set unit viewID',
+  props<{ ID: number; viewID: number }>()
 );

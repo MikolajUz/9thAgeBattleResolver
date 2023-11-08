@@ -30,9 +30,6 @@ import {
   ],
 })
 export class MainPageComponent {
-  deleteUnit(plrOne: any) {
-    console.log('plrOne', plrOne);
-  }
   setFileLength($event: any, unit: readyUnit, player: string) {
     if (player === 'plrOne')
       this.store.dispatch(
@@ -49,17 +46,11 @@ export class MainPageComponent {
         })
       );
   }
-  numOfPlayers: number = 0;
   pickUnit($event: any, unit: readyUnit, player: string) {
     $event.stopPropagation();
     if (player === 'plrOne')
       this.store.dispatch(
         RoosterStoreActions.createUnitUIPlr1({
-          quantity: unit.Qty,
-          fileLength: unit.fileLength,
-          base: unit.base,
-          type_: unit.type,
-          player: player,
           ID: unit.ID,
         })
       );
@@ -89,8 +80,6 @@ export class MainPageComponent {
   dataSourcePlr1: Observable<(readyUnit | undefined)[]> = this.store.select(
     RoosterStoreSelectors.selectCurrentRoosterStatePlr1
   );
-
-  //dataSourcePlr2 = DATATEMP;
 
   dataSourcePlr2: Observable<(readyUnit | undefined)[]> = this.store.select(
     RoosterStoreSelectors.selectCurrentRoosterStatePlr2
@@ -145,7 +134,7 @@ export class MainPageComponent {
         break;
       case 'Delete unit of player one':
         this.store.dispatch(
-          RoosterStoreActions.deleteUnitPlr1({ ID: unit.ID })
+          RoosterStoreActions.requestDeleteUnitPlr1({ ID: unit.ID })
         );
         break;
       case 'Delete unit of player two':
@@ -158,16 +147,3 @@ export class MainPageComponent {
     }
   }
 }
-
-const DATATEMP = [
-  {
-    Name: 'GreatKhan',
-    Qty: 1,
-    Wds: 0,
-    Pts: '560',
-    size: '40x40',
-    ID: 1,
-    fileLength: 1,
-    base: '40x40',
-  },
-];

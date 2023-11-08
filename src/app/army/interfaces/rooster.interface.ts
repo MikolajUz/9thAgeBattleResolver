@@ -24,4 +24,5 @@ export interface readyUnit {
   fileLength: number;
   selected: boolean;
   unitUI: unitUI;
+  viewID: number;
 }

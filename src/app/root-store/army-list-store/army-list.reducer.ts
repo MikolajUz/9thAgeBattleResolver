@@ -16,16 +16,5 @@ export const armyReducer = createReducer(
       units: action.units,
     };
   })
-  // ,
-  // on(ArmyStoreActions.requestLoadUnit, (state) => {
-  //   return {
-  //     ...state,
-  //   };
-  // }),
-  // on(ArmyStoreActions.unitLoaded, (state, action) => {
-  //   return {
-  //     ...state,
-  //     roosterList: state.roosterList.push(action.unit),
-  //   };
-  // })
+
 );

@@ -1,7 +1,7 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { RoosterStoreActions } from './current-rooster.index';
 import { CurrentRoosterService } from 'src/app/army/services/current-rooster.service';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { UIService } from 'src/app/UI/services/ui.service';
 
@@ -31,16 +31,13 @@ export class currentRoosterStoreEffects {
     () =>
       this.action$.pipe(
         ofType(RoosterStoreActions.createUnitUIPlr1),
-        tap((unitData) => {
+        tap((unitData) =>
           this.uiService.createUnitUI(
-            unitData.quantity,
-            unitData.fileLength,
-            unitData.base,
             'UnitUITopComponent',
             'plrOne',
             unitData.ID
-          );
-        })
+          )
+        )
       ),
     { dispatch: false }
   );
@@ -49,17 +46,51 @@ export class currentRoosterStoreEffects {
     () =>
       this.action$.pipe(
         ofType(RoosterStoreActions.createUnitUIPlr2),
-        tap((unitData) => {
+        tap((unitData) =>
           this.uiService.createUnitUI(
-            unitData.quantity,
-            unitData.fileLength,
-            unitData.base,
             'UnitUiBottomComponent',
             'plrTwo',
             unitData.ID
-          );
-        })
+          )
+        )
       ),
     { dispatch: false }
+  );
+
+  increaseQuantityPlr1$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(RoosterStoreActions.increaseQuantityPlr1),
+        tap((unit) => this.uiService.createUnitData('plrOne', unit.ID))
+      ),
+    { dispatch: false }
+  );
+
+  decreaseQuantityPlr1$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(RoosterStoreActions.decreaseQuantityPlr1),
+        tap((unit) => this.uiService.createUnitData('plrOne', unit.ID))
+      ),
+    { dispatch: false }
+  );
+
+  setFileLengthPlr1$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(RoosterStoreActions.setFileLengthPlr1),
+        tap((unit) => this.uiService.createUnitData('plrOne', unit.ID))
+      ),
+    { dispatch: false }
+  );
+
+  requestDeleteUnitPlr1$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(RoosterStoreActions.requestDeleteUnitPlr1),
+      tap((unit) => {
+        this.uiService.deleteUnit(unit.ID);
+      }),
+      map((unit) => RoosterStoreActions.deleteUnitPlr1({ ID: unit.ID }))
+    )
   );
 }

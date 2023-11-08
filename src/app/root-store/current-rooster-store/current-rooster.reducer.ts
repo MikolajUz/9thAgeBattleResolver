@@ -66,7 +66,7 @@ export const currentRoosterReducer = createReducer(
         if (unit?.ID === action.ID) {
           unit = { ...unit };
           unit.Qty++;
-                  }
+        }
         return unit;
       }),
     };
@@ -132,6 +132,13 @@ export const currentRoosterReducer = createReducer(
       }),
     };
   }),
+  on(RoosterStoreActions.requestDeleteUnitPlr1, (state, action) => {
+    return {
+      ...state,
+    };
+  }),
+
+
   on(RoosterStoreActions.deleteUnitPlr1, (state, action) => {
     return {
       ...state,
@@ -207,10 +214,34 @@ export const currentRoosterReducer = createReducer(
   on(RoosterStoreActions.selectUnitPlr2, (state, action) => {
     return {
       ...state,
-roosterPlr2: [...state.roosterPlr2].map((unit) => {
+      roosterPlr2: [...state.roosterPlr2].map((unit) => {
         if (unit?.ID === action.ID) {
           unit = { ...unit };
           unit.selected = !unit.selected;
+        }
+        return unit;
+      }),
+    };
+  }),
+  on(RoosterStoreActions.viewIDsetPlr1, (state, action) => {
+    return {
+      ...state,
+      roosterPlr1: [...state.roosterPlr1].map((unit) => {
+        if (unit?.ID === action.ID) {
+          unit = { ...unit };
+          unit.viewID = action.viewID;
+        }
+        return unit;
+      }),
+    };
+  }),
+  on(RoosterStoreActions.viewIDsetPlr2, (state, action) => {
+    return {
+      ...state,
+      roosterPlr2: [...state.roosterPlr2].map((unit) => {
+        if (unit?.ID === action.ID) {
+          unit = { ...unit };
+          unit.viewID = action.viewID;
         }
         return unit;
       }),

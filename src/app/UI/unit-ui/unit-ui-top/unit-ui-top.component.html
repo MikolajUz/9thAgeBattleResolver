@@ -1,6 +1,5 @@
 <div
   #unit
-  #test
   [ngDraggable]="true"
   [bounds]="myBounds"
   [inBounds]="true"
@@ -9,6 +8,8 @@
   zIndex="100"
   [preventDefaultEvent]="false"
   class="drag-grid"
+  [style.width]='(data | async)!.unitWidthScss'
+  [style.height]='(data | async)!.unitHeightScss'
   (mouseleave)="onDrop($event)"
   zIndexMoving="200"
   [position]="{ x: 180, y: 250 }"
@@ -29,6 +30,8 @@
           y: y * (data | async)!.unitRFHeight
         }"
         class="drag-grid2"
+        [style.width]='(data | async)!.unitRFWidthScss'
+        [style.height]='(data | async)!.unitRFHeightScss'
         zIndex="110"
       ></div>
     </div>
@@ -36,7 +39,9 @@
   <div *ngFor="let file of (data | async)!.fileYPlaces; index as y">
     <div *ngFor="let rank of (data | async)!.rankXPlaces; index as x">
       <div
-        [class]="unitColorScss"
+        [class]="(data | async)!.player"
+        [style.width]='(data | async)!.unitRFWidthScss'
+        [style.height]='(data | async)!.unitRFHeightScss'
         ngDraggable
         [bounds]="unit"
         [inBounds]="true"
@@ -55,7 +60,9 @@
   <div *ngIf="(data | async)!.RaFRest">
     <div
       *ngFor="let rank of (data | async)!.RaFRest"
-      [class]="unitColorScss"
+      [class]="(data | async)!.player"
+      [style.width]='(data | async)!.unitRFWidthScss'
+      [style.height]='(data | async)!.unitRFHeightScss'
       ngDraggable
       [bounds]="unit"
       [inBounds]="true"
@@ -73,5 +80,5 @@
     ></div>
   </div>
 </div>
-<div>rankPlaces {{ (data | async)?.fileYPlaces }}</div>
-<div>rankPlaces {{ ID }}</div>
+
+
