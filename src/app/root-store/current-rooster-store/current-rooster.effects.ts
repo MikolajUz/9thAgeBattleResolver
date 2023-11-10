@@ -84,13 +84,12 @@ export class currentRoosterStoreEffects {
     { dispatch: false }
   );
 
-  requestDeleteUnitPlr1$ = createEffect(() =>
-    this.action$.pipe(
-      ofType(RoosterStoreActions.requestDeleteUnitPlr1),
-      tap((unit) => {
-        this.uiService.deleteUnit(unit.ID);
-      }),
-      map((unit) => RoosterStoreActions.deleteUnitPlr1({ ID: unit.ID }))
-    )
+  deleteUnitPlr1$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(RoosterStoreActions.deleteUnitPlr1),
+        tap((unit) => this.uiService.deleteUnit(unit.ID))
+      ),
+    { dispatch: false }
   );
 }

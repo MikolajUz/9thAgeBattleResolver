@@ -1,4 +1,12 @@
-import { ElementRef, Injectable, ViewChild } from '@angular/core';
+import {
+  ElementRef,
+  Injectable,
+  Renderer2,
+  ViewChild,
+  Component,
+  AfterViewInit,
+  RendererFactory2,
+} from '@angular/core';
 import { AdUnit } from '../unit-ui/ad-unit';
 import { unitUI } from '../unit-ui/unit-ui.interface';
 import { UnitUiBottomComponent } from '../unit-ui/unit-ui-bottom/unit-ui-bottom.component';
@@ -12,7 +20,10 @@ import { RoosterStoreSelectors } from 'src/app/root-store/current-rooster-store/
   providedIn: 'root',
 })
 export class UIService {
-  constructor(private store: Store) {}
+  private renderer: Renderer2;
+  constructor(rendererFactory: RendererFactory2, private store: Store) {
+    this.renderer = rendererFactory.createRenderer(null, null);
+  }
 
   unitData!: unitUI;
   gridUnit!: number;
@@ -121,22 +132,10 @@ export class UIService {
     this.ID = ID;
     const viewContainerRef = this.injectPlace.viewContainerRef;
     const componentRef = viewContainerRef.createComponent(adUnit!.component);
-
-    this.store.dispatch(
-      RoosterStoreActions.viewIDsetPlr1({
-        ID: ID,
-        viewID: viewContainerRef.indexOf(componentRef.hostView),
-      })
-    );
     componentRef.instance.myBounds = this.battlefieldBoundaries?.nativeElement;
   }
   deleteUnit(id: number) {
-    let viewID: number | undefined;
-    this.store
-      .select(RoosterStoreSelectors.selectUnitPlr1(id))
-      .subscribe((unit$) => {
-        viewID = unit$?.viewID;
-      });
-    this.injectPlace.viewContainerRef.remove(viewID);
+    let unit = this.renderer.selectRootElement(`[id='${id}']`, true);
+    this.renderer.parentNode(unit).remove();
   }
 }

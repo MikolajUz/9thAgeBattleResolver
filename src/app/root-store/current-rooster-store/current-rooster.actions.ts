@@ -68,10 +68,7 @@ export const removeWoundPlr2 = createAction(
   props<{ ID: number }>()
 );
 
-export const requestDeleteUnitPlr1 = createAction(
-  '[Rooster Section] request delete unit of player one',
-  props<{ ID: number }>()
-);
+
 
 
 export const deleteUnitPlr1 = createAction(
@@ -134,12 +131,5 @@ export const selectUnitPlr2 = createAction(
   props<{ ID: number }>()
 );
 
-export const viewIDsetPlr1 = createAction(
-  '[Rooster Section] set unit viewID',
-  props<{ ID: number; viewID: number }>()
-);
 
-export const viewIDsetPlr2 = createAction(
-  '[Rooster Section] set unit viewID',
-  props<{ ID: number; viewID: number }>()
-);
+

@@ -134,8 +134,9 @@ export class MainPageComponent {
         break;
       case 'Delete unit of player one':
         this.store.dispatch(
-          RoosterStoreActions.requestDeleteUnitPlr1({ ID: unit.ID })
+          RoosterStoreActions.deleteUnitPlr1({ ID: unit.ID })
         );
+        
         break;
       case 'Delete unit of player two':
         this.store.dispatch(

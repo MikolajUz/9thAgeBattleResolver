@@ -54,9 +54,3 @@ export const selectUnitUIDataPlr1 = (ID: number) =>
       roosterState.roosterPlr1.filter((unit) => unit?.ID === ID)[0]
   );
 
-  export const selectUnitViewIDPlr1 = (ID: number) =>
-  createSelector(
-    selectSharedRoosterState,
-    (roosterState) =>
-      roosterState.roosterPlr1.filter((unit) => unit?.ID === ID)[0]?.viewID
-  );
