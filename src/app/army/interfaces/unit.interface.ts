@@ -1,32 +1,81 @@
-import { Characteristics } from './characteristics.interface';
-import { ModelRuleUnitTroops } from './modelRuleUnitTroops.interface';
-import { UnitOptions } from './unit-options.interface';
-//import {roosterUnit} from './rooster.interface'
+import { unitUI } from 'src/app/players/interfaces/unit-ui.interface';
+import { ModelRuleUnitTroops, adaptOption } from './modelRuleUnitTroops.interface';
+import { Injectable } from '@angular/core';
+import { unitRaw } from './unitRaw.interface';
+
 
 export interface Unit {
-  id: string;
+  aeg: string | null;
+  agi: string;
+  ap: string;
+  arm: string;
+  att: string;
+  base: string;
+  def: string;
+  dis: string;
+  hp: string;
+  of: string;
+  res: string;
+  str: string;
+  type: string;
+  unit_type: string;
+  Qty: number;
+  Pts: string;
+  options: ModelRuleUnitTroops[];
   name: string;
-  is_desabled: boolean;
-  army_id: string;
-  unit_category_id: string;
-  principal_organisation_id: string;
-  min_size: number;
-  max_size: number;
-  position: number;
-  magic: string;
-  notes: string;
-  is_mount: boolean;
-  type_figurine: number;
-  army_organisation_id: string;
-  army_organisation_activator_id: string;
-  value_points: number;
-  add_value_points: number;
-  carac: Characteristics ;
-  organisation_ids: string[];
-  all_organisation_ids: string[];
-  all_organisations: string[];
-  troops: string[];
-  model_rule_unit_troops: ModelRuleUnitTroops[];
-  unit_options: UnitOptions[];
-  organisation_changes: string[];
+  Wds: number;
+  ID: number;
+  fileLength: number;
+  selected: boolean;
+  unitUI: unitUI;
 }
+
+export class Unit {
+  constructor(
+    public name: string,
+    public aeg: string | null,
+    public agi: string,
+    public ap: string,
+    public arm: string,
+    public att: string,
+    public base: string,
+    public def: string,
+    public dis: string,
+    public hp: string,
+    public of: string,
+    public res: string,
+    public str: string,
+    public type: string,
+    public unit_type: string,
+    public options: ModelRuleUnitTroops[]
+  ) {}
+}
+
+
+@Injectable({
+  providedIn: 'root',
+})
+
+
+export class UnitAdapter {
+  adapt(rawData: unitRaw): Unit {
+    return new Unit(
+      rawData.name,
+      rawData.carac.aeg,
+      rawData.carac.agi,
+      rawData.carac.ap,
+      rawData.carac.arm,
+      rawData.carac.att,
+      rawData.carac.base,
+      rawData.carac.def,
+      rawData.carac.dis,
+      rawData.carac.hp,
+      rawData.carac.of,
+      rawData.carac.res,
+      rawData.carac.str,
+      rawData.carac.type,
+      rawData.carac.unit_type,
+      adaptOption(rawData.model_rule_unit_troops)
+          )
+        }
+  }

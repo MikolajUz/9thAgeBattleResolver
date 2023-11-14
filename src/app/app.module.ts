@@ -6,21 +6,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
-import { ArmyListComponent } from './army/armyList/armyList.component';
-import { UnitComponent } from './army/unit/unit.component';
-import { MaterialModule } from './material/material.module';
+import { ArmyListComponent } from './army/components/containers/armyList/armyList.component';
+import { UnitComponent } from './army/components/features/unit/unit.component';
+import { MaterialModule } from '../UI/material/material.module';
 import { RootStoreModule } from './root-store/root-store.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { GetRoosterComponent } from './army/get-rooster/get-rooster.component';
-import { MainPageComponent } from './UI/main-page/main-page.component';
-import { BattlefieldComponent } from './UI/battlefield/battlefield.component';
+import { GetRoosterComponent } from './main/components/features/get-rooster/get-rooster.component';
+import { MainPageComponent } from './main/components/containers/main-page/main-page.component';
+import { BattlefieldComponent } from './main/components/features/battlefield/battlefield.component';
 
 import { AngularDraggableModule } from 'angular2-draggable';
-import { UnitUITopComponent } from './UI/unit-ui/unit-ui-top/unit-ui-top.component';
-import { UnitDirective } from './UI/unit-ui/unit.directive';
-import { UnitUiBottomComponent } from './UI/unit-ui/unit-ui-bottom/unit-ui-bottom.component';
+import { UnitUITopComponent } from './players/components/features/unit-ui-top/unit-ui-top.component';
+import { UnitDirective } from './players/components/features/unit.directive';
+import { UnitUiBottomComponent } from './players/components/features/unit-ui-bottom/unit-ui-bottom.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,6 @@ import { UnitUiBottomComponent } from './UI/unit-ui/unit-ui-bottom/unit-ui-botto
     UnitUITopComponent,
     UnitDirective,
     UnitUiBottomComponent,
-  
   ],
   imports: [
     BrowserModule,
