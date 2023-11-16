@@ -1,11 +1,7 @@
 <div class="wrapper">
   <div class="sideOne">
     <div class="mat-headline-5">Player One</div>
-    <app-get-rooster
-      class="plrOne"
-      id="plrOne"
-      [player]="Plr1"
-    ></app-get-rooster>
+    <app-rooster-loader class="plrOne" id="plrOne" [player]="0"></app-rooster-loader>
 
     <table mat-table [dataSource]="dataSourcePlr1" multiTemplateDataRows>
       <ng-container
@@ -25,7 +21,7 @@
           <button
             mat-icon-button
             aria-label="expand row"
-            (click)="selectUnit($event, Unit, 'plrOne')"
+            (click)="selectUnit($event, Unit, 0)"
           >
             <mat-icon *ngIf="Unit.selected">keyboard_arrow_down</mat-icon>
             <mat-icon *ngIf="!Unit.selected">keyboard_arrow_up</mat-icon>
@@ -98,7 +94,7 @@
                   type="number"
                   min="0"
                   max="100"
-                  (input)="setFileLength($event, Unit, 'plrOne')"
+                  (input)="setFileLength($event, Unit, 0)"
                   value="{{ Unit.fileLength }}"
                 />
               </mat-form-field>
@@ -110,7 +106,7 @@
       <ng-container matColumnDef="pick">
         <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
         <td mat-cell *matCellDef="let Unit">
-          <button mat-icon-button (click)="pickUnit($event, Unit, 'plrOne')">
+          <button mat-icon-button (click)="pickUnit($event, Unit, 0)">
             <mat-icon>arrow_forward</mat-icon>
           </button>
         </td>
@@ -121,7 +117,7 @@
         mat-row
         *matRowDef="let Unit; columns: columnsToDisplayWithExpand"
         [class.example-expanded-row]="expandedUnit === Unit"
-        (click)="selectUnit($event, Unit, 'plrOne')"
+        (click)="selectUnit($event, Unit, 0)"
       ></tr>
       <tr
         mat-row
@@ -134,7 +130,7 @@
   <app-battlefield class="battleField"> </app-battlefield>
   <div class="sideTwo">
     <div class="mat-headline-5">Player Two</div>
-    <app-get-rooster class="plrTwo" [player]="Plr2"></app-get-rooster>
+    <app-rooster-loader class="plrTwo" [player]="1"></app-rooster-loader>
 
     <table mat-table [dataSource]="dataSourcePlr2" multiTemplateDataRows>
       <ng-container
@@ -152,7 +148,7 @@
           <button
             mat-icon-button
             aria-label="expand row"
-            (click)="selectUnit($event, Unit, 'plrTwo')"
+            (click)="selectUnit($event, Unit, 1)"
           >
             <mat-icon *ngIf="Unit.selected">keyboard_arrow_down</mat-icon>
             <mat-icon *ngIf="!Unit.selected">keyboard_arrow_up</mat-icon>
@@ -225,7 +221,7 @@
                   type="number"
                   min="0"
                   max="100"
-                  (input)="setFileLength($event, Unit, 'plrTwo')"
+                  (input)="setFileLength($event, Unit, 1)"
                   value="{{ Unit.fileLength }}"
                 />
               </mat-form-field>
@@ -237,7 +233,7 @@
       <ng-container matColumnDef="pick">
         <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
         <td mat-cell *matCellDef="let Unit">
-          <button mat-icon-button (click)="pickUnit($event, Unit, 'plrTwo')">
+          <button mat-icon-button (click)="pickUnit($event, Unit, 1)">
             <mat-icon>arrow_back</mat-icon>
           </button>
         </td>
@@ -248,7 +244,7 @@
         mat-row
         *matRowDef="let Unit; columns: columnsToDisplayWithExpand"
         [class.example-expanded-row]="expandedUnit === Unit"
-        (click)="selectUnit($event, Unit, 'plrTwo')"
+        (click)="selectUnit($event, Unit, 1)"
       ></tr>
       <tr
         mat-row

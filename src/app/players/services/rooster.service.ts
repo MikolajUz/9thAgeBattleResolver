@@ -1,33 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 import { Unit } from '../../army/interfaces/unit.interface';
-import { ArmyRoosterAPI } from '../interfaces/armyRoosterAPI.interface';
+
 import { Store } from '@ngrx/store';
-import { RoosterStoreActions } from 'src/app/players/current-rooster-store/current-rooster.index';
-import { UIService } from 'src/app/players/services/ui.service';
+import { RoosterStoreActions } from '../rooster-store/rooster.index';
+import { FacadeService } from 'src/app/facade/facade.service';
+import { ArmyStoreSelectors } from 'src/app/army/army-store/army.index';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CurrentRoosterService {
-  constructor(
-    private http: HttpClient,
-    private store: Store,
-    private uiService: UIService
-  ) {}
+export class RoosterService {
+  constructor(private store: Store, private facade: FacadeService) {}
 
   url = 'https://www.9thbuilder.com/api/v1/ninth_age/armies/207';
 
   getRoosterUnit(name: string): Observable<Unit | undefined> {
-    return this.http.get<ArmyRoosterAPI>(this.url).pipe(
-      map((ApiData) => ApiData.units.find((unit) => unit.name === name)),
-      map((unit) => unit?.carac)
-    );
+    //this.facade.getArmyUnit(name);
+    return this.store.select(ArmyStoreSelectors.selectArmyUnit(name));
   }
 
-  readRooster(rooster: string, player: string): void {
+  readRooster(
+    rooster: string,
+    playerIndex: number,
+    roosterIndex: number
+  ): void {
     const roosterArray = (rooster: string) => {
       let correctRooster = rooster.replaceAll('-', ',');
       let lineArray = correctRooster.split('\n');
@@ -67,6 +65,7 @@ export class CurrentRoosterService {
         .pipe(
           map((unit) => {
             if (unit) {
+              unit = { ...unit };
               unit.ID = index;
               unit.Pts = line[0];
               unit.Qty = Number(line[1]);
@@ -77,26 +76,21 @@ export class CurrentRoosterService {
               line.forEach((unit, index) => {
                 if (index > 2) optionsArray.push(line[index]);
               });
-              //unit.options = optionsArray;
+              unit.options = optionsArray;
             }
+
             return unit;
           })
         )
         .subscribe((unit) => {
           if (unit !== undefined) {
-            if (player === 'Plr1') {
-              this.store.dispatch(
-                RoosterStoreActions.addUnitToRoosterPlr1({
-                  nextUnit: unit,
-                })
-              );
-            } else {
-              this.store.dispatch(
-                RoosterStoreActions.addUnitToRoosterPlr2({
-                  nextUnit: unit,
-                })
-              );
-            }
+            this.store.dispatch(
+              RoosterStoreActions.addUnitToRooster({
+                nextUnit: unit,
+                playerIndex: playerIndex,
+                roosterIndex: roosterIndex,
+              })
+            );
           }
         });
     });

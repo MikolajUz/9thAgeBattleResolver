@@ -2,9 +2,6 @@ import {
   ElementRef,
   Injectable,
   Renderer2,
-  ViewChild,
-  Component,
-  AfterViewInit,
   RendererFactory2,
 } from '@angular/core';
 import { AdUnit } from '../components/features/ad-unit';
@@ -13,13 +10,13 @@ import { UnitUiBottomComponent } from '../components/features/unit-ui-bottom/uni
 import { UnitUITopComponent } from '../components/features/unit-ui-top/unit-ui-top.component';
 import { UnitDirective } from '../components/features/unit.directive';
 import { Store } from '@ngrx/store';
-import { RoosterStoreActions } from 'src/app/players/current-rooster-store/current-rooster.index';
-import { RoosterStoreSelectors } from 'src/app/players/current-rooster-store/current-rooster.index';
+import { RoosterStoreActions } from '../rooster-store/rooster.index';
+import { RoosterStoreSelectors } from '../rooster-store/rooster.index';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UIService {
+export class VisualsService {
   private renderer: Renderer2;
   constructor(rendererFactory: RendererFactory2, private store: Store) {
     this.renderer = rendererFactory.createRenderer(null, null);
@@ -42,7 +39,10 @@ export class UIService {
   }
   createGridArray = (x: number) => Array.from(Array(x).keys());
 
-  createUnitData = (player: string, ID: number): unitUI => {
+  createUnitData = (player_: number, ID: number): unitUI => {
+    let player: string;
+    if (player_ === 0) player = 'plrOne';
+    if (player_ === 1) player = 'plrTwo';
     let unitData: unitUI = {
       gridUnit: 0,
       unitFileGrids: [],
@@ -66,7 +66,9 @@ export class UIService {
     let fileLength: number | undefined;
     let quantity: number | undefined;
 
-    let unit = this.store.select(RoosterStoreSelectors.selectUnitPlr1(ID));
+    let unit = this.store.select(
+      RoosterStoreSelectors.selectUnitByID(player_, 0, ID)
+    );
     unit.subscribe((unitData) => {
       baseWidth = Number(unitData?.base?.split('x')[0]) / 5;
       baseHeight = Number(unitData?.base?.split('x')[1]) / 5;
@@ -103,20 +105,24 @@ export class UIService {
     unitData.unitWidthScss = `${unitData.unitWidth}px`;
     unitData.unitHeightScss = `${unitData.unitHeight}px`;
 
-    if (player === 'plrOne') unitData.player = 'RankAndFile';
-    if (player === 'plrTwo') unitData.player = 'RankAndFile2';
+    if (player_ === 0) unitData.player = 'RankAndFile';
+    if (player_ === 1) unitData.player = 'RankAndFile2';
     this.unitData = unitData;
 
-    this.store.dispatch(
-      RoosterStoreActions.updateUnitUIDataPlr1({ unitUI: unitData, ID: ID })
-    );
+     this.store.dispatch(
+       RoosterStoreActions.updateUnitUIData({ unitUI: unitData, ID: ID, playerIndex: player_,
+        roosterIndex: 0 })
+     );
 
     return unitData;
   };
 
-  createUnitUI(type: string, player: string, ID: number) {
+  createUnitUI(type: string, player_: number, ID: number) {
+    let player: string;
+    if (player_ === 0) player = 'plrOne';
+    if (player_ === 1) player = 'plrTwo';
     const createUnitComponent = (type: any) => {
-      this.createUnitData(player, ID);
+      this.createUnitData(player_, ID);
       return new AdUnit(type);
     };
 

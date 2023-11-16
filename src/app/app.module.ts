@@ -13,7 +13,7 @@ import { RootStoreModule } from './root-store/root-store.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { GetRoosterComponent } from './main/components/features/get-rooster/get-rooster.component';
+import { RoosterLoaderComponent } from './main/components/features/rooster-loader/rooster-loader.component';
 import { MainPageComponent } from './main/components/containers/main-page/main-page.component';
 import { BattlefieldComponent } from './main/components/features/battlefield/battlefield.component';
 
@@ -27,7 +27,7 @@ import { UnitUiBottomComponent } from './players/components/features/unit-ui-bot
     AppComponent,
     ArmyListComponent,
     UnitComponent,
-    GetRoosterComponent,
+    RoosterLoaderComponent,
     MainPageComponent,
     BattlefieldComponent,
     UnitUITopComponent,

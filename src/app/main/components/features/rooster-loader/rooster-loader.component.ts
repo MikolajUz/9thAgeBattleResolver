@@ -3,15 +3,15 @@ import { Store } from '@ngrx/store';
 import {
   RoosterStoreActions,
   RoosterStoreSelectors,
-} from 'src/app/players/current-rooster-store/current-rooster.index';
+} from 'src/app/players/rooster-store/rooster.index';
 
 @Component({
-  selector: 'app-get-rooster',
-  templateUrl: './get-rooster.component.html',
-  styleUrls: ['./get-rooster.component.scss'],
+  selector: 'app-rooster-loader',
+  templateUrl: './rooster-loader.component.html',
+  styleUrls: ['./rooster-loader.component.scss'],
 })
-export class GetRoosterComponent {
-  @Input() player!: string;
+export class RoosterLoaderComponent {
+  @Input() player!: number;
   validFile = false;
   constructor(private store: Store) {}
 
@@ -40,7 +40,8 @@ export class GetRoosterComponent {
           this.store.dispatch(
             RoosterStoreActions.requestRoosterLoad({
               roosterTxT: reader.result,
-              player: this.player,
+              playerIndex: this.player,
+              roosterIndex: 0,
             })
           );
       });

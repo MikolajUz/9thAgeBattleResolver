@@ -1,8 +1,7 @@
 import { unitUI } from 'src/app/players/interfaces/unit-ui.interface';
-import { ModelRuleUnitTroops, adaptOption } from './modelRuleUnitTroops.interface';
+import { UnitRules, adaptOption } from './unitRules.interface';
 import { Injectable } from '@angular/core';
-import { unitRaw } from './unitRaw.interface';
-
+import { unitRaw } from './dataUnit.interface';
 
 export interface Unit {
   aeg: string | null;
@@ -21,13 +20,14 @@ export interface Unit {
   unit_type: string;
   Qty: number;
   Pts: string;
-  options: ModelRuleUnitTroops[];
+  rules: UnitRules[];
   name: string;
   Wds: number;
   ID: number;
   fileLength: number;
   selected: boolean;
   unitUI: unitUI;
+  options: string[];
 }
 
 export class Unit {
@@ -47,16 +47,13 @@ export class Unit {
     public str: string,
     public type: string,
     public unit_type: string,
-    public options: ModelRuleUnitTroops[]
+    public rules: UnitRules[]
   ) {}
 }
-
 
 @Injectable({
   providedIn: 'root',
 })
-
-
 export class UnitAdapter {
   adapt(rawData: unitRaw): Unit {
     return new Unit(
@@ -76,6 +73,6 @@ export class UnitAdapter {
       rawData.carac.type,
       rawData.carac.unit_type,
       adaptOption(rawData.model_rule_unit_troops)
-          )
-        }
+    );
   }
+}

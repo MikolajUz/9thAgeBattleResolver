@@ -1,10 +1,10 @@
-export interface ModelRuleUnitTroops {
+export interface UnitRules {
   name: string;
   description: string;
   type_rule: string;
 }
 
-export class ModelRuleUnitTroops {
+export class UnitRules {
   constructor(
     public name: string,
     public description: string,
@@ -13,12 +13,12 @@ export class ModelRuleUnitTroops {
 }
 
 export const adaptOption = (
-  optionRaw: ModelRuleUnitTroops[]
-): ModelRuleUnitTroops[] => {
-  let array: ModelRuleUnitTroops[] = [];
+  optionRaw: UnitRules[]
+): UnitRules[] => {
+  let array: UnitRules[] = [];
   optionRaw.forEach((option) =>
     array.push(
-      new ModelRuleUnitTroops(option.name, option.description, option.type_rule)
+      new UnitRules(option.name, option.description, option.type_rule)
     )
   );
   return array;

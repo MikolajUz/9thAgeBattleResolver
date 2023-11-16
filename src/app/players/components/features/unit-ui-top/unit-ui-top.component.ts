@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { UIService } from 'src/app/players/services/ui.service';
+import { VisualsService } from 'src/app/players/services/visuals.service';
 import { Store } from '@ngrx/store';
-import { RoosterStoreSelectors } from 'src/app/players/current-rooster-store/current-rooster.index';
+import { RoosterStoreSelectors } from 'src/app/players/rooster-store/rooster.index';
 
 @Component({
   selector: 'app-unit-ui-top',
@@ -14,9 +14,11 @@ export class UnitUITopComponent {
     //console.log($event.target.style.transform);
   }
 
-  ID = this.uiService.ID;
+  ID = this.visualsService.ID;
   myBounds!: HTMLElement;
-  data = this.store.select(RoosterStoreSelectors.selectUnitUIDataPlr1(this.ID));
+  data = this.store.select(
+    RoosterStoreSelectors.selectUnitUIData(0, 0, this.ID)
+  );
 
-  constructor(private uiService: UIService, private store: Store) {}
+  constructor(private visualsService: VisualsService, private store: Store) {}
 }

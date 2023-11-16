@@ -4,7 +4,7 @@ import {
   HostBinding,
   ViewChild,
 } from '@angular/core';
-import { UIService } from 'src/app/players/services/ui.service';
+import { VisualsService } from 'src/app/players/services/visuals.service';
 import { UnitDirective } from 'src/app/players/components/features/unit.directive';
 
 @Component({
@@ -24,9 +24,9 @@ export class BattlefieldComponent  {
   @HostBinding('style.--gridUnitScss')
   gridUnitScss = `${this.gridUnit}px`;
 
-  constructor(private uiService: UIService) {
-    this.grids = this.uiService.createGridArray(50);
-    this.uiService.setGridUnit(
+  constructor(private visualsService: VisualsService) {
+    this.grids = this.visualsService.createGridArray(50);
+    this.visualsService.setGridUnit(
       this.gridUnit,
       this.unitInjectPlace,
       this.battlefield
@@ -34,7 +34,7 @@ export class BattlefieldComponent  {
   }
 
   ngAfterViewInit(): void {
-    this.uiService.setGridUnit(
+    this.visualsService.setGridUnit(
       this.gridUnit,
       this.unitInjectPlace,
       this.battlefield

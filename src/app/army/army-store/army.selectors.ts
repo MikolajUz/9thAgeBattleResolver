@@ -9,3 +9,8 @@ export const selectArmyState = createSelector(
   selectSharedArmyState,
   (armyFeatureState) => armyFeatureState.units
 );
+
+export const selectArmyUnit = (name: string) =>
+  createSelector(selectSharedArmyState, (armyFeatureState) =>
+    armyFeatureState.units.find((unit) => unit.name === name)
+  );

@@ -1,7 +1,7 @@
 import { ArmyStoreState } from '../army/army-store/army.index';
-import { currentRoosterState } from '../players/current-rooster-store/current-rooster.state';
+import { PlayersState } from '../players/rooster-store/rooster.state';
 
 export interface RootState {
   units: ArmyStoreState.ArmyState;
-  rooster: currentRoosterState;
+  players: PlayersState;
 }

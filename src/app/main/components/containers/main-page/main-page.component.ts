@@ -4,7 +4,7 @@ import { Unit } from 'src/app/army/interfaces/unit.interface';
 import {
   RoosterStoreActions,
   RoosterStoreSelectors,
-} from 'src/app/players/current-rooster-store/current-rooster.index';
+} from 'src/app/players/rooster-store/rooster.index';
 import { Observable } from 'rxjs/internal/Observable';
 import {
   animate,
@@ -30,65 +30,62 @@ import {
   ],
 })
 export class MainPageComponent {
-  setFileLength($event: any, unit: Unit, player: string) {
-    if (player === 'plrOne')
-      this.store.dispatch(
-        RoosterStoreActions.setFileLengthPlr1({
-          ID: unit.ID,
-          fileLength: Number($event.target.value),
-        })
-      );
-    if (player === 'plrTwo')
-      this.store.dispatch(
-        RoosterStoreActions.setFileLengthPlr2({
-          ID: unit.ID,
-          fileLength: Number($event.target.value),
-        })
-      );
+  setFileLength($event: any, unit: Unit, playerIndex: number) {
+    this.store.dispatch(
+      RoosterStoreActions.setFileLength({
+        ID: unit.ID,
+        fileLength: Number($event.target.value),
+        playerIndex: playerIndex,
+        roosterIndex: 0,
+      })
+    );
   }
-  pickUnit($event: any, unit: Unit, player: string) {
+  pickUnit($event: any, unit: Unit, playerIndex: number) {
     $event.stopPropagation();
-    if (player === 'plrOne')
-      this.store.dispatch(
-        RoosterStoreActions.createUnitUIPlr1({
-          ID: unit.ID,
-        })
-      );
-    if (player === 'plrTwo')
-      this.store.dispatch(
-        RoosterStoreActions.createUnitUIPlr2({
-          quantity: unit.Qty,
-          fileLength: unit.fileLength,
-          base: unit.base,
-          type_: unit.type,
-          player: player,
-          ID: unit.ID,
-        })
-      );
+
+    this.store.dispatch(
+      RoosterStoreActions.createUnitUI({
+        ID: unit.ID,
+        playerIndex: playerIndex,
+        roosterIndex: 0,
+      })
+    );
   }
 
   constructor(private store: Store) {}
 
-  selectUnit($event: any, unit: Unit, player: string) {
+  selectUnit($event: any, unit: Unit, player: number) {
     $event.stopPropagation();
-    if (player === 'plrOne')
-      this.store.dispatch(RoosterStoreActions.selectUnitPlr1({ ID: unit.ID }));
-    if (player === 'plrTwo')
-      this.store.dispatch(RoosterStoreActions.selectUnitPlr2({ ID: unit.ID }));
+    if (player === 0)
+      this.store.dispatch(
+        RoosterStoreActions.selectUnit({
+          ID: unit.ID,
+          playerIndex: 0,
+          roosterIndex: 0,
+        })
+      );
+    if (player === 1)
+      this.store.dispatch(
+        RoosterStoreActions.selectUnit({
+          ID: unit.ID,
+          playerIndex: 1,
+          roosterIndex: 0,
+        })
+      );
   }
 
   dataSourcePlr1: Observable<(Unit | undefined)[]> = this.store.select(
-    RoosterStoreSelectors.selectCurrentRoosterStatePlr1
+    RoosterStoreSelectors.selectRooster(0, 0)
   );
 
   dataSourcePlr2: Observable<(Unit | undefined)[]> = this.store.select(
-    RoosterStoreSelectors.selectCurrentRoosterStatePlr2
+    RoosterStoreSelectors.selectRooster(1, 0)
   );
 
   Plr1 = 'Plr1';
   Plr2 = 'Plr2';
 
-  columnsToDisplay = ['Name', 'Qty', 'Wds', 'Pts'];
+  columnsToDisplay = ['name', 'Qty', 'Wds', 'Pts'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand', 'pick'];
   expandedUnit: Unit | undefined;
 
@@ -96,51 +93,95 @@ export class MainPageComponent {
     switch (action) {
       case 'Increase quantity Player One':
         this.store.dispatch(
-          RoosterStoreActions.increaseQuantityPlr1({ ID: unit.ID })
+          RoosterStoreActions.increaseQuantity({
+            ID: unit.ID,
+            playerIndex: 0,
+            roosterIndex: 0,
+          })
         );
 
         break;
       case 'Decrease quantity Player One':
         this.store.dispatch(
-          RoosterStoreActions.decreaseQuantityPlr1({ ID: unit.ID })
+          RoosterStoreActions.decreaseQuantity({
+            ID: unit.ID,
+            playerIndex: 0,
+            roosterIndex: 0,
+          })
         );
         break;
       case 'Add wounds Player One':
-        this.store.dispatch(RoosterStoreActions.addWoundPlr1({ ID: unit.ID }));
+        this.store.dispatch(
+          RoosterStoreActions.addWound({
+            ID: unit.ID,
+            playerIndex: 0,
+            roosterIndex: 0,
+          })
+        );
         break;
       case 'Remove wounds Player One':
         this.store.dispatch(
-          RoosterStoreActions.removeWoundPlr1({ ID: unit.ID })
+          RoosterStoreActions.removeWound({
+            ID: unit.ID,
+            playerIndex: 0,
+            roosterIndex: 0,
+          })
         );
         break;
       ////////////
       case 'Increase quantity Player Two':
         this.store.dispatch(
-          RoosterStoreActions.increaseQuantityPlr2({ ID: unit.ID })
+          RoosterStoreActions.increaseQuantity({
+            ID: unit.ID,
+            playerIndex: 1,
+            roosterIndex: 0,
+          })
         );
         break;
       case 'Decrease quantity Player Two':
         this.store.dispatch(
-          RoosterStoreActions.decreaseQuantityPlr2({ ID: unit.ID })
+          RoosterStoreActions.decreaseQuantity({
+            ID: unit.ID,
+            playerIndex: 1,
+            roosterIndex: 0,
+          })
         );
         break;
       case 'Add wounds Player Two':
-        this.store.dispatch(RoosterStoreActions.addWoundPlr2({ ID: unit.ID }));
+        this.store.dispatch(
+          RoosterStoreActions.addWound({
+            ID: unit.ID,
+            playerIndex: 1,
+            roosterIndex: 0,
+          })
+        );
         break;
       case 'Remove wounds Player Two':
         this.store.dispatch(
-          RoosterStoreActions.removeWoundPlr2({ ID: unit.ID })
+          RoosterStoreActions.removeWound({
+            ID: unit.ID,
+            playerIndex: 1,
+            roosterIndex: 0,
+          })
         );
         break;
       case 'Delete unit of player one':
         this.store.dispatch(
-          RoosterStoreActions.deleteUnitPlr1({ ID: unit.ID })
+          RoosterStoreActions.deleteUnit({
+            ID: unit.ID,
+            playerIndex: 0,
+            roosterIndex: 0,
+          })
         );
 
         break;
       case 'Delete unit of player two':
         this.store.dispatch(
-          RoosterStoreActions.deleteUnitPlr2({ ID: unit.ID })
+          RoosterStoreActions.deleteUnit({
+            ID: unit.ID,
+            playerIndex: 1,
+            roosterIndex: 0,
+          })
         );
         break;
       default:

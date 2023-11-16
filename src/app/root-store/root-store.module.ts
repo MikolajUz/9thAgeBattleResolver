@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ArmyListStoreModule } from '../army/army-store/army.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { CurrentRoosterStoreModule } from '../players/current-rooster-store/current-rooster-store.module';
+import { CurrentRoosterStoreModule } from '../players/rooster-store/current-rooster.module';
 
 @NgModule({
   declarations: [],

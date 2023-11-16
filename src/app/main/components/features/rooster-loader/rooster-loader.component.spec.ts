@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GetRoosterComponent } from './get-rooster.component';
+import { RoosterLoaderComponent } from './rooster-loader.component';
 
 describe('GetRoosterComponent', () => {
-  let component: GetRoosterComponent;
-  let fixture: ComponentFixture<GetRoosterComponent>;
+  let component: RoosterLoaderComponent;
+  let fixture: ComponentFixture<RoosterLoaderComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GetRoosterComponent]
+      declarations: [RoosterLoaderComponent],
     });
-    fixture = TestBed.createComponent(GetRoosterComponent);
+    fixture = TestBed.createComponent(RoosterLoaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
