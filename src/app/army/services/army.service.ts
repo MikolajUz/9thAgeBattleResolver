@@ -6,14 +6,20 @@ import { map } from 'rxjs';
 import { dataUnit } from '../interfaces/dataUnit.interface';
 
 import { Unit, UnitAdapter } from '../interfaces/unit.interface';
+import { Store } from '@ngrx/store';
+import { ArmyStoreActions } from '../army-store/army.index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArmyService {
-  constructor(private http: HttpClient, private adapter: UnitAdapter) {}
+  constructor(private http: HttpClient, private adapter: UnitAdapter, private store:Store) {}
 
   url = 'https://www.9thbuilder.com/api/v1/ninth_age/armies/207';
+
+  init(){
+    this.store.dispatch(ArmyStoreActions.requestLoadArmy())
+  }
 
   getArmy(): Observable<Unit[]> {
     return this.getAdaptedData(this.getArmyData());

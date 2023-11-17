@@ -67,10 +67,10 @@ export class RoosterService {
             if (unit) {
               unit = { ...unit };
               unit.ID = index;
-              unit.Pts = line[0];
-              unit.Qty = Number(line[1]);
+              unit.points = line[0];
+              unit.quantity = Number(line[1]);
               unit.name = line[2];
-              unit.Wds = 0;
+              unit.wounds = 0;
               unit.fileLength = 1;
               let optionsArray: string[] = [];
               line.forEach((unit, index) => {

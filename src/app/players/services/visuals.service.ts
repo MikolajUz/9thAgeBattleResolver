@@ -73,7 +73,7 @@ export class VisualsService {
       baseWidth = Number(unitData?.base?.split('x')[0]) / 5;
       baseHeight = Number(unitData?.base?.split('x')[1]) / 5;
       fileLength = unitData?.fileLength;
-      quantity = unitData?.Qty;
+      quantity = unitData?.quantity;
     });
 
     if (quantity! < fileLength!) {

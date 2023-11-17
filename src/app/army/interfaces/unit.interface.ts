@@ -18,11 +18,11 @@ export interface Unit {
   str: string;
   type: string;
   unit_type: string;
-  Qty: number;
-  Pts: string;
+  quantity: number;
+  points: string;
   rules: UnitRules[];
   name: string;
-  Wds: number;
+  wounds: number;
   ID: number;
   fileLength: number;
   selected: boolean;

@@ -21,6 +21,7 @@ import { AngularDraggableModule } from 'angular2-draggable';
 import { UnitUITopComponent } from './players/components/features/unit-ui-top/unit-ui-top.component';
 import { UnitDirective } from './players/components/features/unit.directive';
 import { UnitUiBottomComponent } from './players/components/features/unit-ui-bottom/unit-ui-bottom.component';
+import { TableRoosterComponent } from './main/components/features/table-rooster/table-rooster.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { UnitUiBottomComponent } from './players/components/features/unit-ui-bot
     UnitUITopComponent,
     UnitDirective,
     UnitUiBottomComponent,
+    TableRoosterComponent,
   ],
   imports: [
     BrowserModule,

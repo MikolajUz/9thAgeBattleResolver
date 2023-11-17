@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   RoosterStoreActions,
-  RoosterStoreSelectors,
 } from 'src/app/players/rooster-store/rooster.index';
 
 @Component({
@@ -11,7 +10,7 @@ import {
   styleUrls: ['./rooster-loader.component.scss'],
 })
 export class RoosterLoaderComponent {
-  @Input() player!: number;
+  @Input() playerIndex!: number;
   validFile = false;
   constructor(private store: Store) {}
 
@@ -40,7 +39,7 @@ export class RoosterLoaderComponent {
           this.store.dispatch(
             RoosterStoreActions.requestRoosterLoad({
               roosterTxT: reader.result,
-              playerIndex: this.player,
+              playerIndex: this.playerIndex,
               roosterIndex: 0,
             })
           );

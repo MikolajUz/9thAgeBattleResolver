@@ -14,7 +14,6 @@ export const currentRoosterReducer = createReducer(
     };
   }),
 
-
   immerOn(RoosterStoreActions.addUnitToRooster, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.push(
       action.nextUnit
@@ -23,14 +22,14 @@ export const currentRoosterReducer = createReducer(
 
   immerOn(RoosterStoreActions.addWound, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
-      (unit) => (unit.ID === action.ID ? unit.Wds++ : unit)
+      (unit) => (unit.ID === action.ID ? unit.wounds++ : unit)
     );
   }),
   immerOn(RoosterStoreActions.removeWound, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
       (unit) => {
         if (unit.ID === action.ID) {
-          if (unit.Wds > 0) unit.Wds--;
+          if (unit.wounds > 0) unit.wounds--;
         }
       }
     );
@@ -40,7 +39,7 @@ export const currentRoosterReducer = createReducer(
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
       (unit) => {
         if (unit.ID === action.ID) {
-          unit.Qty++;
+          unit.quantity++;
         }
       }
     );
@@ -50,7 +49,7 @@ export const currentRoosterReducer = createReducer(
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
       (unit) => {
         if (unit.ID === action.ID) {
-          unit.Qty--;
+          unit.quantity--;
         }
       }
     );
