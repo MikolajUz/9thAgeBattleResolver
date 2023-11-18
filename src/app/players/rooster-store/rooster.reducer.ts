@@ -3,9 +3,9 @@ import { RoosterStoreActions } from './rooster.index';
 import { initialPlayersState } from './rooster.state';
 import { immerOn } from 'ngrx-immer/store';
 
-export const currentRoosterFeatureKey = 'currentRooster';
+export const RoosterFeatureKey = 'currentRooster';
 
-export const currentRoosterReducer = createReducer(
+export const RoosterReducer = createReducer(
   initialPlayersState,
 
   on(RoosterStoreActions.requestRoosterLoad, (state, action) => {
@@ -22,13 +22,13 @@ export const currentRoosterReducer = createReducer(
 
   immerOn(RoosterStoreActions.addWound, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
-      (unit) => (unit.ID === action.ID ? unit.wounds++ : unit)
+      (unit) => (unit.ID === action.unitID ? unit.wounds++ : unit)
     );
   }),
   immerOn(RoosterStoreActions.removeWound, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
       (unit) => {
-        if (unit.ID === action.ID) {
+        if (unit.ID === action.unitID) {
           if (unit.wounds > 0) unit.wounds--;
         }
       }
@@ -38,7 +38,7 @@ export const currentRoosterReducer = createReducer(
   immerOn(RoosterStoreActions.increaseQuantity, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
       (unit) => {
-        if (unit.ID === action.ID) {
+        if (unit.ID === action.unitID) {
           unit.quantity++;
         }
       }
@@ -48,7 +48,7 @@ export const currentRoosterReducer = createReducer(
   immerOn(RoosterStoreActions.decreaseQuantity, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
       (unit) => {
-        if (unit.ID === action.ID) {
+        if (unit.ID === action.unitID) {
           unit.quantity--;
         }
       }
@@ -58,7 +58,7 @@ export const currentRoosterReducer = createReducer(
     state.players[action.playerIndex].rooster[
       action.roosterIndex
     ].units.forEach((unit, index) => {
-      if (unit.ID === action.ID)
+      if (unit.ID === action.unitID)
         state.players[action.playerIndex].rooster[
           action.roosterIndex
         ].units.splice(index, 1);
@@ -68,7 +68,7 @@ export const currentRoosterReducer = createReducer(
   immerOn(RoosterStoreActions.setFileLength, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
       (unit) => {
-        if (unit.ID === action.ID) {
+        if (unit.ID === action.unitID) {
           unit.fileLength = action.fileLength;
         }
       }
@@ -84,7 +84,7 @@ export const currentRoosterReducer = createReducer(
   immerOn(RoosterStoreActions.updateUnitUIData, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
       (unit) => {
-        if (unit.ID === action.ID) {
+        if (unit.ID === action.unitID) {
           unit.unitUI = action.unitUI;
         }
       }
@@ -94,7 +94,7 @@ export const currentRoosterReducer = createReducer(
   immerOn(RoosterStoreActions.selectUnit, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
       (unit) => {
-        if (unit.ID === action.ID) {
+        if (unit.ID === action.unitID) {
           unit.selected = !unit.selected;
         }
       }

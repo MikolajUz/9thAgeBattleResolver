@@ -63,42 +63,42 @@ export class TableRoosterComponent implements OnInit {
     );
   }
 
-  setFileLength($event: any, ID: number) {
+  setFileLength($event: any, unitID: number) {
     this.store.dispatch(
       RoosterStoreActions.setFileLength({
-        ID: ID,
+        unitID: unitID,
         fileLength: Number($event.target.value),
         playerIndex: this.playerIndex,
         roosterIndex: 0,
       })
     );
   }
-  pickUnit(ID: number) {
+  pickUnit(unitID: number) {
     this.store.dispatch(
       RoosterStoreActions.createUnitUI({
-        ID: ID,
+        unitID: unitID,
         playerIndex: this.playerIndex,
         roosterIndex: 0,
       })
     );
   }
 
-  selectUnit(ID: number) {
+  selectUnit(unitID: number) {
     this.store.dispatch(
       RoosterStoreActions.selectUnit({
-        ID: ID,
+        unitID: unitID,
         playerIndex: this.playerIndex,
         roosterIndex: 0,
       })
     );
   }
 
-  changeStat(ID: number, action: string) {
+  changeStat(unitID: number, action: string) {
     switch (action) {
       case 'Increase quantity':
         this.store.dispatch(
           RoosterStoreActions.increaseQuantity({
-            ID: ID,
+            unitID: unitID,
             playerIndex: this.playerIndex,
             roosterIndex: 0,
           })
@@ -108,7 +108,7 @@ export class TableRoosterComponent implements OnInit {
       case 'Decrease quantity':
         this.store.dispatch(
           RoosterStoreActions.decreaseQuantity({
-            ID: ID,
+            unitID: unitID,
             playerIndex: this.playerIndex,
             roosterIndex: 0,
           })
@@ -117,7 +117,7 @@ export class TableRoosterComponent implements OnInit {
       case 'Add wound':
         this.store.dispatch(
           RoosterStoreActions.addWound({
-            ID: ID,
+            unitID: unitID,
             playerIndex: this.playerIndex,
             roosterIndex: 0,
           })
@@ -126,7 +126,7 @@ export class TableRoosterComponent implements OnInit {
       case 'Remove wound':
         this.store.dispatch(
           RoosterStoreActions.removeWound({
-            ID: ID,
+            unitID: unitID,
             playerIndex: this.playerIndex,
             roosterIndex: 0,
           })
@@ -136,7 +136,7 @@ export class TableRoosterComponent implements OnInit {
       case 'Delete unit':
         this.store.dispatch(
           RoosterStoreActions.deleteUnit({
-            ID: ID,
+            unitID: unitID,
             playerIndex: this.playerIndex,
             roosterIndex: 0,
           })

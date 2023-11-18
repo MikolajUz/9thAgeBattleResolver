@@ -18,33 +18,33 @@ export const addUnitToRooster = createAction(
 
 export const increaseQuantity = createAction(
   '[Rooster Section] increase quantity of unit',
-  props<{ ID: number; playerIndex: number; roosterIndex: number }>()
+  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
 );
 
 export const decreaseQuantity = createAction(
   '[Rooster Section] decrease quantity of unit',
-  props<{ ID: number; playerIndex: number; roosterIndex: number }>()
+  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
 );
 
 export const addWound = createAction(
   '[Rooster Section] add wound to unit',
-  props<{ ID: number; playerIndex: number; roosterIndex: number }>()
+  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
 );
 
 export const removeWound = createAction(
   '[Rooster Section] remove wound from unit',
-  props<{ ID: number; playerIndex: number; roosterIndex: number }>()
+  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
 );
 
 export const deleteUnit = createAction(
   '[Rooster Section] delete unit from store',
-  props<{ ID: number; playerIndex: number; roosterIndex: number }>()
+  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
 );
 
 export const setFileLength = createAction(
   '[Rooster Section] set unit file length ',
   props<{
-    ID: number;
+    unitID: number;
     fileLength: number;
     playerIndex: number;
     roosterIndex: number;
@@ -55,7 +55,7 @@ export const createUnitUI = createAction(
   '[Rooster Section] create unit on battlefield',
 
   props<{
-    ID: number;
+    unitID: number;
     playerIndex: number;
     roosterIndex: number;
   }>()
@@ -66,7 +66,7 @@ export const updateUnitUIData = createAction(
 
   props<{
     unitUI: unitUI;
-    ID: number;
+    unitID: number;
     playerIndex: number;
     roosterIndex: number;
   }>()
@@ -74,5 +74,5 @@ export const updateUnitUIData = createAction(
 
 export const selectUnit = createAction(
   '[Rooster Section] change selected property of unit',
-  props<{ ID: number; playerIndex: number; roosterIndex: number }>()
+  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
 );

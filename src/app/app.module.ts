@@ -16,11 +16,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RoosterLoaderComponent } from './main/components/features/rooster-loader/rooster-loader.component';
 import { MainPageComponent } from './main/components/containers/main-page/main-page.component';
 import { BattlefieldComponent } from './main/components/features/battlefield/battlefield.component';
-
 import { AngularDraggableModule } from 'angular2-draggable';
-import { UnitUITopComponent } from './players/components/features/unit-ui-top/unit-ui-top.component';
+import { UnitVisualComponent } from './players/components/features/unit-visual/unit-visual.component';
 import { UnitDirective } from './players/components/features/unit.directive';
-import { UnitUiBottomComponent } from './players/components/features/unit-ui-bottom/unit-ui-bottom.component';
 import { TableRoosterComponent } from './main/components/features/table-rooster/table-rooster.component';
 
 @NgModule({
@@ -31,9 +29,8 @@ import { TableRoosterComponent } from './main/components/features/table-rooster/
     RoosterLoaderComponent,
     MainPageComponent,
     BattlefieldComponent,
-    UnitUITopComponent,
+    UnitVisualComponent,
     UnitDirective,
-    UnitUiBottomComponent,
     TableRoosterComponent,
   ],
   imports: [

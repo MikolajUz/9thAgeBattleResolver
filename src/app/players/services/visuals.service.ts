@@ -6,8 +6,7 @@ import {
 } from '@angular/core';
 import { AdUnit } from '../components/features/ad-unit';
 import { unitUI } from '../interfaces/unit-ui.interface';
-import { UnitUiBottomComponent } from '../components/features/unit-ui-bottom/unit-ui-bottom.component';
-import { UnitUITopComponent } from '../components/features/unit-ui-top/unit-ui-top.component';
+import { UnitVisualComponent } from '../components/features/unit-visual/unit-visual.component';
 import { UnitDirective } from '../components/features/unit.directive';
 import { Store } from '@ngrx/store';
 import { RoosterStoreActions } from '../rooster-store/rooster.index';
@@ -18,15 +17,13 @@ import { RoosterStoreSelectors } from '../rooster-store/rooster.index';
 })
 export class VisualsService {
   private renderer: Renderer2;
-  constructor(rendererFactory: RendererFactory2, private store: Store) {
-    this.renderer = rendererFactory.createRenderer(null, null);
-  }
-
-  unitData!: unitUI;
   gridUnit!: number;
   injectPlace!: UnitDirective;
   battlefieldBoundaries: ElementRef | undefined;
-  ID!: number;
+
+  constructor(rendererFactory: RendererFactory2, private store: Store) {
+    this.renderer = rendererFactory.createRenderer(null, null);
+  }
 
   setGridUnit(
     gridUnit: number,
@@ -39,10 +36,7 @@ export class VisualsService {
   }
   createGridArray = (x: number) => Array.from(Array(x).keys());
 
-  createUnitData = (player_: number, ID: number): unitUI => {
-    let player: string;
-    if (player_ === 0) player = 'plrOne';
-    if (player_ === 1) player = 'plrTwo';
+  createUnitData = (playerIndex: number, ID: number): void => {
     let unitData: unitUI = {
       gridUnit: 0,
       unitFileGrids: [],
@@ -54,7 +48,6 @@ export class VisualsService {
       unitRFHeight: 0,
       unitWidth: 0,
       unitHeight: 0,
-      player: '',
       unitWidthScss: '',
       unitRFWidthScss: '',
       unitRFHeightScss: '',
@@ -67,11 +60,11 @@ export class VisualsService {
     let quantity: number | undefined;
 
     let unit = this.store.select(
-      RoosterStoreSelectors.selectUnitByID(player_, 0, ID)
+      RoosterStoreSelectors.selectUnitByID(playerIndex, 0, ID)
     );
     unit.subscribe((unitData) => {
-      baseWidth = Number(unitData?.base?.split('x')[0]) / 5;
-      baseHeight = Number(unitData?.base?.split('x')[1]) / 5;
+      baseWidth = Number(unitData?.base.split('x')[0]) / 5;
+      baseHeight = Number(unitData?.base.split('x')[1]) / 5;
       fileLength = unitData?.fileLength;
       quantity = unitData?.quantity;
     });
@@ -105,40 +98,26 @@ export class VisualsService {
     unitData.unitWidthScss = `${unitData.unitWidth}px`;
     unitData.unitHeightScss = `${unitData.unitHeight}px`;
 
-    if (player_ === 0) unitData.player = 'RankAndFile';
-    if (player_ === 1) unitData.player = 'RankAndFile2';
-    this.unitData = unitData;
-
-     this.store.dispatch(
-       RoosterStoreActions.updateUnitUIData({ unitUI: unitData, ID: ID, playerIndex: player_,
-        roosterIndex: 0 })
-     );
-
-    return unitData;
+    this.store.dispatch(
+      RoosterStoreActions.updateUnitUIData({
+        unitUI: unitData,
+        unitID: ID,
+        playerIndex: playerIndex,
+        roosterIndex: 0,
+      })
+    );
   };
 
-  createUnitUI(type: string, player_: number, ID: number) {
-    let player: string;
-    if (player_ === 0) player = 'plrOne';
-    if (player_ === 1) player = 'plrTwo';
-    const createUnitComponent = (type: any) => {
-      this.createUnitData(player_, ID);
-      return new AdUnit(type);
-    };
+  createUnitUI(playerIndex: number, ID: number) {
+    this.createUnitData(playerIndex, ID);
 
-    let adUnit;
-    switch (type) {
-      case 'UnitUiBottomComponent':
-        adUnit = createUnitComponent(UnitUiBottomComponent);
-        break;
-      case 'UnitUITopComponent':
-        adUnit = createUnitComponent(UnitUITopComponent);
-        break;
-    }
-    this.ID = ID;
     const viewContainerRef = this.injectPlace.viewContainerRef;
-    const componentRef = viewContainerRef.createComponent(adUnit!.component);
+    const componentRef = viewContainerRef.createComponent(
+      new AdUnit(UnitVisualComponent).component
+    );
     componentRef.instance.myBounds = this.battlefieldBoundaries?.nativeElement;
+    componentRef.instance.unitID = ID;
+    componentRef.instance.playerIndex = playerIndex;
   }
   deleteUnit(id: number) {
     let unit = this.renderer.selectRootElement(`[id='${id}']`, true);

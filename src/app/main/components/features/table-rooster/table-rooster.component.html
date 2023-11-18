@@ -26,7 +26,7 @@
         [@detailExpand]="Unit.selected ? 'expanded' : 'collapsed'"
       >
         <div class="unit-diagram">
-          <div>{{ Unit.Pts }} - {{ Unit.name }}, {{ Unit.options }}</div>
+          <div>{{ Unit.points }} - {{ Unit.name }}, {{ Unit.options }}</div>
 
           <div class="btn-line">
             Quantity:
@@ -81,6 +81,7 @@
             <input
               matInput
               type="number"
+              min="0"
               (input)="setFileLength($event, Unit.ID)"
               value="{{ Unit.fileLength }}"
             />

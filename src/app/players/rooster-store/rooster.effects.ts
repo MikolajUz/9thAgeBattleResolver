@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { VisualsService } from '../services/visuals.service';
 
 @Injectable()
-export class currentRoosterStoreEffects {
+export class RoosterStoreEffects {
   constructor(
     private roosterService: RoosterService,
     private visualsService: VisualsService,
@@ -29,15 +29,13 @@ export class currentRoosterStoreEffects {
   );
 
   createUnitUI$ = createEffect(
-    // only Top Component for now
     () =>
       this.action$.pipe(
         ofType(RoosterStoreActions.createUnitUI),
         tap((unitData) =>
           this.visualsService.createUnitUI(
-            'UnitUITopComponent',
             unitData.playerIndex,
-            unitData.ID
+            unitData.unitID
           )
         )
       ),
@@ -49,7 +47,7 @@ export class currentRoosterStoreEffects {
       this.action$.pipe(
         ofType(RoosterStoreActions.increaseQuantity),
         tap((unit) =>
-          this.visualsService.createUnitData(unit.playerIndex, unit.ID)
+          this.visualsService.createUnitData(unit.playerIndex, unit.unitID)
         )
       ),
     { dispatch: false }
@@ -60,7 +58,7 @@ export class currentRoosterStoreEffects {
       this.action$.pipe(
         ofType(RoosterStoreActions.decreaseQuantity),
         tap((unit) =>
-          this.visualsService.createUnitData(unit.playerIndex, unit.ID)
+          this.visualsService.createUnitData(unit.playerIndex, unit.unitID)
         )
       ),
     { dispatch: false }
@@ -71,7 +69,7 @@ export class currentRoosterStoreEffects {
       this.action$.pipe(
         ofType(RoosterStoreActions.setFileLength),
         tap((unit) =>
-          this.visualsService.createUnitData(unit.playerIndex, unit.ID)
+          this.visualsService.createUnitData(unit.playerIndex, unit.unitID)
         )
       ),
     { dispatch: false }
@@ -81,7 +79,7 @@ export class currentRoosterStoreEffects {
     () =>
       this.action$.pipe(
         ofType(RoosterStoreActions.deleteUnit),
-        tap((unit) => this.visualsService.deleteUnit(unit.ID))
+        tap((unit) => this.visualsService.deleteUnit(unit.unitID))
       ),
     { dispatch: false }
   );

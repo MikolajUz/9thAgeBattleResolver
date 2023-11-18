@@ -71,7 +71,7 @@ export class RoosterService {
               unit.quantity = Number(line[1]);
               unit.name = line[2];
               unit.wounds = 0;
-              unit.fileLength = 1;
+              unit.fileLength = 3;
               let optionsArray: string[] = [];
               line.forEach((unit, index) => {
                 if (index > 2) optionsArray.push(line[index]);
