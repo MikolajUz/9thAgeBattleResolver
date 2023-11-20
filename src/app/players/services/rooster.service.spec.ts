@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CurrentRoosterService } from './rooster.service';
+import { RoosterService } from './rooster.service';
 
-describe('CurrentRoosterService', () => {
-  let service: CurrentRoosterService;
+describe('RoosterService', () => {
+  let service: RoosterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CurrentRoosterService);
+    service = TestBed.inject(RoosterService);
   });
 
   it('should be created', () => {

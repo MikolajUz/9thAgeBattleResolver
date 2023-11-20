@@ -1,10 +1,6 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, Input, OnInit } from '@angular/core';
 import { Unit } from 'src/app/army/interfaces/unit.interface';
-import {
-  RoosterStoreActions,
-  RoosterStoreSelectors,
-} from 'src/app/players/rooster-store/rooster.index';
+
 import { Observable } from 'rxjs/internal/Observable';
 import {
   animate,
@@ -13,6 +9,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { FacadeService } from 'src/app/facade/facade.service';
 
 @Component({
   selector: 'app-table-rooster',
@@ -56,94 +53,40 @@ export class TableRoosterComponent implements OnInit {
 
   expandedUnit: Unit | undefined;
 
-  constructor(private store: Store) {}
+  constructor(private facade: FacadeService) {}
   ngOnInit(): void {
-    this.Rooster = this.store.select(
-      RoosterStoreSelectors.selectRooster(this.playerIndex, 0)
-    );
+    this.Rooster = this.facade.getRooster(this.playerIndex, 0);
   }
 
   setFileLength($event: any, unitID: number) {
-    this.store.dispatch(
-      RoosterStoreActions.setFileLength({
-        unitID: unitID,
-        fileLength: Number($event.target.value),
-        playerIndex: this.playerIndex,
-        roosterIndex: 0,
-      })
-    );
+    this.facade.setFileLength(unitID, $event.target.value, this.playerIndex, 0);
   }
+
   pickUnit(unitID: number) {
-    this.store.dispatch(
-      RoosterStoreActions.createUnitUI({
-        unitID: unitID,
-        playerIndex: this.playerIndex,
-        roosterIndex: 0,
-      })
-    );
+    this.facade.pickUnit(unitID, this.playerIndex, 0);
   }
 
   selectUnit(unitID: number) {
-    this.store.dispatch(
-      RoosterStoreActions.selectUnit({
-        unitID: unitID,
-        playerIndex: this.playerIndex,
-        roosterIndex: 0,
-      })
-    );
+    this.facade.selectUnit(unitID, this.playerIndex, 0);
   }
 
   changeStat(unitID: number, action: string) {
     switch (action) {
       case 'Increase quantity':
-        this.store.dispatch(
-          RoosterStoreActions.increaseQuantity({
-            unitID: unitID,
-            playerIndex: this.playerIndex,
-            roosterIndex: 0,
-          })
-        );
-
+        this.facade.increaseQuantity(unitID, this.playerIndex, 0);
         break;
       case 'Decrease quantity':
-        this.store.dispatch(
-          RoosterStoreActions.decreaseQuantity({
-            unitID: unitID,
-            playerIndex: this.playerIndex,
-            roosterIndex: 0,
-          })
-        );
+        this.facade.decreaseQuantity(unitID, this.playerIndex, 0);
         break;
       case 'Add wound':
-        this.store.dispatch(
-          RoosterStoreActions.addWound({
-            unitID: unitID,
-            playerIndex: this.playerIndex,
-            roosterIndex: 0,
-          })
-        );
+        this.facade.addWound(unitID, this.playerIndex, 0);
         break;
       case 'Remove wound':
-        this.store.dispatch(
-          RoosterStoreActions.removeWound({
-            unitID: unitID,
-            playerIndex: this.playerIndex,
-            roosterIndex: 0,
-          })
-        );
+        this.facade.removeWound(unitID, this.playerIndex, 0);
         break;
-
       case 'Delete unit':
-        this.store.dispatch(
-          RoosterStoreActions.deleteUnit({
-            unitID: unitID,
-            playerIndex: this.playerIndex,
-            roosterIndex: 0,
-          })
-        );
-
+        this.facade.deleteUnit(unitID, this.playerIndex, 0);
         break;
-
       default:
         console.log('Error button stat changer');
     }

@@ -8,9 +8,7 @@ import { AdUnit } from '../components/features/ad-unit';
 import { unitUI } from '../interfaces/unit-ui.interface';
 import { UnitVisualComponent } from '../components/features/unit-visual/unit-visual.component';
 import { UnitDirective } from '../components/features/unit.directive';
-import { Store } from '@ngrx/store';
-import { RoosterStoreActions } from '../rooster-store/rooster.index';
-import { RoosterStoreSelectors } from '../rooster-store/rooster.index';
+import { FacadeService } from 'src/app/facade/facade.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +19,10 @@ export class VisualsService {
   injectPlace!: UnitDirective;
   battlefieldBoundaries: ElementRef | undefined;
 
-  constructor(rendererFactory: RendererFactory2, private store: Store) {
+  constructor(
+    rendererFactory: RendererFactory2,
+    private facade: FacadeService
+  ) {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
 
@@ -36,7 +37,7 @@ export class VisualsService {
   }
   createGridArray = (x: number) => Array.from(Array(x).keys());
 
-  createUnitData = (playerIndex: number, ID: number): void => {
+  createUnitData = (playerIndex: number, ID: number): unitUI => {
     let unitData: unitUI = {
       gridUnit: 0,
       unitFileGrids: [],
@@ -59,10 +60,7 @@ export class VisualsService {
     let fileLength: number | undefined;
     let quantity: number | undefined;
 
-    let unit = this.store.select(
-      RoosterStoreSelectors.selectUnitByID(playerIndex, 0, ID)
-    );
-    unit.subscribe((unitData) => {
+    this.facade.getRoosterUnitByID(playerIndex, 0, ID).subscribe((unitData) => {
       baseWidth = Number(unitData?.base.split('x')[0]) / 5;
       baseHeight = Number(unitData?.base.split('x')[1]) / 5;
       fileLength = unitData?.fileLength;
@@ -98,19 +96,16 @@ export class VisualsService {
     unitData.unitWidthScss = `${unitData.unitWidth}px`;
     unitData.unitHeightScss = `${unitData.unitHeight}px`;
 
-    this.store.dispatch(
-      RoosterStoreActions.updateUnitUIData({
-        unitUI: unitData,
-        unitID: ID,
-        playerIndex: playerIndex,
-        roosterIndex: 0,
-      })
-    );
+    return unitData;
   };
 
   createUnitUI(playerIndex: number, ID: number) {
-    this.createUnitData(playerIndex, ID);
-
+    this.facade.changeUnitUIData(
+      this.createUnitData(playerIndex, ID),
+      ID,
+      playerIndex,
+      0
+    );
     const viewContainerRef = this.injectPlace.viewContainerRef;
     const componentRef = viewContainerRef.createComponent(
       new AdUnit(UnitVisualComponent).component

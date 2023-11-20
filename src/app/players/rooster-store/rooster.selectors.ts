@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { RoosterStoreState } from './rooster.index';
+import { Unit } from 'src/app/army/interfaces/unit.interface';
 
 export const selectSharedRoosterState =
   createFeatureSelector<RoosterStoreState.PlayersState>('currentRooster');
@@ -18,11 +19,11 @@ export const selectUnit = (
 export const selectUnitByID = (
   playerIndex: number,
   roosterIndex: number,
-  ID: number
+  unitID: number
 ) =>
   createSelector(selectSharedRoosterState, (roosterState) =>
     roosterState.players[playerIndex].rooster[roosterIndex].units.find(
-      (unit) => unit.ID === ID
+      (unit) => unit.ID === unitID
     )
   );
 
@@ -35,9 +36,20 @@ export const selectRooster = (playerIndex: number, roosterIndex: number) =>
 export const selectUnitUIData = (
   playerIndex: number,
   roosterIndex: number,
-  ID: number
+  unitID: number
 ) =>
   createSelector(
-    selectUnitByID(playerIndex, roosterIndex, ID),
+    selectUnitByID(playerIndex, roosterIndex, unitID),
     (unit) => unit?.unitUI
+  );
+
+export const selectUnitPropertyByID = (
+  playerIndex: number,
+  roosterIndex: number,
+  unitID: number,
+  propertyName: keyof Unit
+) =>
+  createSelector(
+    selectUnitByID(playerIndex, roosterIndex, unitID),
+    (unit) => unit![propertyName]
   );

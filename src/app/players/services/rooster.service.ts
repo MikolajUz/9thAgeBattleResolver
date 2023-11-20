@@ -2,23 +2,18 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { map } from 'rxjs';
 import { Unit } from '../../army/interfaces/unit.interface';
-
-import { Store } from '@ngrx/store';
-import { RoosterStoreActions } from '../rooster-store/rooster.index';
 import { FacadeService } from 'src/app/facade/facade.service';
-import { ArmyStoreSelectors } from 'src/app/army/army-store/army.index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoosterService {
-  constructor(private store: Store, private facade: FacadeService) {}
+  constructor(private facade: FacadeService) {}
 
   url = 'https://www.9thbuilder.com/api/v1/ninth_age/armies/207';
 
   getRoosterUnit(name: string): Observable<Unit | undefined> {
-    //this.facade.getArmyUnit(name);
-    return this.store.select(ArmyStoreSelectors.selectArmyUnit(name));
+    return this.facade.getArmyUnit(name);
   }
 
   readRooster(
@@ -26,7 +21,7 @@ export class RoosterService {
     playerIndex: number,
     roosterIndex: number
   ): void {
-    const roosterArray = (rooster: string) => {
+    const createRoosterArray = (rooster: string) => {
       let correctRooster = rooster.replaceAll('-', ',');
       let lineArray = correctRooster.split('\n');
       let wordsArray: string[][] = [];
@@ -57,41 +52,34 @@ export class RoosterService {
 
       return wordsArray;
     };
+    const roosterAdapter = (
+      unit: Unit | undefined,
+      line: string[],
+      index: number
+    ): Unit | undefined => {
+      if (unit) {
+        unit = { ...unit };
+        unit.ID = index;
+        unit.points = line[0];
+        unit.quantity = Number(line[1]);
+        unit.name = line[2];
+        unit.wounds = 0;
+        unit.fileLength = 3;
+        let optionsArray: string[] = [];
+        line.forEach((unit, index) => {
+          if (index > 2) optionsArray.push(line[index]);
+        });
+        unit.options = optionsArray;
+      }
+      return unit;
+    };
 
-    let wordsArray = roosterArray(rooster);
-
-    wordsArray.forEach((line, index) => {
+    createRoosterArray(rooster).forEach((line, index) => {
       this.getRoosterUnit(line[2])
-        .pipe(
-          map((unit) => {
-            if (unit) {
-              unit = { ...unit };
-              unit.ID = index;
-              unit.points = line[0];
-              unit.quantity = Number(line[1]);
-              unit.name = line[2];
-              unit.wounds = 0;
-              unit.fileLength = 3;
-              let optionsArray: string[] = [];
-              line.forEach((unit, index) => {
-                if (index > 2) optionsArray.push(line[index]);
-              });
-              unit.options = optionsArray;
-            }
-
-            return unit;
-          })
-        )
+        .pipe(map((unit) => roosterAdapter(unit, line, index)))
         .subscribe((unit) => {
-          if (unit !== undefined) {
-            this.store.dispatch(
-              RoosterStoreActions.addUnitToRooster({
-                nextUnit: unit,
-                playerIndex: playerIndex,
-                roosterIndex: roosterIndex,
-              })
-            );
-          }
+          if (unit !== undefined)
+            this.facade.addUnitToRooster(unit, playerIndex, roosterIndex);
         });
     });
   }
