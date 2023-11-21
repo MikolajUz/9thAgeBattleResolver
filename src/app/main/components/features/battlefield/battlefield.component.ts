@@ -1,7 +1,7 @@
 import {
   Component,
   ElementRef,
-  HostBinding,
+  Input,
   ViewChild,
 } from '@angular/core';
 import { VisualsService } from 'src/app/players/services/visuals.service';
@@ -17,14 +17,14 @@ export class BattlefieldComponent  {
 
   @ViewChild(UnitDirective, { static: true }) unitInjectPlace!: UnitDirective;
   @ViewChild('battlefieldBoundaries') battlefield: ElementRef | undefined;
+ 
 
   gridUnit: number = 10;
   grids: number[];
-
-  @HostBinding('style.--gridUnitScss')
   gridUnitScss = `${this.gridUnit}px`;
 
   constructor(private visualsService: VisualsService) {
+  
     this.grids = this.visualsService.createGridArray(50);
     this.visualsService.setGridUnit(
       this.gridUnit,

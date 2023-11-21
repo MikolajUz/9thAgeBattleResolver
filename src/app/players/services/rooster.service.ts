@@ -67,7 +67,7 @@ export class RoosterService {
         unit.fileLength = 3;
         let optionsArray: string[] = [];
         line.forEach((unit, index) => {
-          if (index > 2) optionsArray.push(line[index]);
+          index > 2 && optionsArray.push(line[index]);
         });
         unit.options = optionsArray;
       }
@@ -78,8 +78,7 @@ export class RoosterService {
       this.getRoosterUnit(line[2])
         .pipe(map((unit) => roosterAdapter(unit, line, index)))
         .subscribe((unit) => {
-          if (unit !== undefined)
-            this.facade.addUnitToRooster(unit, playerIndex, roosterIndex);
+          unit && this.facade.addUnitToRooster(unit, playerIndex, roosterIndex);
         });
     });
   }

@@ -16,9 +16,8 @@ export class RoosterLoaderComponent {
   }
   onDropSuccess(event: any) {
     event.preventDefault();
-    if (event.dataTransfer.files.length < '2') {
+    event.dataTransfer.files.length < '2' &&
       this.onFileChange(event.dataTransfer.files);
-    }
   }
   onChange(event: any) {
     this.onFileChange(event.target.files);

@@ -67,9 +67,7 @@ export class VisualsService {
       quantity = unitData?.quantity;
     });
 
-    if (quantity! < fileLength!) {
-      fileLength = quantity;
-    }
+    quantity! < fileLength! ? (fileLength = quantity) : null;
 
     unitData.gridUnit = this.gridUnit;
     unitData.unitRFWidth = baseWidth! * unitData.gridUnit;
@@ -85,7 +83,7 @@ export class VisualsService {
 
     unitData.RaFRest = this.createGridArray(quantity! % fileLength!);
     let rest = 0;
-    if (quantity! % fileLength!) rest = 1;
+    quantity! % fileLength! ? (rest = 1) : null;
     const nmbFiles = Math.trunc(quantity! / fileLength!) + rest;
 
     unitData.unitFileGrids = this.createGridArray(nmbFiles);
@@ -96,16 +94,14 @@ export class VisualsService {
     unitData.unitWidthScss = `${unitData.unitWidth}px`;
     unitData.unitHeightScss = `${unitData.unitHeight}px`;
 
+    this.facade.changeUnitUIData(unitData, ID, playerIndex, 0);
+
     return unitData;
   };
 
   createUnitUI(playerIndex: number, ID: number) {
-    this.facade.changeUnitUIData(
-      this.createUnitData(playerIndex, ID),
-      ID,
-      playerIndex,
-      0
-    );
+    this.createUnitData(playerIndex, ID);
+
     const viewContainerRef = this.injectPlace.viewContainerRef;
     const componentRef = viewContainerRef.createComponent(
       new AdUnit(UnitVisualComponent).component

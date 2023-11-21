@@ -9,6 +9,5 @@ import { Unit } from 'src/app/army/interfaces/unit.interface';
 export class UnitComponent {
   @Input() unit!: Unit;
 
-
   constructor() {}
 }

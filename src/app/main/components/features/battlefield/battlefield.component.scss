@@ -1,5 +1,3 @@
-$grid_unit: var(--gridUnitScss);
-
 .container {
   width: 100%;
   height: 100%;
@@ -20,8 +18,6 @@ $grid_unit: var(--gridUnitScss);
 
 .grid {
   position: absolute;
-  width: $grid_unit;
-  height: $grid_unit;
   background-color: #20c997;
   color: white;
   text-align: center;
