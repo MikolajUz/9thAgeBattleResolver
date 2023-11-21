@@ -1,40 +1,24 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  ViewChild,
-} from '@angular/core';
-import { VisualsService } from 'src/app/players/services/visuals.service';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { UnitDirective } from 'src/app/players/components/features/unit.directive';
+import { FacadeService } from 'src/app/facade/facade.service';
 
 @Component({
   selector: 'app-battlefield',
   templateUrl: './battlefield.component.html',
   styleUrls: ['./battlefield.component.scss'],
 })
-export class BattlefieldComponent  {
-
-
+export class BattlefieldComponent {
   @ViewChild(UnitDirective, { static: true }) unitInjectPlace!: UnitDirective;
   @ViewChild('battlefieldBoundaries') battlefield: ElementRef | undefined;
- 
 
   gridUnit: number = 10;
-  grids: number[];
+  grids = this.facade.createGridArray(50);
   gridUnitScss = `${this.gridUnit}px`;
 
-  constructor(private visualsService: VisualsService) {
-  
-    this.grids = this.visualsService.createGridArray(50);
-    this.visualsService.setGridUnit(
-      this.gridUnit,
-      this.unitInjectPlace,
-      this.battlefield
-    );
-  }
+  constructor(private facade: FacadeService) {}
 
   ngAfterViewInit(): void {
-    this.visualsService.setGridUnit(
+    this.facade.setGridUnit(
       this.gridUnit,
       this.unitInjectPlace,
       this.battlefield

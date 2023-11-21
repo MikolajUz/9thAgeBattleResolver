@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import {
   ArmyStoreActions,
   ArmyStoreSelectors,
@@ -10,6 +10,7 @@ import {
 } from '../players/rooster-store/rooster.index';
 import { Unit } from '../army/interfaces/unit.interface';
 import { unitUI } from '../players/interfaces/unit-ui.interface';
+import { UnitDirective } from '../players/components/features/unit.directive';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +18,34 @@ import { unitUI } from '../players/interfaces/unit-ui.interface';
 export class FacadeService {
   constructor(private store: Store) {}
 
+  gridUnit!: number;
+  injectPlace!: UnitDirective;
+  battlefieldBoundaries: ElementRef | undefined;
+
   public init() {
     this.store.dispatch(ArmyStoreActions.requestLoadArmy());
+  }
+
+  createGridArray = (x: number) => Array.from(Array(x).keys());
+
+  setGridUnit(
+    gridUnit: number,
+    injectPlace: UnitDirective,
+    battlefieldBoundaries: ElementRef | undefined
+  ) {
+    this.gridUnit = gridUnit;
+    this.injectPlace = injectPlace;
+    this.battlefieldBoundaries = battlefieldBoundaries;
+  }
+
+  getGridUnit() {
+    return this.gridUnit;
+  }
+  getInjectPlace() {
+    return this.injectPlace;
+  }
+  getBattlefieldBoundaries() {
+    return this.battlefieldBoundaries;
   }
 
   getArmy() {
