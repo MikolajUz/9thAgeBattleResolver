@@ -86,6 +86,7 @@ export const RoosterReducer = createReducer(
       (unit) => {
         if (unit.ID === action.unitID) {
           unit.unitUI = action.unitUI;
+        
         }
       }
     );

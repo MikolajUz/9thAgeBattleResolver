@@ -81,16 +81,20 @@ export class VisualsService {
   };
 
   createUnitUI(playerIndex: number, unitID: number) {
-    this.createUnitData(playerIndex, unitID);
+    if (
+      !this.facade.getPropertyOfRoosterUnit(playerIndex, 0, unitID, 'unitUI')
+    ) {
+      this.createUnitData(playerIndex, unitID);
 
-    const viewContainerRef = this.facade.getInjectPlace().viewContainerRef;
-    const componentRef = viewContainerRef.createComponent(
-      new AdUnit(UnitVisualComponent).component
-    );
-    componentRef.instance.myBounds =
-      this.facade.getBattlefieldBoundaries()?.nativeElement;
-    componentRef.instance.unitID = unitID;
-    componentRef.instance.playerIndex = playerIndex;
+      const viewContainerRef = this.facade.getInjectPlace().viewContainerRef;
+      const componentRef = viewContainerRef.createComponent(
+        new AdUnit(UnitVisualComponent).component
+      );
+      componentRef.instance.myBounds =
+        this.facade.getBattlefieldBoundaries()?.nativeElement;
+      componentRef.instance.unitID = unitID;
+      componentRef.instance.playerIndex = playerIndex;
+    }
   }
   deleteUnit(id: number) {
     let unit = this.renderer.selectRootElement(`[id='${id}']`, true);

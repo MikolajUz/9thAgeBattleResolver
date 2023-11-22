@@ -73,12 +73,18 @@ export class FacadeService {
     ID: number,
     propertyName: keyof Unit
   ) {
-    return RoosterStoreSelectors.selectUnitPropertyByID(
-      playerIndex,
-      roosterIndex,
-      ID,
-      propertyName
-    );
+    let propertyReturn;
+    this.store
+      .select(
+        RoosterStoreSelectors.selectUnitPropertyByID(
+          playerIndex,
+          roosterIndex,
+          ID,
+          propertyName
+        )
+      )
+      .subscribe((property) => (propertyReturn = property));
+    return propertyReturn;
   }
 
   getUnitUIdata(playerIndex: number, roosterIndex: number, ID: number) {

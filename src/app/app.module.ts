@@ -20,6 +20,8 @@ import { AngularDraggableModule } from 'angular2-draggable';
 import { UnitVisualComponent } from './players/components/features/unit-visual/unit-visual.component';
 import { UnitDirective } from './players/components/features/unit.directive';
 import { TableRoosterComponent } from './players/components/features/table-rooster/table-rooster.component';
+import { AngularResizeEventModule } from 'angular-resize-event';
+
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { TableRoosterComponent } from './players/components/features/table-roost
     UnitVisualComponent,
     UnitDirective,
     TableRoosterComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -43,8 +46,10 @@ import { TableRoosterComponent } from './players/components/features/table-roost
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
     RootStoreModule,
+    AngularResizeEventModule,
     StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+
   ],
   providers: [HttpClient],
   bootstrap: [AppComponent],
