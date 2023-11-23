@@ -53,3 +53,14 @@ export const selectUnitPropertyByID = (
     selectUnitByID(playerIndex, roosterIndex, unitID),
     (unit) => unit![propertyName]
   );
+
+export const selectPlayers = createSelector(
+  selectSharedRoosterState,
+  (RoosterStoreState) => RoosterStoreState.players
+);
+
+export const selectRoosters = (playerIndex: number) =>
+  createSelector(
+    selectSharedRoosterState,
+    (RoosterStoreState) => RoosterStoreState.players[playerIndex].rooster
+  );

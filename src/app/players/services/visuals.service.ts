@@ -3,6 +3,8 @@ import { AdUnit } from '../components/features/ad-unit';
 import { unitUI } from '../interfaces/unit-ui.interface';
 import { UnitVisualComponent } from '../components/features/unit-visual/unit-visual.component';
 import { FacadeService } from 'src/app/facade/facade.service';
+import { RoosterFeatureKey } from '../rooster-store/rooster.reducer';
+import { Unit } from 'src/app/army/interfaces/unit.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -99,5 +101,17 @@ export class VisualsService {
   deleteUnit(id: number) {
     let unit = this.renderer.selectRootElement(`[id='${id}']`, true);
     this.renderer.parentNode(unit).remove();
+  }
+  updateAllUnitUIData() {
+    this.facade.getPlayers();
+    this.facade.players.forEach((player, playerIndex) => {
+      this.facade.getRoosters(playerIndex);
+      this.facade.roosters.forEach((rooster, roosterIndex) => {
+        this.facade.getUnits(playerIndex, roosterIndex);
+        this.facade.units.forEach((unit) => {
+          unit.unitUI ? this.createUnitData(playerIndex, unit.ID) : null;
+        });
+      });
+    });
   }
 }

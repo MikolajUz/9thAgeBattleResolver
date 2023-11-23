@@ -11,6 +11,8 @@ import {
 import { Unit } from '../army/interfaces/unit.interface';
 import { unitUI } from '../players/interfaces/unit-ui.interface';
 import { UnitDirective } from '../players/components/features/unit.directive';
+import { Player } from '../players/interfaces/player.interface';
+import { Rooster } from '../players/interfaces/rooster.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +23,9 @@ export class FacadeService {
   gridUnit!: number;
   injectPlace!: UnitDirective;
   battlefieldBoundaries: ElementRef | undefined;
+  units: Unit[] = [];
+  players: Player[] = [];
+  roosters: Rooster[] = [];
 
   public init() {
     this.store.dispatch(ArmyStoreActions.requestLoadArmy());
@@ -59,6 +64,22 @@ export class FacadeService {
     return this.store.select(
       RoosterStoreSelectors.selectRooster(playerIndex, roosterIndex)
     );
+  }
+  getPlayers() {
+    this.store
+      .select(RoosterStoreSelectors.selectPlayers)
+      .subscribe((players) => (this.players = players));
+  }
+
+  getRoosters(playerIndex: number) {
+    this.store
+      .select(RoosterStoreSelectors.selectRoosters(playerIndex))
+      .subscribe((roosters) => (this.roosters = roosters));
+  }
+  getUnits(playerIndex: number, roosterIndex: number) {
+    this.store
+      .select(RoosterStoreSelectors.selectRooster(playerIndex, roosterIndex))
+      .subscribe((units) => (this.units = units));
   }
 
   getRoosterUnitByID(playerIndex: number, roosterIndex: number, ID: number) {
@@ -216,5 +237,9 @@ export class FacadeService {
         roosterIndex: roosterIndex,
       })
     );
+  }
+
+  updateAllUnitUIData() {
+    this.store.dispatch(RoosterStoreActions.updateAllUnitUIData());
   }
 }

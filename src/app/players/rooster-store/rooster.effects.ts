@@ -1,9 +1,11 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { RoosterStoreActions } from './rooster.index';
+import { RoosterStoreActions, RoosterStoreSelectors } from './rooster.index';
 import { RoosterService } from '../services/rooster.service';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { VisualsService } from '../services/visuals.service';
+
+import { of } from 'rxjs';
 
 @Injectable()
 export class RoosterStoreEffects {
@@ -83,4 +85,13 @@ export class RoosterStoreEffects {
       ),
     { dispatch: false }
   );
+
+  updateAllUnitUIData$= createEffect(
+    ()=>this.action$.pipe(
+      ofType(RoosterStoreActions.updateAllUnitUIData),
+      tap(()=>this.visualsService.updateAllUnitUIData())
+    ),
+    { dispatch: false }
+  )
+
 }

@@ -86,7 +86,6 @@ export const RoosterReducer = createReducer(
       (unit) => {
         if (unit.ID === action.unitID) {
           unit.unitUI = action.unitUI;
-        
         }
       }
     );
@@ -100,5 +99,10 @@ export const RoosterReducer = createReducer(
         }
       }
     );
+  }),
+  on(RoosterStoreActions.updateAllUnitUIData, (state, action) => {
+    return {
+      ...state,
+    };
   })
 );

@@ -54,5 +54,6 @@ export class BattlefieldComponent {
       this.unitInjectPlace,
       this.battlefield
     );
+    this.facade.updateAllUnitUIData();
   }
 }

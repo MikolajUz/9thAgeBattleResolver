@@ -77,12 +77,6 @@ export const selectUnit = createAction(
   props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
 );
 
-export const updateAllUnitUIData= createAction(
-  '[Rooster Section] update all unit visual data (after resize)',
-  props<{
-    unitUI: unitUI;
-    unitID: number;
-    playerIndex: number;
-    roosterIndex: number;
-  }>()
-)
+export const updateAllUnitUIData = createAction(
+  '[Rooster Section] update all unit visual data (after resize)'
+);
