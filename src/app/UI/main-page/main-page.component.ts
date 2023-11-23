@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { readyUnit } from '../../army/interfaces/rooster.interface';
 import {
@@ -13,7 +13,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { ActConfig } from '@ngrx/effects/src/act';
 
 @Component({
   selector: 'app-main-page',
@@ -31,14 +30,67 @@ import { ActConfig } from '@ngrx/effects/src/act';
   ],
 })
 export class MainPageComponent {
-  chooseUnit($event: Event) {
-    console.log('event');
+  deleteUnit(plrOne: any) {
+    console.log('plrOne', plrOne);
   }
-  // dataSourcePlr1: Observable<(readyUnit | undefined)[]> = this.store.select(
-  //   RoosterStoreSelectors.selectCurrentRoosterStatePlr1
-  // );
+  setFileLength($event: any, unit: readyUnit, player: string) {
+    if (player === 'plrOne')
+      this.store.dispatch(
+        RoosterStoreActions.setFileLengthPlr1({
+          ID: unit.ID,
+          fileLength: Number($event.target.value),
+        })
+      );
+    if (player === 'plrTwo')
+      this.store.dispatch(
+        RoosterStoreActions.setFileLengthPlr2({
+          ID: unit.ID,
+          fileLength: Number($event.target.value),
+        })
+      );
+  }
+  numOfPlayers: number = 0;
+  pickUnit($event: any, unit: readyUnit, player: string) {
+    $event.stopPropagation();
+    if (player === 'plrOne')
+      this.store.dispatch(
+        RoosterStoreActions.createUnitUIPlr1({
+          quantity: unit.Qty,
+          fileLength: unit.fileLength,
+          base: unit.base,
+          type_: unit.type,
+          player: player,
+          ID: unit.ID,
+        })
+      );
+    if (player === 'plrTwo')
+      this.store.dispatch(
+        RoosterStoreActions.createUnitUIPlr2({
+          quantity: unit.Qty,
+          fileLength: unit.fileLength,
+          base: unit.base,
+          type_: unit.type,
+          player: player,
+          ID: unit.ID,
+        })
+      );
+  }
 
-  dataSourcePlr1 = DATATEMP;
+  constructor(private store: Store) {}
+
+  selectUnit($event: any, unit: readyUnit, player: string) {
+    $event.stopPropagation();
+    if (player === 'plrOne')
+      this.store.dispatch(RoosterStoreActions.selectUnitPlr1({ ID: unit.ID }));
+    if (player === 'plrTwo')
+      this.store.dispatch(RoosterStoreActions.selectUnitPlr2({ ID: unit.ID }));
+  }
+
+  dataSourcePlr1: Observable<(readyUnit | undefined)[]> = this.store.select(
+    RoosterStoreSelectors.selectCurrentRoosterStatePlr1
+  );
+
+  //dataSourcePlr2 = DATATEMP;
 
   dataSourcePlr2: Observable<(readyUnit | undefined)[]> = this.store.select(
     RoosterStoreSelectors.selectCurrentRoosterStatePlr2
@@ -47,11 +99,9 @@ export class MainPageComponent {
   Plr1 = 'Plr1';
   Plr2 = 'Plr2';
 
-  columnsToDisplay = ['name', 'quantity', 'wounds', 'pts'];
-  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
+  columnsToDisplay = ['Name', 'Qty', 'Wds', 'Pts'];
+  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand', 'pick'];
   expandedUnit: readyUnit | undefined;
-
-  constructor(private store: Store) {}
 
   changeStat(unit: any, action: string) {
     switch (action) {
@@ -59,6 +109,7 @@ export class MainPageComponent {
         this.store.dispatch(
           RoosterStoreActions.increaseQuantityPlr1({ ID: unit.ID })
         );
+
         break;
       case 'Decrease quantity Player One':
         this.store.dispatch(
@@ -110,10 +161,13 @@ export class MainPageComponent {
 
 const DATATEMP = [
   {
-    name: 'GreatKhan',
-    quantity: 1,
-    wounds: 0,
-    pts: '560',
+    Name: 'GreatKhan',
+    Qty: 1,
+    Wds: 0,
+    Pts: '560',
     size: '40x40',
+    ID: 1,
+    fileLength: 1,
+    base: '40x40',
   },
 ];

@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { unitUI } from 'src/app/UI/unit-ui/unit-ui.interface';
 import { readyUnit } from 'src/app/army/interfaces/rooster.interface';
 
 export const requestRoosterLoad = createAction(
@@ -76,7 +77,57 @@ export const deleteUnitPlr2 = createAction(
   props<{ ID: number }>()
 );
 
-export const selectUnit = createAction(
-  '[Rooster Section] request to add unit to rooster',
+export const setFileLengthPlr1 = createAction(
+  '[Rooster Section] set unit file length of player one',
+  props<{ ID: number; fileLength: number }>()
+);
+
+export const setFileLengthPlr2 = createAction(
+  '[Rooster Section] set unit file length of player two',
+  props<{ ID: number; fileLength: number }>()
+);
+
+export const createUnitUIPlr1 = createAction(
+  '[Rooster Section] create unit on battlefield of player one',
+
+  props<{
+    quantity: number;
+    fileLength: number;
+    base: string;
+    type_: string;
+    player: string;
+    ID: number;
+  }>()
+);
+
+export const updateUnitUIDataPlr1 = createAction(
+  '[Rooster Section] create unit on battlefield of player one',
+
+  props<{
+    unitUI: unitUI;
+    ID: number;
+  }>()
+);
+
+export const createUnitUIPlr2 = createAction(
+  '[Rooster Section] create unit on battlefield of player two',
+
+  props<{
+    quantity: number;
+    fileLength: number;
+    base: string;
+    type_: string;
+    player: string;
+    ID: number;
+  }>()
+);
+
+export const selectUnitPlr1 = createAction(
+  '[Rooster Section] change selected property of player one unit',
+  props<{ ID: number }>()
+);
+
+export const selectUnitPlr2 = createAction(
+  '[Rooster Section] change selected property of player two unit',
   props<{ ID: number }>()
 );

@@ -1,4 +1,11 @@
-import { Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  HostBinding,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { UIService } from '../services/ui.service';
 import { UnitDirective } from '../unit-ui/unit.directive';
 
@@ -7,28 +14,26 @@ import { UnitDirective } from '../unit-ui/unit.directive';
   templateUrl: './battlefield.component.html',
   styleUrls: ['./battlefield.component.scss'],
 })
-export class BattlefieldComponent {
+export class BattlefieldComponent implements OnDestroy {
+  deleteUnit(id: string) {
+    //this.unitInjectPlace.viewContainerRef.remove();
+    //this.unitInjectPlace.viewContainerRef.remove();
+
+    // console.log('parentID=',id)
+    // let nodeElement = document.getElementById(id);
+    // console.log('parentofID',nodeElement?.parentElement)
+    // console.log('nodelement', nodeElement)
+    // nodeElement?.parentElement?.remove()
+    // nodeElement?.remove()
+    //this.uiService.deleteUnit(id, )
+
+    console.log('test', this.test);
+  }
+
+  ngOnDestroy(): void {}
+  @ViewChild('test') test: ElementRef | undefined;
   @ViewChild(UnitDirective, { static: true }) unitInjectPlace!: UnitDirective;
   @ViewChild('battlefieldBoundaries') battlefield: ElementRef | undefined;
-
-  createUnitButton(
-    quantity: number,
-    fileLength: number,
-    base: string,
-    type: string,
-    player:string
-  ) {
-    this.uiService.createUnitUI(
-      quantity,
-      fileLength,
-      base,
-      type,
-      player,
-      this.unitInjectPlace,
-      this.battlefield,
-      
-    );
-  }
 
   gridUnit: number = 10;
   grids: number[];
@@ -38,6 +43,18 @@ export class BattlefieldComponent {
 
   constructor(private uiService: UIService) {
     this.grids = this.uiService.createGridArray(50);
-    this.uiService.setGridUnit(this.gridUnit);
+    this.uiService.setGridUnit(
+      this.gridUnit,
+      this.unitInjectPlace,
+      this.battlefield
+    );
+  }
+
+  ngAfterViewInit(): void {
+    this.uiService.setGridUnit(
+      this.gridUnit,
+      this.unitInjectPlace,
+      this.battlefield
+    );
   }
 }
