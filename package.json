@@ -25,7 +25,10 @@
     "@ngrx/router-store": "^16.2.0",
     "@ngrx/store": "^16.2.0",
     "@ngrx/store-devtools": "^16.2.0",
+    "angular-resize-event": "^3.2.0",
     "angular2-draggable": "^16.0.0",
+    "immer": "^10.0.3",
+    "ngrx-immer": "^2.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

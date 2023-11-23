@@ -6,34 +6,35 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
-import { ArmyListComponent } from './army/armyList/armyList.component';
-import { UnitComponent } from './army/unit/unit.component';
-import { MaterialModule } from './material/material.module';
+import { ArmyListComponent } from './army/components/containers/armyList/armyList.component';
+import { UnitComponent } from './army/components/features/unit/unit.component';
+import { MaterialModule } from '../UI/material/material.module';
 import { RootStoreModule } from './root-store/root-store.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { GetRoosterComponent } from './army/get-rooster/get-rooster.component';
-import { MainPageComponent } from './UI/main-page/main-page.component';
-import { BattlefieldComponent } from './UI/battlefield/battlefield.component';
-
+import { RoosterLoaderComponent } from './players/components/features/rooster-loader/rooster-loader.component';
+import { MainPageComponent } from './main/components/containers/main-page/main-page.component';
+import { BattlefieldComponent } from './main/components/features/battlefield/battlefield.component';
 import { AngularDraggableModule } from 'angular2-draggable';
-import { UnitUITopComponent } from './UI/unit-ui/unit-ui-top/unit-ui-top.component';
-import { UnitDirective } from './UI/unit-ui/unit.directive';
-import { UnitUiBottomComponent } from './UI/unit-ui/unit-ui-bottom/unit-ui-bottom.component';
+import { UnitVisualComponent } from './players/components/features/unit-visual/unit-visual.component';
+import { UnitDirective } from './players/components/features/unit.directive';
+import { TableRoosterComponent } from './players/components/features/table-rooster/table-rooster.component';
+import { AngularResizeEventModule } from 'angular-resize-event';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ArmyListComponent,
     UnitComponent,
-    GetRoosterComponent,
+    RoosterLoaderComponent,
     MainPageComponent,
     BattlefieldComponent,
-    UnitUITopComponent,
+    UnitVisualComponent,
     UnitDirective,
-    UnitUiBottomComponent,
-  
+    TableRoosterComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -45,8 +46,10 @@ import { UnitUiBottomComponent } from './UI/unit-ui/unit-ui-bottom/unit-ui-botto
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
     RootStoreModule,
+    AngularResizeEventModule,
     StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+
   ],
   providers: [HttpClient],
   bootstrap: [AppComponent],
