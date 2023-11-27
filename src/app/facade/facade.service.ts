@@ -114,6 +114,15 @@ export class FacadeService {
     );
   }
 
+  getBattleUnits(playerIndex: number) {
+    let battleUnits: Unit[] = [];
+    this.store
+      .select(RoosterStoreSelectors.selectBattleUnits(playerIndex))
+      .subscribe((unit) => (battleUnits = unit));
+
+    return battleUnits;
+  }
+
   changeUnitUIData(
     unitUI: unitUI,
     unitID: number,
@@ -241,5 +250,9 @@ export class FacadeService {
 
   updateAllUnitUIData() {
     this.store.dispatch(RoosterStoreActions.updateAllUnitUIData());
+  }
+
+  resolveSkirmish() {
+    this.store.dispatch(RoosterStoreActions.resolveSkirmish());
   }
 }

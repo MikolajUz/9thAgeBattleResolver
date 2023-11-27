@@ -1,7 +1,7 @@
 <div
   *ngIf="(data | async)?.gridUnit"
   #unit
-  [id]="unitID"
+  [id]="ID"
   [ngDraggable]="true"
   [bounds]="myBounds"
   [inBounds]="true"
@@ -12,7 +12,6 @@
   class="drag-grid"
   [style.width]="(data | async)?.unitWidthScss"
   [style.height]="(data | async)?.unitHeightScss"
-  (mouseleave)="onDrop($event)"
   zIndexMoving="200"
   [position]="{ x: 200, y: 200 }"
 >

@@ -80,3 +80,7 @@ export const selectUnit = createAction(
 export const updateAllUnitUIData = createAction(
   '[Rooster Section] update all unit visual data (after resize)'
 );
+
+export const resolveSkirmish = createAction(
+  '[Battle Section] request to resolve skirmish'
+);

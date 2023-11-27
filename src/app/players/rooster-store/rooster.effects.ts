@@ -6,12 +6,14 @@ import { Injectable } from '@angular/core';
 import { VisualsService } from '../services/visuals.service';
 
 import { of } from 'rxjs';
+import { BattleService } from 'src/app/main/services/battle.service';
 
 @Injectable()
 export class RoosterStoreEffects {
   constructor(
     private roosterService: RoosterService,
     private visualsService: VisualsService,
+    private battleService: BattleService,
     private action$: Actions
   ) {}
 
@@ -86,12 +88,21 @@ export class RoosterStoreEffects {
     { dispatch: false }
   );
 
-  updateAllUnitUIData$= createEffect(
-    ()=>this.action$.pipe(
-      ofType(RoosterStoreActions.updateAllUnitUIData),
-      tap(()=>this.visualsService.updateAllUnitUIData())
-    ),
+  updateAllUnitUIData$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(RoosterStoreActions.updateAllUnitUIData),
+        tap(() => this.visualsService.updateAllUnitUIData())
+      ),
     { dispatch: false }
-  )
+  );
 
+  resolveSkirmish$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(RoosterStoreActions.resolveSkirmish),
+        tap(() => this.battleService.resolveSkirmish())
+      ),
+    { dispatch: false }
+  );
 }

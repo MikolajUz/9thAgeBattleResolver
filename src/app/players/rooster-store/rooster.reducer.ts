@@ -104,5 +104,10 @@ export const RoosterReducer = createReducer(
     return {
       ...state,
     };
+  }),
+  on(RoosterStoreActions.resolveSkirmish, (state, action) => {
+    return {
+      ...state,
+    };
   })
 );
