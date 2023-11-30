@@ -65,6 +65,7 @@ export class RoosterService {
         unit.name = line[2];
         unit.wounds = 0;
         unit.fileLength = 3;
+        unit.onBattlefield=false
         let optionsArray: string[] = [];
         line.forEach((unit, index) => {
           index > 2 && optionsArray.push(line[index]);

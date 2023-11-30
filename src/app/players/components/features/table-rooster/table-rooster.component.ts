@@ -62,8 +62,11 @@ export class TableRoosterComponent implements OnInit {
     this.facade.setFileLength(unitID, $event.target.value, this.playerIndex, 0);
   }
 
-  pickUnit(unitID: number) {
-    this.facade.pickUnit(unitID, this.playerIndex, 0);
+  pickUnit(unit: Unit) {
+    if (!unit.onBattlefield) {
+      this.facade.pickUnit(unit.ID, this.playerIndex, 0);
+      this.facade.changeOnBattlefieldProperty(unit.ID, this.playerIndex, 0);
+    }
   }
 
   selectUnit(unitID: number) {

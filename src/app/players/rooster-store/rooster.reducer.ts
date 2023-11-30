@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { RoosterStoreActions } from './rooster.index';
 import { initialPlayersState } from './rooster.state';
 import { immerOn } from 'ngrx-immer/store';
+import { UnitRules } from 'src/app/army/interfaces/unitRules.interface';
 
 export const RoosterFeatureKey = 'currentRooster';
 
@@ -93,11 +94,8 @@ export const RoosterReducer = createReducer(
 
   immerOn(RoosterStoreActions.selectUnit, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
-      (unit) => {
-        if (unit.ID === action.unitID) {
-          unit.selected = !unit.selected;
-        }
-      }
+      (unit) =>
+        unit.ID === action.unitID ? (unit.selected = !unit.selected) : null
     );
   }),
   on(RoosterStoreActions.updateAllUnitUIData, (state, action) => {
@@ -109,5 +107,13 @@ export const RoosterReducer = createReducer(
     return {
       ...state,
     };
+  }),
+  immerOn(RoosterStoreActions.changeOnBattlefieldProperty, (state, action) => {
+    state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
+      (unit) =>
+        unit.ID === action.unitID
+          ? (unit.onBattlefield = !unit.onBattlefield)
+          : null
+    );
   })
 );

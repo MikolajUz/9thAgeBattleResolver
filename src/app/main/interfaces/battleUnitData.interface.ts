@@ -10,6 +10,8 @@ export interface BattleUnitData {
   RFwidth: number;
   RFheight: number;
   RFnumber: number;
+  ID: number;
+  RaFRestPlaces: boolean[];
 }
 
 export class BattleUnitData {
@@ -24,6 +26,8 @@ export class BattleUnitData {
     },
     public RFwidth: number,
     public RFheight: number,
-    public RFnumber: number
+    public RFnumber: number,
+    public ID: number,
+    public RaFRestPlaces: boolean[]
   ) {}
 }

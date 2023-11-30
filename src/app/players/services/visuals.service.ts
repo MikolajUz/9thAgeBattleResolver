@@ -59,7 +59,7 @@ export class VisualsService {
     unitData.unitRFWidthScss = `${unitData.unitRFWidth}px`;
     unitData.unitRFHeightScss = `${unitData.unitRFHeight}px`;
 
-    unitData.rankXPlaces = this.facade.createGridArray(fileLength!);
+    unitData.rankXPlaces = this.facade.createGridArray(Number(fileLength)!);
     unitData.fileYPlaces = this.facade.createGridArray(
       Math.trunc(quantity! / fileLength!)
     );
@@ -70,7 +70,7 @@ export class VisualsService {
     const nmbFiles = Math.trunc(quantity! / fileLength!) + rest;
 
     unitData.unitFileGrids = this.facade.createGridArray(nmbFiles);
-    unitData.unitRankGrids = this.facade.createGridArray(fileLength!);
+    unitData.unitRankGrids = this.facade.createGridArray(Number(fileLength)!);
     unitData.unitWidth = unitData.unitRankGrids.length * unitData.unitRFWidth;
     unitData.unitHeight = nmbFiles * unitData.unitRFHeight;
 
@@ -83,24 +83,37 @@ export class VisualsService {
   };
 
   createUnitUI(playerIndex: number, unitID: number) {
-    if (
-      !this.facade.getPropertyOfRoosterUnit(playerIndex, 0, unitID, 'unitUI')
-    ) {
-      this.createUnitData(playerIndex, unitID);
+    this.createUnitData(playerIndex, unitID);
 
-      const viewContainerRef = this.facade.getInjectPlace().viewContainerRef;
-      const componentRef = viewContainerRef.createComponent(
-        new AdUnit(UnitVisualComponent).component
+    const viewContainerRef = this.facade.getInjectPlace().viewContainerRef;
+    const componentRef = viewContainerRef.createComponent(
+      new AdUnit(UnitVisualComponent).component
+    );
+    componentRef.instance.myBounds =
+      this.facade.getBattlefieldBoundaries()?.nativeElement;
+    componentRef.instance.unitID = unitID;
+    componentRef.instance.playerIndex = playerIndex;
+  }
+  checkBattleUnit(playerIndex: number, unitID: number): boolean {
+    try {
+      this.renderer.selectRootElement(
+        `[id="PlayerIndex=${playerIndex},unitID=${unitID}"]`,
+        false
       );
-      componentRef.instance.myBounds =
-        this.facade.getBattlefieldBoundaries()?.nativeElement;
-      componentRef.instance.unitID = unitID;
-      componentRef.instance.playerIndex = playerIndex;
+      return true;
+    } catch (error) {
+      return false;
     }
   }
-  deleteUnit(id: number) {
-    let unit = this.renderer.selectRootElement(`[id='${id}']`, true);
-    this.renderer.parentNode(unit).remove();
+
+  deleteUnit(id: number, playerIndex: number) {
+    if (this.checkBattleUnit(playerIndex, id)) {
+      let unit = this.renderer.selectRootElement(
+        `[id="PlayerIndex=${playerIndex},unitID=${id}"]`,
+        true
+      );
+      this.renderer.parentNode(unit).remove();
+    }
   }
   updateAllUnitUIData() {
     this.facade.getPlayers();

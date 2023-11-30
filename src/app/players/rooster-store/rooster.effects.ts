@@ -83,7 +83,7 @@ export class RoosterStoreEffects {
     () =>
       this.action$.pipe(
         ofType(RoosterStoreActions.deleteUnit),
-        tap((unit) => this.visualsService.deleteUnit(unit.unitID))
+        tap((unit) => this.visualsService.deleteUnit(unit.unitID,unit.playerIndex))
       ),
     { dispatch: false }
   );

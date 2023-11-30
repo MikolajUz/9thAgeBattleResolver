@@ -252,6 +252,20 @@ export class FacadeService {
     this.store.dispatch(RoosterStoreActions.updateAllUnitUIData());
   }
 
+  changeOnBattlefieldProperty(
+    unitID: number,
+    playerIndex: number,
+    roosterIndex: number
+  ) {
+    this.store.dispatch(
+      RoosterStoreActions.changeOnBattlefieldProperty({
+        unitID: unitID,
+        playerIndex: playerIndex,
+        roosterIndex: roosterIndex,
+      })
+    );
+  }
+
   resolveSkirmish() {
     this.store.dispatch(RoosterStoreActions.resolveSkirmish());
   }

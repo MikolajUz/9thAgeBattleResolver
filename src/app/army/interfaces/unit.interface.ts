@@ -28,6 +28,8 @@ export interface Unit {
   selected: boolean;
   unitUI: unitUI;
   options: string[];
+  onBattlefield: boolean;
+
 }
 
 export class Unit {

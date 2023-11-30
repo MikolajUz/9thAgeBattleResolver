@@ -16,7 +16,9 @@ export class BattleUnitAdapter {
     },
     RFwidth: number,
     RFheight: number,
-    RFnumber: number
+    RFnumber: number,
+    ID: number,
+    RaFRestPlaces: boolean[]
   ): BattleUnitData {
     return new BattleUnitData(
       playerIndex,
@@ -26,7 +28,9 @@ export class BattleUnitAdapter {
       startPoint,
       RFwidth,
       RFheight,
-      RFnumber
+      RFnumber,
+      ID,
+      RaFRestPlaces
     );
   }
 }
