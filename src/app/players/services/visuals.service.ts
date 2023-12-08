@@ -42,7 +42,7 @@ export class VisualsService {
     let quantity: number | undefined;
 
     this.facade
-      .getRoosterUnitByID(playerIndex, 0, unitID)
+      .getRoosterUnitByID$(playerIndex, 0, unitID)
       .subscribe((unitData) => {
         baseWidth = Number(unitData?.base.split('x')[0]) / 5;
         baseHeight = Number(unitData?.base.split('x')[1]) / 5;

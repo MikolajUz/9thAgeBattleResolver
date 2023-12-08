@@ -60,12 +60,12 @@ export class RoosterService {
       if (unit) {
         unit = { ...unit };
         unit.ID = index;
-        unit.points = line[0];
+        unit.points = Number(line[0]);
         unit.quantity = Number(line[1]);
         unit.name = line[2];
         unit.wounds = 0;
         unit.fileLength = 3;
-        unit.onBattlefield=false
+        unit.onBattlefield = false;
         let optionsArray: string[] = [];
         line.forEach((unit, index) => {
           index > 2 && optionsArray.push(line[index]);

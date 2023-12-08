@@ -15,10 +15,13 @@ export class BattleUnitAdapter {
       y: number;
     },
     RFwidth: number,
+    width: number,
     RFheight: number,
+    height:number,
     RFnumber: number,
     ID: number,
-    RaFRestPlaces: boolean[]
+    RaFRestPlaces: boolean[],
+    contactArray:(string | boolean)[][][]
   ): BattleUnitData {
     return new BattleUnitData(
       playerIndex,
@@ -27,10 +30,14 @@ export class BattleUnitAdapter {
       ranks,
       startPoint,
       RFwidth,
+      width,
       RFheight,
+      height,
       RFnumber,
       ID,
-      RaFRestPlaces
+      RaFRestPlaces,
+      contactArray
+
     );
   }
 }

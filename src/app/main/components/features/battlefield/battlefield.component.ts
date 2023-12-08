@@ -33,7 +33,7 @@ export class BattlefieldComponent {
   onResized(event: ResizedEvent): void {
     this.width = Math.round(event.newRect.width);
     this.height = Math.round(event.newRect.height);
-    this.gridUnit = this.width / this.gridDensity;
+    this.gridUnit = Math.round(this.width / this.gridDensity);
     this.gridsX = this.facade.createGridArray(
       Math.round(this.width / this.gridUnit)
     );

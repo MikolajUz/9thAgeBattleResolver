@@ -82,10 +82,21 @@ export class FacadeService {
       .subscribe((units) => (this.units = units));
   }
 
-  getRoosterUnitByID(playerIndex: number, roosterIndex: number, ID: number) {
+  getRoosterUnitByID$(playerIndex: number, roosterIndex: number, ID: number) {
     return this.store.select(
       RoosterStoreSelectors.selectUnitByID(playerIndex, roosterIndex, ID)
     );
+  }
+  getRoosterUnitByID(playerIndex: number, roosterIndex: number, ID: number) {
+    let unitReturn!: Unit;
+    let temp;
+    this.store
+      .select(
+        RoosterStoreSelectors.selectUnitByID(playerIndex, roosterIndex, ID)
+      )
+      .subscribe((unit) => (temp = unit));
+    if (temp) unitReturn = temp;
+    return unitReturn;
   }
 
   getPropertyOfRoosterUnit(
