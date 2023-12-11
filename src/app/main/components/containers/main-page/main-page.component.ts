@@ -9,6 +9,6 @@ import { FacadeService } from 'src/app/facade/facade.service';
 export class MainPageComponent {
   constructor(private facade: FacadeService) {}
   startSkirmish() {
-    this.facade.resolveSkirmish();
+    this.facade.runAllSkirmishes();
   }
 }

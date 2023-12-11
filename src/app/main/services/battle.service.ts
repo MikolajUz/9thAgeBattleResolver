@@ -5,6 +5,7 @@ import { BattleUnitAdapter } from '../interfaces/adapters/battleUnitData.adapter
 import { Unit } from 'src/app/army/interfaces/unit.interface';
 import { BattleUnitData } from '../interfaces/battleUnitData.interface';
 import { attacksData } from '../interfaces/attacksData.interface';
+import { updateUnitUIData } from 'src/app/players/rooster-store/rooster.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -163,6 +164,7 @@ export class BattleService {
             unit.unitUI.unitHeight,
             unit.quantity,
             unit.ID,
+            unit.agi,
             createRestRFarray(index, unit, unitDOM),
             createContactArray(
               unit.unitUI.rankXPlaces.length,
@@ -317,12 +319,12 @@ export class BattleService {
     });
   };
 
-  resolveSkirmish() {
+  resolveSkirmish(offBattleUnit: BattleUnitData): attacksData[] {
     const toHit = (offensiveSkill: number, defensiveSkill: number) => {
       let skillDif = offensiveSkill - defensiveSkill;
       if (skillDif >= 4) return 2;
-      if (1 <= skillDif && skillDif >= 3) return 3;
-      if (0 <= skillDif && skillDif >= -3) return 4;
+      if (1 <= skillDif && skillDif <= 3) return 3;
+      if (0 >= skillDif && skillDif >= -3) return 4;
       if (-4 >= skillDif && skillDif >= -7) return 5;
       if (skillDif <= -8) return 6;
       return 1000;
@@ -470,56 +472,99 @@ export class BattleService {
       return attacks;
     };
 
-    const calculateCasualties = (
-      offensiveBattleUnit: BattleUnitData,
-      defensiveBattleUnit: BattleUnitData
-    ) => {
-      let offUnit = this.facade.getRoosterUnitByID(
-        offensiveBattleUnit.playerIndex,
-        0,
-        offensiveBattleUnit.ID
-      );
-      let defUnit = this.facade.getRoosterUnitByID(
-        defensiveBattleUnit.playerIndex,
-        0,
-        defensiveBattleUnit.ID
-      );
-
-      getAttacks(offUnit, offensiveBattleUnit).forEach((attacks) => {
-        attacks.hitRolls = dicesThrow(attacks.attacksNmb);
-        attacks.toHit = toHit(offUnit.of, defUnit.def);
-        attacks.hits = successNmb(attacks.hitRolls, attacks.toHit);
-
-        attacks.woundRolls = dicesThrow(attacks.hits);
-        attacks.toWound = toWound(offUnit.str, defUnit.res);
-        attacks.wounds = successNmb(attacks.woundRolls, attacks.toWound);
-
-        attacks.armourRolls = dicesThrow(attacks.wounds);
-        attacks.toArmour = toAS(offUnit.ap, defUnit.arm);
-        attacks.armourSaved = successNmb(attacks.armourRolls, attacks.toArmour);
-
-        if (
-          defUnit.aeg !== null ||
-          this.checkArrayProp(defUnit.rules, 'name', 'Fortitude')
-        ) {
-          attacks.specialRolls = dicesThrow(
-            attacks.wounds - attacks.armourSaved
-          );
-          attacks.toSpecial = toSpecial(Number(defUnit.aeg));
-          attacks.specialSaved = successNmb(
-            attacks.specialRolls,
-            attacks.toSpecial
-          );
-        }
-        attacks.finalWounds =
-          attacks.wounds - attacks.armourSaved - attacks.specialSaved;
-      });
-    };
-
-    this.getAmountInContact();
-    calculateCasualties(
-      this.battleData[0].battlePlayer[0],
-      this.battleData[1].battlePlayer[0]
+    let offUnit = this.facade.getRoosterUnitByID(
+      offBattleUnit.playerIndex,
+      0,
+      offBattleUnit.ID
     );
+
+    let attacks = getAttacks(offUnit, offBattleUnit);
+    attacks.forEach((attacks, index) => {
+      let defUnit = this.facade.getRoosterUnitByID(
+        Number(attacks.attackedUnitID.split(',')[0].split('=')[1]),
+        0,
+        Number(attacks.attackedUnitID.split(',')[1].split('=')[1])
+      );
+      attacks.hitRolls = dicesThrow(attacks.attacksNmb);
+      attacks.toHit = toHit(offUnit.of, defUnit.def);
+      attacks.hits = successNmb(attacks.hitRolls, attacks.toHit);
+
+      attacks.woundRolls = dicesThrow(attacks.hits);
+      attacks.toWound = toWound(offUnit.str, defUnit.res);
+      attacks.wounds = successNmb(attacks.woundRolls, attacks.toWound);
+
+      attacks.armourRolls = dicesThrow(attacks.wounds);
+      attacks.toArmour = toAS(offUnit.ap, defUnit.arm);
+      attacks.armourSaved = successNmb(attacks.armourRolls, attacks.toArmour);
+
+      if (
+        defUnit.aeg !== null ||
+        this.checkArrayProp(defUnit.rules, 'name', 'Fortitude')
+      ) {
+        attacks.specialRolls = dicesThrow(attacks.wounds - attacks.armourSaved);
+        attacks.toSpecial = toSpecial(Number(defUnit.aeg));
+        attacks.specialSaved = successNmb(
+          attacks.specialRolls,
+          attacks.toSpecial
+        );
+      }
+      attacks.finalWounds =
+        attacks.wounds - attacks.armourSaved - attacks.specialSaved;
+    });
+    return attacks;
   }
+
+  getAllUnitData = () => {
+    let strikeOrder: BattleUnitData[] = [];
+
+    this.battleData.forEach((player) => {
+      player.battlePlayer.forEach((unit) => {
+        strikeOrder.push(unit);
+      });
+    });
+    return strikeOrder;
+  };
+
+  runAllSkirmishes = () => {
+    this.getAmountInContact();
+    let fightUnits = this.getAllUnitData();
+
+    for (let agi = 10; agi > 0; agi--) {
+      fightUnits.forEach((unit) => {
+        if (unit.currentAgi === agi) {
+          this.resolveSkirmish(unit).forEach((attack) => {
+            let playerIndex = Number(
+              attack.attackedUnitID.split(',')[0].split('=')[1]
+            );
+            let unitIndex = Number(
+              attack.attackedUnitID.split(',')[1].split('=')[1]
+            );
+            let unit = this.facade.getRoosterUnitByID(
+              playerIndex,
+              0,
+              unitIndex
+            );
+
+            let casualties = Math.trunc(attack.finalWounds / unit.hp);
+            let wounds = attack.finalWounds % unit.hp;
+            if (wounds + unit.wounds >= unit.hp) {
+              casualties++;
+              wounds = wounds + unit.wounds - unit.hp;
+              this.facade.setWounds(unitIndex, playerIndex, 0, 0);
+            }
+
+            if (casualties < unit.quantity) {
+              this.facade.decreaseQuantity(
+                unitIndex,
+                playerIndex,
+                0,
+                casualties
+              );
+              this.facade.addWound(unitIndex, playerIndex, 0, wounds);
+            } else this.facade.deleteUnit(unitIndex, playerIndex, 0);
+          });
+        }
+      });
+    }
+  };
 }

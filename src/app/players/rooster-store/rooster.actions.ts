@@ -18,22 +18,52 @@ export const addUnitToRooster = createAction(
 
 export const increaseQuantity = createAction(
   '[Rooster Section] increase quantity of unit',
-  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
+  props<{
+    unitID: number;
+    playerIndex: number;
+    roosterIndex: number;
+    amount: number;
+  }>()
 );
 
 export const decreaseQuantity = createAction(
   '[Rooster Section] decrease quantity of unit',
-  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
+  props<{
+    unitID: number;
+    playerIndex: number;
+    roosterIndex: number;
+    amount: number;
+  }>()
 );
 
 export const addWound = createAction(
   '[Rooster Section] add wound to unit',
-  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
+  props<{
+    unitID: number;
+    playerIndex: number;
+    roosterIndex: number;
+    amount: number;
+  }>()
 );
 
 export const removeWound = createAction(
   '[Rooster Section] remove wound from unit',
-  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
+  props<{
+    unitID: number;
+    playerIndex: number;
+    roosterIndex: number;
+    amount: number;
+  }>()
+);
+
+export const setWounds = createAction(
+  '[Rooster Section] set wounds number',
+  props<{
+    unitID: number;
+    playerIndex: number;
+    roosterIndex: number;
+    wounds: number;
+  }>()
 );
 
 export const deleteUnit = createAction(
@@ -85,6 +115,6 @@ export const changeOnBattlefieldProperty = createAction(
   props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
 );
 
-export const resolveSkirmish = createAction(
+export const runAllSkirmishes = createAction(
   '[Battle Section] request to resolve skirmish'
 );

@@ -213,42 +213,61 @@ export class FacadeService {
       })
     );
   }
-  increaseQuantity(unitID: number, playerIndex: number, roosterIndex: number) {
+  increaseQuantity(unitID: number, playerIndex: number, roosterIndex: number,amount:number) {
     this.store.dispatch(
       RoosterStoreActions.increaseQuantity({
         unitID: unitID,
         playerIndex: playerIndex,
         roosterIndex: roosterIndex,
+        amount:amount,
       })
     );
   }
-  decreaseQuantity(unitID: number, playerIndex: number, roosterIndex: number) {
+  decreaseQuantity(unitID: number, playerIndex: number, roosterIndex: number,amount:number) {
     this.store.dispatch(
       RoosterStoreActions.decreaseQuantity({
         unitID: unitID,
         playerIndex: playerIndex,
         roosterIndex: roosterIndex,
-      })
-    );
+        amount:amount
+       }));
   }
-  addWound(unitID: number, playerIndex: number, roosterIndex: number) {
+  addWound(unitID: number, playerIndex: number, roosterIndex: number,amount:number) {
     this.store.dispatch(
       RoosterStoreActions.addWound({
         unitID: unitID,
         playerIndex: playerIndex,
         roosterIndex: roosterIndex,
+        amount:amount
       })
     );
   }
-  removeWound(unitID: number, playerIndex: number, roosterIndex: number) {
+  removeWound(unitID: number, playerIndex: number, roosterIndex: number,amount:number) {
     this.store.dispatch(
       RoosterStoreActions.removeWound({
         unitID: unitID,
         playerIndex: playerIndex,
         roosterIndex: roosterIndex,
+        amount:amount
       })
     );
   }
+  setWounds(  unitID: number,
+    playerIndex: number,
+    roosterIndex: number,
+    wounds: number){
+      this.store.dispatch(
+        RoosterStoreActions.setWounds({
+          unitID: unitID,
+          playerIndex: playerIndex,
+          roosterIndex: roosterIndex,
+          wounds:wounds
+        })
+      );
+
+  }
+
+
   deleteUnit(unitID: number, playerIndex: number, roosterIndex: number) {
     this.store.dispatch(
       RoosterStoreActions.deleteUnit({
@@ -277,7 +296,7 @@ export class FacadeService {
     );
   }
 
-  resolveSkirmish() {
-    this.store.dispatch(RoosterStoreActions.resolveSkirmish());
+  runAllSkirmishes() {
+    this.store.dispatch(RoosterStoreActions.runAllSkirmishes());
   }
 }

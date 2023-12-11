@@ -20,6 +20,7 @@ export class BattleUnitAdapter {
     height:number,
     RFnumber: number,
     ID: number,
+    currentAgi:number,
     RaFRestPlaces: boolean[],
     contactArray:(string | boolean)[][][]
   ): BattleUnitData {
@@ -35,6 +36,7 @@ export class BattleUnitAdapter {
       height,
       RFnumber,
       ID,
+      currentAgi,
       RaFRestPlaces,
       contactArray
 

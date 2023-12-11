@@ -11,6 +11,7 @@ export interface BattleUnitData {
   RFheight: number;
   RFnumber: number;
   ID: number;
+  currentAgi:number,
   RaFRestPlaces: boolean[];
   contactArray:(string | boolean)[][][]
 }
@@ -31,6 +32,7 @@ export class BattleUnitData {
     public height: number,
     public RFnumber: number,
     public ID: number,
+    public currentAgi:number,
     public RaFRestPlaces: boolean[],
     public contactArray:(string | boolean)[][][]
   ) {}

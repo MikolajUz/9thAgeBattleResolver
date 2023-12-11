@@ -100,8 +100,8 @@ export class RoosterStoreEffects {
   resolveSkirmish$ = createEffect(
     () =>
       this.action$.pipe(
-        ofType(RoosterStoreActions.resolveSkirmish),
-        tap(() => this.battleService.resolveSkirmish())
+        ofType(RoosterStoreActions.runAllSkirmishes),
+        tap(() => this.battleService.runAllSkirmishes())
       ),
     { dispatch: false }
   );

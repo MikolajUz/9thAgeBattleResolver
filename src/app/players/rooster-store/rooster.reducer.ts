@@ -23,24 +23,39 @@ export const RoosterReducer = createReducer(
 
   immerOn(RoosterStoreActions.addWound, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
-      (unit) => (unit.ID === action.unitID ? unit.wounds++ : unit)
+      (unit) => (unit.ID === action.unitID ? unit.wounds=unit.wounds+action.amount : unit)
     );
   }),
   immerOn(RoosterStoreActions.removeWound, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
       (unit) => {
         if (unit.ID === action.unitID) {
-          if (unit.wounds > 0) unit.wounds--;
+          if (unit.wounds > 0) unit.wounds=unit.wounds-action.amount;
+        }
+      }
+    );
+  }),
+  immerOn(RoosterStoreActions.setWounds, (state, action) => {
+    state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
+      (unit) => {
+        if (unit.ID === action.unitID) {
+           unit.wounds=action.wounds
         }
       }
     );
   }),
 
+
+
+  
+
+
+
   immerOn(RoosterStoreActions.increaseQuantity, (state, action) => {
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
       (unit) => {
         if (unit.ID === action.unitID) {
-          unit.quantity++;
+          unit.quantity=unit.quantity+action.amount
         }
       }
     );
@@ -50,7 +65,7 @@ export const RoosterReducer = createReducer(
     state.players[action.playerIndex].rooster[action.roosterIndex].units.map(
       (unit) => {
         if (unit.ID === action.unitID) {
-          unit.quantity--;
+          unit.quantity=unit.quantity-action.amount
         }
       }
     );
@@ -103,7 +118,7 @@ export const RoosterReducer = createReducer(
       ...state,
     };
   }),
-  on(RoosterStoreActions.resolveSkirmish, (state, action) => {
+  on(RoosterStoreActions.runAllSkirmishes, (state, action) => {
     return {
       ...state,
     };
