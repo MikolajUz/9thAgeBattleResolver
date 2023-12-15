@@ -5,5 +5,14 @@ export interface PlayersState {
 }
 
 export const initialPlayersState: PlayersState = {
-  players: [{ rooster: [{ units: [] }] }, { rooster: [{ units: [] }] }],
+  players: [
+    {
+      rooster: [{ units: [] }],
+      score: []
+    },
+    {
+      rooster: [{ units: [] }],
+      score: []
+    },
+  ],
 };

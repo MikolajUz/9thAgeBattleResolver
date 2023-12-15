@@ -101,7 +101,8 @@ export class RoosterStoreEffects {
     () =>
       this.action$.pipe(
         ofType(RoosterStoreActions.runAllSkirmishes),
-        tap(() => this.battleService.runAllSkirmishes())
+        tap(() => this.battleService.runAllSkirmishes()),
+        tap(() => this.battleService.getRankBonus())
       ),
     { dispatch: false }
   );

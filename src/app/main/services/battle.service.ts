@@ -5,7 +5,9 @@ import { BattleUnitAdapter } from '../interfaces/adapters/battleUnitData.adapter
 import { Unit } from 'src/app/army/interfaces/unit.interface';
 import { BattleUnitData } from '../interfaces/battleUnitData.interface';
 import { attacksData } from '../interfaces/attacksData.interface';
-import { updateUnitUIData } from 'src/app/players/rooster-store/rooster.actions';
+import { skirmishScore } from '../interfaces/skirmishScore.interface';
+import { ConstantPool } from '@angular/compiler';
+import { coerceStringArray } from '@angular/cdk/coercion';
 
 @Injectable({
   providedIn: 'root',
@@ -198,32 +200,6 @@ export class BattleService {
       else return false;
     };
 
-    const commonWidth = (
-      battleUnit0: BattleUnitData,
-      battleUnit1: BattleUnitData
-    ): number => {
-      let x0s = Number(battleUnit0.startPoint.x);
-      let x0e = Number(battleUnit0.startPoint.x) + Number(battleUnit0.width);
-      let x1s = Number(battleUnit1.startPoint.x);
-      let x1e = Number(battleUnit1.startPoint.x) + Number(battleUnit1.width);
-
-      if (x1s <= x0s && x0s <= x1e && x1e <= x0e) {
-        return x1e - x0s;
-      }
-      if (x0s < x1s && x1s < x0e && x0e < x1e) {
-        return x0e - x1s;
-      }
-
-      if (x1s < x0s && x0s < x1e && x0e < x1e) {
-        return battleUnit0.width;
-      }
-      if (x0s < x1s && x1s < x0e && x0e > x1e) {
-        return battleUnit1.width;
-      }
-
-      return 0;
-    };
-
     const divideUp = (operand1: number, operand2: number) => {
       return (
         Math.trunc(operand1 / operand2) +
@@ -257,21 +233,21 @@ export class BattleService {
           let x1e = Number(unit1.startPoint.x) + Number(unit1.width);
 
           if (x1s <= x0s && x0s <= x1e && x1e <= x0e) {
-            let endIndex = divideUp(commonWidth(unit0, unit1), unit0.RFwidth);
+            let endIndex = divideUp(x1e - x0s, unit0.RFwidth);
 
             if (endIndex === 0) endIndex = 1;
             fillContactArray(0, endIndex, unit0, unit1);
-            endIndex = divideUp(commonWidth(unit0, unit1), unit1.RFwidth);
+            endIndex = divideUp(x1e - x0s, unit1.RFwidth);
 
             if (endIndex === 0) endIndex = 1;
             fillContactArray(unit1.files - endIndex, unit1.files, unit1, unit0);
           }
 
           if (x0s <= x1s && x1s <= x0e && x0e < x1e) {
-            let endIndex = divideUp(commonWidth(unit0, unit1), unit0.RFwidth);
+            let endIndex = divideUp(x0e - x1s, unit0.RFwidth);
             if (endIndex === 0) endIndex = 1;
             fillContactArray(unit0.files - endIndex, unit0.files, unit0, unit1);
-            endIndex = divideUp(commonWidth(unit0, unit1), unit1.RFwidth);
+            endIndex = divideUp(x0e - x1s, unit1.RFwidth);
             if (endIndex === 0) endIndex = 1;
             fillContactArray(0, endIndex, unit1, unit0);
           }
@@ -511,57 +487,133 @@ export class BattleService {
       attacks.finalWounds =
         attacks.wounds - attacks.armourSaved - attacks.specialSaved;
     });
+
     return attacks;
   }
 
   getAllUnitData = () => {
-    let strikeOrder: BattleUnitData[] = [];
+    let fightUnits: BattleUnitData[] = [];
 
     this.battleData.forEach((player) => {
       player.battlePlayer.forEach((unit) => {
-        strikeOrder.push(unit);
+        fightUnits.push(unit);
       });
     });
-    return strikeOrder;
+    return fightUnits;
+  };
+
+  initScores = () => {
+    this.battleData.forEach((player) => {
+      player.battlePlayer.forEach((unit) => {
+        this.facade.scoreInit(unit.playerIndex, unit.ID);
+      });
+    });
+  };
+
+  getRankBonus = () => {
+    let fightUnits = this.getAllUnitData();
+    fightUnits.forEach((battleUnit) => {
+      let unit = this.facade.getRoosterUnitByID(
+        battleUnit.playerIndex,
+        0,
+        battleUnit.ID
+      );
+      let rankSize = 5;
+      if (unit.height === 'Large') rankSize = 3;
+
+      if (unit.fileLength < 8 && unit.fileLength >= rankSize) {
+        let rankBonus = Math.trunc(
+          (unit.quantity - unit.fileLength) / unit.fileLength
+        );
+        this.facade.updateScore(
+          battleUnit.playerIndex,
+          battleUnit.ID,
+          'rankBonus',
+          rankBonus
+        );
+      }
+    });
   };
 
   runAllSkirmishes = () => {
     this.getAmountInContact();
+    this.facade.clearScore();
+    this.initScores();
     let fightUnits = this.getAllUnitData();
 
     for (let agi = 10; agi > 0; agi--) {
       fightUnits.forEach((unit) => {
         if (unit.currentAgi === agi) {
+          let totalWounds = 0;
+          let offPlayerIndex = unit.playerIndex;
+          let offUnit = this.facade.getRoosterUnitByID(
+            offPlayerIndex,
+            0,
+            unit.ID
+          );
+          let totalAttacks: attacksData[] = [];
           this.resolveSkirmish(unit).forEach((attack) => {
-            let playerIndex = Number(
+            let defPlayerIndex = Number(
               attack.attackedUnitID.split(',')[0].split('=')[1]
             );
             let unitIndex = Number(
               attack.attackedUnitID.split(',')[1].split('=')[1]
             );
-            let unit = this.facade.getRoosterUnitByID(
-              playerIndex,
+            let defUnit = this.facade.getRoosterUnitByID(
+              defPlayerIndex,
               0,
               unitIndex
             );
-
-            let casualties = Math.trunc(attack.finalWounds / unit.hp);
-            let wounds = attack.finalWounds % unit.hp;
-            if (wounds + unit.wounds >= unit.hp) {
+            totalAttacks.push(attack);
+            let casualties = Math.trunc(attack.finalWounds / defUnit.hp);
+            let wounds = attack.finalWounds % defUnit.hp;
+            if (wounds + defUnit.wounds >= defUnit.hp) {
               casualties++;
-              wounds = wounds + unit.wounds - unit.hp;
-              this.facade.setWounds(unitIndex, playerIndex, 0, 0);
+              wounds = wounds + defUnit.wounds - defUnit.hp;
+              this.facade.setWounds(unitIndex, defPlayerIndex, 0, 0);
             }
 
-            if (casualties < unit.quantity) {
+            if (casualties < defUnit.quantity) {
               this.facade.decreaseQuantity(
                 unitIndex,
-                playerIndex,
+                defPlayerIndex,
                 0,
                 casualties
               );
-              this.facade.addWound(unitIndex, playerIndex, 0, wounds);
-            } else this.facade.deleteUnit(unitIndex, playerIndex, 0);
+
+              this.facade.addWound(unitIndex, defPlayerIndex, 0, wounds);
+            } else {
+              this.facade.deleteUnit(unitIndex, defPlayerIndex, 0);
+
+              fightUnits = fightUnits.filter(
+                (unit) =>
+                  unit.ID !== unitIndex || unit.playerIndex !== defPlayerIndex
+              );
+            }
+
+            this.facade.updateScore(
+              offPlayerIndex,
+              unit.ID,
+              'attacks',
+              totalAttacks
+            );
+            totalWounds = totalWounds + attack.finalWounds;
+            this.facade.updateScore(
+              offPlayerIndex,
+              unit.ID,
+              'woundsDealt',
+              totalWounds
+            );
+            offUnit.options.forEach((option) => {
+              option.slice(0, 15) === 'Standard Bearer'
+                ? this.facade.updateScore(
+                    offPlayerIndex,
+                    unit.ID,
+                    'standard',
+                    1
+                  )
+                : null;
+            });
           });
         }
       });

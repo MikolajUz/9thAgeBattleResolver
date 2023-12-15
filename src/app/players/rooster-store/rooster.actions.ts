@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { unitUI } from '../interfaces/unit-ui.interface';
 import { Unit } from 'src/app/army/interfaces/unit.interface';
+import { skirmishScore } from 'src/app/main/interfaces/skirmishScore.interface';
 
 export const requestRoosterLoad = createAction(
   '[Rooster Section] request to load Rooster',
@@ -118,3 +119,22 @@ export const changeOnBattlefieldProperty = createAction(
 export const runAllSkirmishes = createAction(
   '[Battle Section] request to resolve skirmish'
 );
+
+export const updateScore = createAction(
+  '[Score Section] updates property of score',
+  props<{
+    playerIndex: number;
+    unitIndex: number;
+    propertyName: keyof skirmishScore;
+    changeValue: any;
+  }>()
+);
+
+export const scoreInit = createAction(
+  '[Score Section] inits scores',
+  props<{ playerIndex: number; unitIndex: number }>()
+);
+
+export const clearScore = createAction('[Score Section] clears score');
+
+
