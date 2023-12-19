@@ -5,6 +5,7 @@ export interface skirmishScore {
   playerIndex: number;
   unitIndex: number;
   woundsDealt: number;
+  woundsSuffered:number,
   challengeOverkill: number;
   charge: number;
   rankBonus: number;
@@ -25,6 +26,7 @@ export class skirmishScore {
     public playerIndex: number,
     public unitIndex: number,
     public woundsDealt: number,
+    public woundsSuffered: number,
     public challengeOverkill: number,
     public charge: number,
     public rankBonus: number,

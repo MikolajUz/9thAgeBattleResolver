@@ -83,7 +83,9 @@ export class RoosterStoreEffects {
     () =>
       this.action$.pipe(
         ofType(RoosterStoreActions.deleteUnit),
-        tap((unit) => this.visualsService.deleteUnit(unit.unitID,unit.playerIndex))
+        tap((unit) =>
+          this.visualsService.deleteUnit(unit.unitID, unit.playerIndex)
+        )
       ),
     { dispatch: false }
   );
@@ -101,8 +103,15 @@ export class RoosterStoreEffects {
     () =>
       this.action$.pipe(
         ofType(RoosterStoreActions.runAllSkirmishes),
-        tap(() => this.battleService.runAllSkirmishes()),
-        tap(() => this.battleService.getRankBonus())
+        tap(() => this.battleService.runAllSkirmishes())
+      ),
+    { dispatch: false }
+  );
+  resolveHit$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(RoosterStoreActions.resolveHit),
+        tap(() => this.battleService.resolveHit())
       ),
     { dispatch: false }
   );

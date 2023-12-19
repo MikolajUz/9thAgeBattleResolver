@@ -120,6 +120,10 @@ export const runAllSkirmishes = createAction(
   '[Battle Section] request to resolve skirmish'
 );
 
+export const resolveHit = createAction(
+  '[Battle Section] request to resolve hit at next agility step'
+);
+
 export const updateScore = createAction(
   '[Score Section] updates property of score',
   props<{

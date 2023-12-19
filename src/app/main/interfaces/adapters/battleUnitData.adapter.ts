@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BattleUnitData } from '../battleUnitData.interface';
+import { skirmishScore } from '../skirmishScore.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,10 @@ export class BattleUnitAdapter {
     ID: number,
     currentAgi:number,
     RaFRestPlaces: boolean[],
-    contactArray:(string | boolean)[][][]
+    contactArray:(string | boolean)[][][],
+    score: skirmishScore,
+    wounds:number,
+    quantity:number,
   ): BattleUnitData {
     return new BattleUnitData(
       playerIndex,
@@ -38,8 +42,10 @@ export class BattleUnitAdapter {
       ID,
       currentAgi,
       RaFRestPlaces,
-      contactArray
-
+      contactArray,
+      score,
+      wounds,
+      quantity
     );
   }
 }

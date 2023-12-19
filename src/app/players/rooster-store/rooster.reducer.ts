@@ -148,6 +148,7 @@ export const RoosterReducer = createReducer(
         0,
         0,
         0,
+        0,
         [],
         0,
         0,

@@ -11,6 +11,10 @@ export class MainPageComponent {
   constructor(private facade: FacadeService, private battle: BattleService) {}
   startSkirmish() {
     this.facade.runAllSkirmishes();
-    
+    this.battle.getRankBonus()
 }
+resolveHit(){
+  this.facade.resolveHit()
+}
+
 }

@@ -1,3 +1,5 @@
+import { skirmishScore } from "./skirmishScore.interface";
+
 export interface BattleUnitData {
   playerIndex: number;
   gridUnit: number;
@@ -14,6 +16,9 @@ export interface BattleUnitData {
   currentAgi:number,
   RaFRestPlaces: boolean[];
   contactArray:(string | boolean)[][][]
+  score:skirmishScore,
+  wounds:number,
+  quantity:number,
 }
 
 export class BattleUnitData {
@@ -34,6 +39,9 @@ export class BattleUnitData {
     public ID: number,
     public currentAgi:number,
     public RaFRestPlaces: boolean[],
-    public contactArray:(string | boolean)[][][]
+    public contactArray:(string | boolean)[][][],
+    public score:skirmishScore,
+    public wounds:number,
+    public quantity:number,
   ) {}
 }

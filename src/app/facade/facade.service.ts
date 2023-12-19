@@ -351,4 +351,8 @@ export class FacadeService {
   clearScore() {
     this.store.dispatch(RoosterStoreActions.clearScore());
   }
+
+  resolveHit(){
+    this.store.dispatch(RoosterStoreActions.resolveHit());
+  }
 }
