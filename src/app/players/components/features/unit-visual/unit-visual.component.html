@@ -1,7 +1,7 @@
 <div
   *ngIf="(data | async)?.gridUnit"
   #unit
-  [id]="unitID"
+  [id]="ID"
   [ngDraggable]="true"
   [bounds]="myBounds"
   [inBounds]="true"
@@ -12,7 +12,6 @@
   class="drag-grid"
   [style.width]="(data | async)?.unitWidthScss"
   [style.height]="(data | async)?.unitHeightScss"
-  (mouseleave)="onDrop($event)"
   zIndexMoving="200"
   [position]="{ x: 200, y: 200 }"
 >
@@ -44,19 +43,19 @@
     </div>
   </div>
 
-  <div *ngIf="orientation === 'top'">
+  <div *ngIf="orientation === 'top'" >
     <div *ngFor="let file of (data | async)!.fileYPlaces; index as y">
       <div *ngFor="let rank of (data | async)!.rankXPlaces; index as x">
         <div
           [ngClass]="playerIndex ? 'RankAndFile2' : 'RankAndFile'"
           [style.width]="(data | async)!.unitRFWidthScss"
           [style.height]="(data | async)!.unitRFHeightScss"
-          ngDraggable
+          [ngDraggable]="false"
           [bounds]="unit"
           [inBounds]="true"
           [gridSize]="(data | async)!.gridUnit"
           zIndex="200"
-          id="x={{ rank }},y={{ y }} "
+          id="{{ID}},x={{ rank }},y={{ y }}"
           [position]="{
             x: rank * (data | async)!.unitRFWidth,
             y:
@@ -66,7 +65,7 @@
         ></div>
       </div>
     </div>
-    <div *ngIf="(data | async)!.RaFRest">
+    <div *ngIf="(data | async)!.RaFRest" >
       <div
         *ngFor="let rank of (data | async)!.RaFRest"
         [ngClass]="playerIndex ? 'RankAndFile2' : 'RankAndFile'"
@@ -77,7 +76,7 @@
         [inBounds]="true"
         [gridSize]="(data | async)!.gridUnit"
         zIndex="200"
-        id="x={{ rank }},y={{ (data | async)!.fileYPlaces.length + 1 }} "
+        id="{{ID}},x={{ rank }},y={{ (data | async)!.fileYPlaces.length}}"
         [position]="{
           x: rank * (data | async)!.unitRFWidth,
           y:
@@ -97,12 +96,12 @@
           [ngClass]="playerIndex ? 'RankAndFile2' : 'RankAndFile'"
           [style.width]="(data | async)!.unitRFWidthScss"
           [style.height]="(data | async)!.unitRFHeightScss"
-          ngDraggable
+          [ngDraggable]="false"
           [bounds]="unit"
           [inBounds]="true"
           [gridSize]="(data | async)!.gridUnit"
           zIndex="200"
-          id="x={{ rank }},y={{ y }} "
+          id="{{ID}},x={{ rank }},y={{ y }}"
           [position]="{
             x: rank * (data | async)!.unitRFWidth,
             y: file * (data | async)!.unitRFHeight
@@ -121,7 +120,7 @@
         [inBounds]="true"
         [gridSize]="(data | async)!.gridUnit"
         zIndex="200"
-        id="x={{ rank }},y={{ (data | async)!.fileYPlaces.length + 1 }} "
+        id="{{ID}},x={{ rank }},y={{ (data | async)!.fileYPlaces.length }}"
         [position]="{
           x: rank * (data | async)!.unitRFWidth,
           y: (data | async)!.unitFileGrids.length * (data | async)!.unitRFHeight

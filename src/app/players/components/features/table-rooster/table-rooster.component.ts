@@ -62,8 +62,11 @@ export class TableRoosterComponent implements OnInit {
     this.facade.setFileLength(unitID, $event.target.value, this.playerIndex, 0);
   }
 
-  pickUnit(unitID: number) {
-    this.facade.pickUnit(unitID, this.playerIndex, 0);
+  pickUnit(unit: Unit) {
+    if (!unit.onBattlefield) {
+      this.facade.pickUnit(unit.ID, this.playerIndex, 0);
+      this.facade.changeOnBattlefieldProperty(unit.ID, this.playerIndex, 0);
+    }
   }
 
   selectUnit(unitID: number) {
@@ -73,16 +76,16 @@ export class TableRoosterComponent implements OnInit {
   changeStat(unitID: number, action: string) {
     switch (action) {
       case 'Increase quantity':
-        this.facade.increaseQuantity(unitID, this.playerIndex, 0);
+        this.facade.increaseQuantity(unitID, this.playerIndex, 0,1);
         break;
       case 'Decrease quantity':
-        this.facade.decreaseQuantity(unitID, this.playerIndex, 0);
+        this.facade.decreaseQuantity(unitID, this.playerIndex, 0,1);
         break;
       case 'Add wound':
-        this.facade.addWound(unitID, this.playerIndex, 0);
+        this.facade.addWound(unitID, this.playerIndex, 0,1);
         break;
       case 'Remove wound':
-        this.facade.removeWound(unitID, this.playerIndex, 0);
+        this.facade.removeWound(unitID, this.playerIndex, 0,1);
         break;
       case 'Delete unit':
         this.facade.deleteUnit(unitID, this.playerIndex, 0);

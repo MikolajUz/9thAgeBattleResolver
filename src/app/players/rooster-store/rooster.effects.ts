@@ -6,12 +6,14 @@ import { Injectable } from '@angular/core';
 import { VisualsService } from '../services/visuals.service';
 
 import { of } from 'rxjs';
+import { BattleService } from 'src/app/main/services/battle.service';
 
 @Injectable()
 export class RoosterStoreEffects {
   constructor(
     private roosterService: RoosterService,
     private visualsService: VisualsService,
+    private battleService: BattleService,
     private action$: Actions
   ) {}
 
@@ -81,17 +83,36 @@ export class RoosterStoreEffects {
     () =>
       this.action$.pipe(
         ofType(RoosterStoreActions.deleteUnit),
-        tap((unit) => this.visualsService.deleteUnit(unit.unitID))
+        tap((unit) =>
+          this.visualsService.deleteUnit(unit.unitID, unit.playerIndex)
+        )
       ),
     { dispatch: false }
   );
 
-  updateAllUnitUIData$= createEffect(
-    ()=>this.action$.pipe(
-      ofType(RoosterStoreActions.updateAllUnitUIData),
-      tap(()=>this.visualsService.updateAllUnitUIData())
-    ),
+  updateAllUnitUIData$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(RoosterStoreActions.updateAllUnitUIData),
+        tap(() => this.visualsService.updateAllUnitUIData())
+      ),
     { dispatch: false }
-  )
+  );
 
+  resolveSkirmish$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(RoosterStoreActions.runAllSkirmishes),
+        tap(() => this.battleService.runAllSkirmishes())
+      ),
+    { dispatch: false }
+  );
+  resolveHit$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(RoosterStoreActions.resolveHit),
+        tap(() => this.battleService.resolveHit())
+      ),
+    { dispatch: false }
+  );
 }

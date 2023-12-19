@@ -5,21 +5,22 @@ import { unitRaw } from './dataUnit.interface';
 
 export interface Unit {
   aeg: string | null;
-  agi: string;
-  ap: string;
-  arm: string;
-  att: string;
+  agi: number;
+  ap: number;
+  arm: number;
+  att: number;
   base: string;
-  def: string;
-  dis: string;
-  hp: string;
-  of: string;
-  res: string;
-  str: string;
+  def: number;
+  dis: number;
+  hp: number;
+  of: number;
+  res: number;
+  str: number;
   type: string;
+  height: string;
   unit_type: string;
   quantity: number;
-  points: string;
+  points: number;
   rules: UnitRules[];
   name: string;
   wounds: number;
@@ -28,24 +29,26 @@ export interface Unit {
   selected: boolean;
   unitUI: unitUI;
   options: string[];
+  onBattlefield: boolean;
 }
 
 export class Unit {
   constructor(
     public name: string,
     public aeg: string | null,
-    public agi: string,
-    public ap: string,
-    public arm: string,
-    public att: string,
+    public agi: number,
+    public ap: number,
+    public arm: number,
+    public att: number,
     public base: string,
-    public def: string,
-    public dis: string,
-    public hp: string,
-    public of: string,
-    public res: string,
-    public str: string,
+    public def: number,
+    public dis: number,
+    public hp: number,
+    public of: number,
+    public res: number,
+    public str: number,
     public type: string,
+    public height: string,
     public unit_type: string,
     public rules: UnitRules[]
   ) {}
@@ -59,18 +62,19 @@ export class UnitAdapter {
     return new Unit(
       rawData.name,
       rawData.carac.aeg,
-      rawData.carac.agi,
-      rawData.carac.ap,
-      rawData.carac.arm,
-      rawData.carac.att,
+      Number(rawData.carac.agi),
+      Number(rawData.carac.ap),
+      Number(rawData.carac.arm),
+      Number(rawData.carac.att),
       rawData.carac.base,
-      rawData.carac.def,
-      rawData.carac.dis,
-      rawData.carac.hp,
-      rawData.carac.of,
-      rawData.carac.res,
-      rawData.carac.str,
+      Number(rawData.carac.def),
+      Number(rawData.carac.dis),
+      Number(rawData.carac.hp),
+      Number(rawData.carac.of),
+      Number(rawData.carac.res),
+      Number(rawData.carac.str),
       rawData.carac.type,
+      rawData.carac.height,
       rawData.carac.unit_type,
       adaptOption(rawData.model_rule_unit_troops)
     );

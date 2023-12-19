@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { unitUI } from '../interfaces/unit-ui.interface';
 import { Unit } from 'src/app/army/interfaces/unit.interface';
+import { skirmishScore } from 'src/app/main/interfaces/skirmishScore.interface';
 
 export const requestRoosterLoad = createAction(
   '[Rooster Section] request to load Rooster',
@@ -18,22 +19,52 @@ export const addUnitToRooster = createAction(
 
 export const increaseQuantity = createAction(
   '[Rooster Section] increase quantity of unit',
-  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
+  props<{
+    unitID: number;
+    playerIndex: number;
+    roosterIndex: number;
+    amount: number;
+  }>()
 );
 
 export const decreaseQuantity = createAction(
   '[Rooster Section] decrease quantity of unit',
-  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
+  props<{
+    unitID: number;
+    playerIndex: number;
+    roosterIndex: number;
+    amount: number;
+  }>()
 );
 
 export const addWound = createAction(
   '[Rooster Section] add wound to unit',
-  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
+  props<{
+    unitID: number;
+    playerIndex: number;
+    roosterIndex: number;
+    amount: number;
+  }>()
 );
 
 export const removeWound = createAction(
   '[Rooster Section] remove wound from unit',
-  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
+  props<{
+    unitID: number;
+    playerIndex: number;
+    roosterIndex: number;
+    amount: number;
+  }>()
+);
+
+export const setWounds = createAction(
+  '[Rooster Section] set wounds number',
+  props<{
+    unitID: number;
+    playerIndex: number;
+    roosterIndex: number;
+    wounds: number;
+  }>()
 );
 
 export const deleteUnit = createAction(
@@ -80,3 +111,34 @@ export const selectUnit = createAction(
 export const updateAllUnitUIData = createAction(
   '[Rooster Section] update all unit visual data (after resize)'
 );
+export const changeOnBattlefieldProperty = createAction(
+  '[Rooster Section] change unit onBattlefield property',
+  props<{ unitID: number; playerIndex: number; roosterIndex: number }>()
+);
+
+export const runAllSkirmishes = createAction(
+  '[Battle Section] request to resolve skirmish'
+);
+
+export const resolveHit = createAction(
+  '[Battle Section] request to resolve hit at next agility step'
+);
+
+export const updateScore = createAction(
+  '[Score Section] updates property of score',
+  props<{
+    playerIndex: number;
+    unitIndex: number;
+    propertyName: keyof skirmishScore;
+    changeValue: any;
+  }>()
+);
+
+export const scoreInit = createAction(
+  '[Score Section] inits scores',
+  props<{ playerIndex: number; unitIndex: number }>()
+);
+
+export const clearScore = createAction('[Score Section] clears score');
+
+

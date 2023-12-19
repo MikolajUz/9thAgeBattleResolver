@@ -13,5 +13,4 @@ export interface unitUI {
   unitRFWidthScss: string;
   unitRFHeightScss: string;
   unitHeightScss: string;
-  
 }
