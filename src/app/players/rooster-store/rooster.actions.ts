@@ -2,6 +2,10 @@ import { createAction, props } from '@ngrx/store';
 import { unitUI } from '../interfaces/unit-ui.interface';
 import { Unit } from 'src/app/army/interfaces/unit.interface';
 import { skirmishScore } from 'src/app/main/interfaces/skirmishScore.interface';
+import { attacksData } from 'src/app/main/interfaces/attacksData.interface';
+import { Observable } from 'rxjs/internal/Observable';
+import { messages } from '../interfaces/messages.interface';
+import { createUrlTreeFromSnapshot } from '@angular/router';
 
 export const requestRoosterLoad = createAction(
   '[Rooster Section] request to load Rooster',
@@ -130,15 +134,28 @@ export const updateScore = createAction(
     playerIndex: number;
     unitIndex: number;
     propertyName: keyof skirmishScore;
-    changeValue: any;
+    changeValue: string | number | attacksData[];
   }>()
 );
 
+export const getRanks = createAction('[Score Section] calculates rank bonus');
+
 export const scoreInit = createAction(
   '[Score Section] inits scores',
-  props<{ playerIndex: number; unitIndex: number }>()
+  props<{ playerIndex: number; unitIndex: number; name: string }>()
 );
 
 export const clearScore = createAction('[Score Section] clears score');
 
+export const scoreSum = createAction(
+  '[Score Section] creates sum of unit points'
+);
 
+export const updateMessages = createAction(
+  '[Score Section] updates messages',
+  props<{message:string; messageName: keyof messages}>()
+);
+
+export const combatResult = createAction(
+  '[Score Section] creates sum of unit points'
+)

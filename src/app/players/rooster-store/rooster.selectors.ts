@@ -49,10 +49,9 @@ export const selectUnitPropertyByID = (
   unitID: number,
   propertyName: keyof Unit
 ) =>
-  createSelector(
-    selectUnitByID(playerIndex, roosterIndex, unitID),
-    (unit) => unit![propertyName] 
-  );
+  createSelector(selectUnitByID(playerIndex, roosterIndex, unitID), (unit) => {
+    return unit ? unit![propertyName] : null;
+  });
 
 export const selectPlayers = createSelector(
   selectSharedRoosterState,
@@ -68,7 +67,20 @@ export const selectBattleUnits = (playerIndex: number) =>
   createSelector(selectSharedRoosterState, (RoosterStoreState) => {
     let battleArray: Unit[] = [];
     RoosterStoreState.players[playerIndex].rooster.map((rooster) =>
-      rooster.units.map((unit) => (unit.onBattlefield ? battleArray.push(unit) : null))
+      rooster.units.map((unit) =>
+        unit.onBattlefield ? battleArray.push(unit) : null
+      )
     );
     return battleArray;
   });
+
+export const selectPlayerScore = (playerIndex: number) =>
+  createSelector(
+    selectSharedRoosterState,
+    (RoosterStoreState) => RoosterStoreState.players[playerIndex].score
+  );
+
+export const selectMessages = createSelector(
+  selectSharedRoosterState,
+  (RoosterStoreState) => RoosterStoreState.messages
+);

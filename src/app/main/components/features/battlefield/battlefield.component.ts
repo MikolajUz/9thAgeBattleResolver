@@ -38,7 +38,7 @@ export class BattlefieldComponent {
       Math.round(this.width / this.gridUnit)
     );
     this.gridsY = this.facade.createGridArray(
-      Math.round(this.height / this.gridUnit)
+      Math.round(this.height / this.gridUnit-10)
     );
     this.gridUnitScss = `${this.gridUnit}px`;
     this.facade.setGridUnit(

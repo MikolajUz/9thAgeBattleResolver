@@ -2,17 +2,25 @@
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   height: 100vh;
+  
+}
+
+.wrapper2 {
+  height: fit-content;
 }
 
 .sideOne,
 .sideTwo {
-  margin: 1rem;
+  margin: 1rem 1rem 0 1rem;
+  
   padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+
   border: 0.1rem black solid;
   border-radius: 1%;
+  height: 100%;
 }
 
 .sideOne {
@@ -44,8 +52,12 @@
 }
 
 .battleField {
-  padding: 2rem 2rem 2rem 3rem;
-  
+  padding: 1rem;
   
 }
 
+.middle{
+  display: grid;
+  grid-template-rows: 1fr 3fr;
+  max-height: 100%;
+}

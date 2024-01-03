@@ -15,12 +15,14 @@ import { Player } from '../players/interfaces/player.interface';
 import { Rooster } from '../players/interfaces/rooster.interface';
 import { skirmishScore } from '../main/interfaces/skirmishScore.interface';
 import { BattleService } from '../main/services/battle.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { messages } from '../players/interfaces/messages.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FacadeService {
-  constructor(private store: Store ) {}
+  constructor(private store: Store) {}
 
   gridUnit!: number;
   injectPlace!: UnitDirective;
@@ -135,6 +137,16 @@ export class FacadeService {
       .subscribe((unit) => (battleUnits = unit));
 
     return battleUnits;
+  }
+
+  getPlayerScore$(playerIndex: number) {
+    return this.store.select(
+      RoosterStoreSelectors.selectPlayerScore(playerIndex)
+    );
+  }
+
+  getMessages() {
+    return this.store.select(RoosterStoreSelectors.selectMessages);
   }
 
   changeUnitUIData(
@@ -322,7 +334,6 @@ export class FacadeService {
 
   runAllSkirmishes() {
     this.store.dispatch(RoosterStoreActions.runAllSkirmishes());
-    
   }
 
   updateScore(
@@ -340,11 +351,12 @@ export class FacadeService {
       })
     );
   }
-  scoreInit(playerIndex: number, unitIndex: number) {
+  scoreInit(playerIndex: number, unitIndex: number, name: string) {
     this.store.dispatch(
       RoosterStoreActions.scoreInit({
         playerIndex: playerIndex,
         unitIndex: unitIndex,
+        name: name,
       })
     );
   }
@@ -352,7 +364,26 @@ export class FacadeService {
     this.store.dispatch(RoosterStoreActions.clearScore());
   }
 
-  resolveHit(){
+  resolveHit() {
     this.store.dispatch(RoosterStoreActions.resolveHit());
+  }
+
+  scoreSum() {
+    this.store.dispatch(RoosterStoreActions.scoreSum());
+  }
+
+  getRanks() {
+    this.store.dispatch(RoosterStoreActions.getRanks());
+  }
+
+  updateMessages(message: string, messageName: keyof messages) {
+    this.store.dispatch(
+      RoosterStoreActions.updateMessages({ message: message, messageName: messageName })
+    );
+  }
+
+  combatResult(){
+    this.store.dispatch(
+      RoosterStoreActions.combatResult())
   }
 }

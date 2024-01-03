@@ -42,11 +42,9 @@ export class BattleService {
     ): Boolean => {
       if (playerIndex === 0) {
         if (RFy - unit.unitUI.unitRFHeight / 4 > 0) {
-          console.log(
-            `Please move player ${
-              playerIndex + 1
-            } last rank RF to proper place `
-          );
+          this.facade.updateMessages(`Please move player ${
+            playerIndex + 1
+          } last rank RF to proper place `,'prompt')
           return false;
         }
       }
@@ -55,11 +53,12 @@ export class BattleService {
           RFy + unit.unitUI.unitRFHeight / 4 <
           lastRankNumber * unit.unitUI.unitRFHeight
         ) {
-          console.log(
-            `Please move player ${
-              playerIndex + 1
-            } last rank RF to proper place `
-          );
+          this.facade.updateMessages( `Please move player ${
+            playerIndex + 1
+          } last rank RF to proper place `,'prompt')
+
+
+       
           return false;
         }
       }
@@ -104,7 +103,12 @@ export class BattleService {
           );
 
           if (!checkYPosition(playerIndex, RFy, lastRankNumber, unit))
+          {
+            this.battleData=[]
             return RFlastRankPositions;
+          }
+            
+          
 
           let RFx: number = Number(
             RF.style.transform.split(',')[0].slice(10, -2).trim()
@@ -175,6 +179,7 @@ export class BattleService {
               createRestRFarray(index, unit, unitDOM)
             ),
             new skirmishScore(
+              unit.name,
               0,
               index,
               unit.ID,
@@ -527,9 +532,18 @@ export class BattleService {
   initScores = () => {
     this.battleData.forEach((player) => {
       player.battlePlayer.forEach((unit) => {
-        this.facade.scoreInit(unit.playerIndex, unit.ID);
+        let name = this.facade.getPropertyOfRoosterUnit(
+          unit.playerIndex,
+          0,
+          unit.ID,
+          'name'
+        );
+
+        this.facade.scoreInit(unit.playerIndex, unit.ID, name!);
       });
     });
+    this.facade.scoreInit(0, 100, 'Sum');
+    this.facade.scoreInit(1, 100, 'Sum');
   };
 
   getRankBonus = () => {
@@ -556,38 +570,16 @@ export class BattleService {
     });
   };
 
-  updateStore = () => {
-    let fightUnits = this.getAllUnitData();
 
-    //  fightUnits.forEach((battleUnit)=>{
 
-    //   let unit = this.facade.getRoosterUnitByID(
-    //     battleUnit.playerIndex,
-    //     0,
-    //     battleUnit.ID
-    //   );
+  finishedSkirmish = () => {
+    this.mainAGI = 0;
+    this.facade.getRanks();
+    this.facade.scoreSum();
+    this.facade.combatResult()
+    
 
-    //           let casualties = Math.trunc(battleUnit.score.woundsSuffered / unit.hp);
-    //           let wounds = battleUnit.score.woundsSuffered % unit.hp;
-    //           if (wounds + unit.wounds >= unit.hp) {
-    //             casualties++;
-    //             wounds = wounds + unit.wounds - unit.hp;
-    //             this.facade.setWounds(battleUnit.playerIndex, battleUnit.ID, 0, 0);
-    //           }
-
-    //           if (casualties < defUnit.quantity) {
-    //             this.facade.decreaseQuantity(
-    //               unitIndex,
-    //               defPlayerIndex,
-    //               0,
-    //               casualties
-    //             );
-
-    //             this.facade.addWound(unitIndex, defPlayerIndex, 0, wounds);
-    //           } else {
-    //             this.facade.deleteUnit(unitIndex, defPlayerIndex, 0);
-
-    //  })
+    
   };
 
   resolveHit = () => {
@@ -672,18 +664,24 @@ export class BattleService {
         });
       });
 
-      if (this.fightUnits.every((unit) => unit.currentAgi > this.mainAGI - 1)) {
-        console.log('Finished skirmish');
-      }
+     
 
       if (hitUnits.length > 0) {
         this.mainAGI--;
+        this.facade.updateMessages('Reposition units and click resolve hit button to proceed to next agility step','prompt')
+        if (this.fightUnits.every((unit) => unit.currentAgi > this.mainAGI)) {
+          this.finishedSkirmish();
+        }
         break;
       }
+
+     
     }
   };
 
   runAllSkirmishes = () => {
+    this.facade.updateMessages('','prompt')
+    this.facade.updateMessages('','combatEnd')
     this.getAmountInContact();
     this.fightUnits = this.getAllUnitData();
     this.mainAGI = 10;

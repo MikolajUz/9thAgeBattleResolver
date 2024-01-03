@@ -13,4 +13,3 @@ export const armyLoaded = createAction(
 export const armyLoadError = createAction(
   '[armyList Section API] Army Loading Error'
 );
-

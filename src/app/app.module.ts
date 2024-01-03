@@ -22,6 +22,8 @@ import { UnitDirective } from './players/components/features/unit.directive';
 import { TableRoosterComponent } from './players/components/features/table-rooster/table-rooster.component';
 import { AngularResizeEventModule } from 'angular-resize-event';
 import { BattleComponent } from './main/components/features/battle/battle.component';
+import { ResultsComponent } from './main/components/features/results-main/results/results.component';
+import { ResultTableComponent } from './main/components/features/results-main/result-table/result-table.component';
 
 
 @NgModule({
@@ -36,6 +38,8 @@ import { BattleComponent } from './main/components/features/battle/battle.compon
     UnitDirective,
     TableRoosterComponent,
     BattleComponent,
+    ResultsComponent,
+    ResultTableComponent,
     
   ],
   imports: [

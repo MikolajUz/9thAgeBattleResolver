@@ -4,8 +4,18 @@ import { initialPlayersState } from './rooster.state';
 import { immerOn } from 'ngrx-immer/store';
 import { UnitRules } from 'src/app/army/interfaces/unitRules.interface';
 import { skirmishScore } from 'src/app/main/interfaces/skirmishScore.interface';
+import { Action } from 'rxjs/internal/scheduler/Action';
+import { FacadeService } from 'src/app/facade/facade.service';
 
 export const RoosterFeatureKey = 'currentRooster';
+
+const getWinner = (playerScoreSum: number[]) =>{
+  let winnerMess:string=''
+  playerScoreSum[0]>playerScoreSum[1] ?  winnerMess=`Combat finished. Combat result is ${playerScoreSum[0]} to ${playerScoreSum[1]} for Player One.` : null
+  playerScoreSum[0]<playerScoreSum[1] ?  winnerMess=`Combat finished. Combat result is ${playerScoreSum[1]} to ${playerScoreSum[0]} for Player Two.`  : null
+  playerScoreSum[0]===playerScoreSum[1] ?  winnerMess=`Combat finished. Combat result is tie`  : null
+  return winnerMess
+}
 
 export const RoosterReducer = createReducer(
   initialPlayersState,
@@ -129,15 +139,19 @@ export const RoosterReducer = createReducer(
     );
   }),
   immerOn(RoosterStoreActions.updateScore, (state, action) => {
-    state.players[action.playerIndex].score.map((unit) => {
-      unit.unitIndex === action.unitIndex
-        ? (unit[action.propertyName] = action.changeValue)
-        : null;
+    state.players[action.playerIndex].score = state.players[
+      action.playerIndex
+    ].score.map((unit) => {
+      return unit.unitIndex === action.unitIndex
+        ? { ...unit, [action.propertyName]: action.changeValue }
+        : unit;
     });
   }),
+
   immerOn(RoosterStoreActions.scoreInit, (state, action) => {
     state.players[action.playerIndex].score.push(
       new skirmishScore(
+        action.name,
         0,
         action.playerIndex,
         action.unitIndex,
@@ -162,5 +176,85 @@ export const RoosterReducer = createReducer(
     state.players.forEach((player) => {
       player.score = [];
     });
+  }),
+  immerOn(RoosterStoreActions.scoreSum, (state, action) => {
+    state.players.forEach((player) => {
+      player.score[player.score.length - 1].woundsDealt = 0;
+      player.score[player.score.length - 1].standard = 0;
+      player.score[player.score.length - 1].rankBonus = 0;
+      player.score[player.score.length - 1].positionBonus = 0;
+      player.score[player.score.length - 1].otherBonus = 0;
+      player.score[player.score.length - 1].charge = 0;
+
+      player.score[player.score.length - 1].woundsDealt = player.score.reduce(
+        (acc, num) => acc + num.woundsDealt,
+        0
+      );
+      player.score[player.score.length - 1].standard = player.score.reduce(
+        (acc, num) => acc + num.standard,
+        0
+      );
+      player.score[player.score.length - 1].rankBonus = player.score.reduce(
+        (acc, num) => acc + num.rankBonus,
+        0
+      );
+      player.score[player.score.length - 1].positionBonus = player.score.reduce(
+        (acc, num) => acc + num.positionBonus,
+        0
+      );
+      player.score[player.score.length - 1].otherBonus = player.score.reduce(
+        (acc, num) => acc + num.otherBonus,
+        0
+      );
+      player.score[player.score.length - 1].charge = player.score.reduce(
+        (acc, num) => (num.charge === 1 ? (acc = 1) : (acc = acc)),
+        0
+      );
+    });
+  }),
+  immerOn(RoosterStoreActions.clearScore, (state) => {
+    state.players.forEach((player) => {
+      player.score = [];
+    });
+  }),
+  immerOn(RoosterStoreActions.getRanks, (state) => {
+    state.players.forEach((player) => {
+      player.score.forEach((unitScore) => {
+        let unit = player.rooster[0].units.find(
+          (unitRoost) => unitRoost.ID === unitScore.unitIndex
+        );
+        if (unit) {
+          let rankSize = 5;
+          if (unit.height === 'Large') rankSize = 3;
+
+          if (unit.fileLength < 8 && unit.fileLength >= rankSize) {
+            let rankBonus = Math.trunc(
+              (unit.quantity - unit.fileLength) / unit.fileLength
+            );
+
+            unitScore.rankBonus = rankBonus;
+          }
+        }
+      });
+    });
+  }),
+  immerOn(RoosterStoreActions.updateMessages, (state, action) => {
+    state.messages[action.messageName] = action.message;
+  }),
+  immerOn(RoosterStoreActions.combatResult, (state, action) => {
+    let playerScoreSum: number[] = [0, 0];
+    state.players.forEach((player, index) => {
+      let sum = player.score[player.score.length - 1];
+      playerScoreSum[index] =
+        sum.challengeOverkill +
+        sum.charge +
+        sum.otherBonus +
+        sum.positionBonus +
+        sum.rankBonus +
+        sum.standard +
+        sum.woundsDealt;
+    });
+    state.messages.prompt = '';
+    state.messages.combatEnd =getWinner(playerScoreSum)
   })
 );
