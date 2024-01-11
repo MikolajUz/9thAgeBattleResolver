@@ -2,9 +2,9 @@ import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { AdUnit } from '../components/features/ad-unit';
 import { unitUI } from '../interfaces/unit-ui.interface';
 import { UnitVisualComponent } from '../components/features/unit-visual/unit-visual.component';
-import { FacadeService } from 'src/app/facade/facade.service';
-import { RoosterFeatureKey } from '../rooster-store/rooster.reducer';
-import { Unit } from 'src/app/army/interfaces/unit.interface';
+
+import { RoosterFacade } from '../rooster.facade';
+import { MainFacade } from 'src/app/main/main.facade';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,8 @@ export class VisualsService {
   private renderer: Renderer2;
   constructor(
     rendererFactory: RendererFactory2,
-    private facade: FacadeService
+    private roosterFacade: RoosterFacade,
+    private mainFacade :MainFacade
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
@@ -41,7 +42,7 @@ export class VisualsService {
     let fileLength: number | undefined;
     let quantity: number | undefined;
 
-    this.facade
+    this.roosterFacade
       .getRoosterUnitByID$(playerIndex, 0, unitID)
       .subscribe((unitData) => {
         baseWidth = Number(unitData?.base.split('x')[0]) / 5;
@@ -52,32 +53,38 @@ export class VisualsService {
 
     quantity! < fileLength! ? (fileLength = quantity) : null;
 
-    unitData.gridUnit = this.facade.getGridUnit();
+    unitData.gridUnit = this.mainFacade.getGridUnit();
     unitData.unitRFWidth = baseWidth! * unitData.gridUnit;
     unitData.unitRFHeight = baseHeight! * unitData.gridUnit;
 
     unitData.unitRFWidthScss = `${unitData.unitRFWidth}px`;
     unitData.unitRFHeightScss = `${unitData.unitRFHeight}px`;
 
-    unitData.rankXPlaces = this.facade.createGridArray(Number(fileLength)!);
-    unitData.fileYPlaces = this.facade.createGridArray(
+    unitData.rankXPlaces = this.roosterFacade.createGridArray(
+      Number(fileLength)!
+    );
+    unitData.fileYPlaces = this.roosterFacade.createGridArray(
       Math.trunc(quantity! / fileLength!)
     );
 
-    unitData.RaFRest = this.facade.createGridArray(quantity! % fileLength!);
+    unitData.RaFRest = this.roosterFacade.createGridArray(
+      quantity! % fileLength!
+    );
     let rest = 0;
     quantity! % fileLength! ? (rest = 1) : null;
     const nmbFiles = Math.trunc(quantity! / fileLength!) + rest;
 
-    unitData.unitFileGrids = this.facade.createGridArray(nmbFiles);
-    unitData.unitRankGrids = this.facade.createGridArray(Number(fileLength)!);
+    unitData.unitFileGrids = this.roosterFacade.createGridArray(nmbFiles);
+    unitData.unitRankGrids = this.roosterFacade.createGridArray(
+      Number(fileLength)!
+    );
     unitData.unitWidth = unitData.unitRankGrids.length * unitData.unitRFWidth;
     unitData.unitHeight = nmbFiles * unitData.unitRFHeight;
 
     unitData.unitWidthScss = `${unitData.unitWidth}px`;
     unitData.unitHeightScss = `${unitData.unitHeight}px`;
 
-    this.facade.changeUnitUIData(unitData, unitID, playerIndex, 0);
+    this.roosterFacade.changeUnitUIData(unitData, unitID, playerIndex, 0);
 
     return unitData;
   };
@@ -85,12 +92,13 @@ export class VisualsService {
   createUnitUI(playerIndex: number, unitID: number) {
     this.createUnitData(playerIndex, unitID);
 
-    const viewContainerRef = this.facade.getInjectPlace().viewContainerRef;
+    const viewContainerRef =
+      this.mainFacade.getInjectPlace().viewContainerRef;
     const componentRef = viewContainerRef.createComponent(
       new AdUnit(UnitVisualComponent).component
     );
     componentRef.instance.myBounds =
-      this.facade.getBattlefieldBoundaries()?.nativeElement;
+      this.mainFacade.getBattlefieldBoundaries()?.nativeElement;
     componentRef.instance.unitID = unitID;
     componentRef.instance.playerIndex = playerIndex;
   }
@@ -116,12 +124,12 @@ export class VisualsService {
     }
   }
   updateAllUnitUIData() {
-    this.facade.getPlayers();
-    this.facade.players.forEach((player, playerIndex) => {
-      this.facade.getRoosters(playerIndex);
-      this.facade.roosters.forEach((rooster, roosterIndex) => {
-        this.facade.getUnits(playerIndex, roosterIndex);
-        this.facade.units.forEach((unit) => {
+    this.mainFacade.getPlayers();
+    this.mainFacade.players.forEach((player, playerIndex) => {
+      this.mainFacade.getRoosters(playerIndex);
+      this.mainFacade.roosters.forEach((rooster, roosterIndex) => {
+        this.mainFacade.getUnits(playerIndex, roosterIndex);
+        this.mainFacade.units.forEach((unit) => {
           unit.unitUI ? this.createUnitData(playerIndex, unit.ID) : null;
         });
       });

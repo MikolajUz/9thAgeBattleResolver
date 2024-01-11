@@ -1,4 +1,4 @@
-import { unitUI } from 'src/app/players/interfaces/unit-ui.interface';
+import { unitUI } from 'src/app/rooster/interfaces/unit-ui.interface';
 import { UnitRules, adaptOption } from './unitRules.interface';
 import { Injectable } from '@angular/core';
 import { unitRaw } from './dataUnit.interface';

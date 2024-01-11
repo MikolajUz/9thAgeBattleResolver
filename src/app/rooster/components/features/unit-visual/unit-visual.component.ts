@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { unitUI } from 'src/app/players/interfaces/unit-ui.interface';
+import { unitUI } from 'src/app/rooster/interfaces/unit-ui.interface';
 import { Observable } from 'rxjs';
-import { FacadeService } from 'src/app/facade/facade.service';
+import { RoosterFacade } from 'src/app/rooster/rooster.facade';
+import { MainFacade } from 'src/app/main/main.facade';
 
 @Component({
   selector: 'app-unit-visual',
@@ -16,10 +17,10 @@ export class UnitVisualComponent implements OnInit {
   orientation!: 'top' | 'bottom';
   ID!: string;
 
-  constructor(private facade: FacadeService) {}
+  constructor(private roosterFacade: RoosterFacade, private mainFacade:MainFacade) {}
   ngOnInit(): void {
     this.ID = `PlayerIndex=${this.playerIndex},unitID=${this.unitID}`;
-    this.data = this.facade.getUnitUIdata(this.playerIndex, 0, this.unitID);
+    this.data = this.roosterFacade.getUnitUIdata(this.playerIndex, 0, this.unitID);
     this.playerIndex
       ? (this.orientation = 'bottom')
       : (this.orientation = 'top');

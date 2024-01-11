@@ -1,11 +1,12 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { FacadeService } from 'src/app/facade/facade.service';
 import { BattlePlayer } from '../interfaces/battlePlayer.interface';
 import { BattleUnitAdapter } from '../interfaces/adapters/battleUnitData.adapter';
 import { Unit } from 'src/app/army/interfaces/unit.interface';
 import { BattleUnitData } from '../interfaces/battleUnitData.interface';
 import { attacksData } from '../interfaces/attacksData.interface';
 import { skirmishScore } from '../interfaces/skirmishScore.interface';
+import { RoosterFacade } from 'src/app/rooster/rooster.facade';
+import { MainFacade } from '../main.facade';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,8 @@ export class BattleService {
 
   constructor(
     private rendererFactory: RendererFactory2,
-    private facade: FacadeService,
+    private roosterFacade: RoosterFacade,
+    private mainFacade: MainFacade,
     private adapter: BattleUnitAdapter
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
@@ -42,9 +44,12 @@ export class BattleService {
     ): Boolean => {
       if (playerIndex === 0) {
         if (RFy - unit.unitUI.unitRFHeight / 4 > 0) {
-          this.facade.updateMessages(`Please move player ${
-            playerIndex + 1
-          } last rank RF to proper place `,'prompt')
+          this.roosterFacade.updateMessages(
+            `Please move player ${
+              playerIndex + 1
+            } last rank RF to proper place `,
+            'prompt'
+          );
           return false;
         }
       }
@@ -53,12 +58,13 @@ export class BattleService {
           RFy + unit.unitUI.unitRFHeight / 4 <
           lastRankNumber * unit.unitUI.unitRFHeight
         ) {
-          this.facade.updateMessages( `Please move player ${
-            playerIndex + 1
-          } last rank RF to proper place `,'prompt')
+          this.roosterFacade.updateMessages(
+            `Please move player ${
+              playerIndex + 1
+            } last rank RF to proper place `,
+            'prompt'
+          );
 
-
-       
           return false;
         }
       }
@@ -102,13 +108,10 @@ export class BattleService {
             RF.style.transform.split(',')[1].slice(0, -3).trim()
           );
 
-          if (!checkYPosition(playerIndex, RFy, lastRankNumber, unit))
-          {
-            this.battleData=[]
+          if (!checkYPosition(playerIndex, RFy, lastRankNumber, unit)) {
+            this.battleData = [];
             return RFlastRankPositions;
           }
-            
-          
 
           let RFx: number = Number(
             RF.style.transform.split(',')[0].slice(10, -2).trim()
@@ -149,7 +152,7 @@ export class BattleService {
     this.battleData.push(new BattlePlayer([]));
 
     this.battleData.forEach((player, index) => {
-      this.facade.getBattleUnits(index).forEach((unit) => {
+      this.roosterFacade.getBattleUnits(index).forEach((unit) => {
         let unitDOM = this.renderer.selectRootElement(
           `[id='PlayerIndex=${index},unitID=${unit.ID}']`,
           true
@@ -158,7 +161,7 @@ export class BattleService {
         this.battleData[index].battlePlayer.push(
           this.adapter.adapt(
             index,
-            this.facade.gridUnit,
+            this.mainFacade.gridUnit,
             unit.unitUI.rankXPlaces.length,
             unit.unitUI.fileYPlaces.length,
             {
@@ -475,7 +478,7 @@ export class BattleService {
       return attacks;
     };
 
-    let offUnit = this.facade.getRoosterUnitByID(
+    let offUnit = this.roosterFacade.getRoosterUnitByID(
       offBattleUnit.playerIndex,
       0,
       offBattleUnit.ID
@@ -483,7 +486,7 @@ export class BattleService {
 
     let attacks = getAttacks(offUnit, offBattleUnit);
     attacks.forEach((attacks, index) => {
-      let defUnit = this.facade.getRoosterUnitByID(
+      let defUnit = this.roosterFacade.getRoosterUnitByID(
         Number(attacks.attackedUnitID.split(',')[0].split('=')[1]),
         0,
         Number(attacks.attackedUnitID.split(',')[1].split('=')[1])
@@ -532,23 +535,23 @@ export class BattleService {
   initScores = () => {
     this.battleData.forEach((player) => {
       player.battlePlayer.forEach((unit) => {
-        let name = this.facade.getPropertyOfRoosterUnit(
+        let name = this.roosterFacade.getPropertyOfRoosterUnit(
           unit.playerIndex,
           0,
           unit.ID,
           'name'
         );
 
-        this.facade.scoreInit(unit.playerIndex, unit.ID, name!);
+        this.roosterFacade.scoreInit(unit.playerIndex, unit.ID, name!);
       });
     });
-    this.facade.scoreInit(0, 100, 'Sum');
-    this.facade.scoreInit(1, 100, 'Sum');
+    this.roosterFacade.scoreInit(0, 100, 'Sum');
+    this.roosterFacade.scoreInit(1, 100, 'Sum');
   };
 
   getRankBonus = () => {
     this.fightUnits.forEach((battleUnit) => {
-      let unit = this.facade.getRoosterUnitByID(
+      let unit = this.roosterFacade.getRoosterUnitByID(
         battleUnit.playerIndex,
         0,
         battleUnit.ID
@@ -560,7 +563,7 @@ export class BattleService {
         let rankBonus = Math.trunc(
           (unit.quantity - unit.fileLength) / unit.fileLength
         );
-        this.facade.updateScore(
+        this.roosterFacade.updateScore(
           battleUnit.playerIndex,
           battleUnit.ID,
           'rankBonus',
@@ -570,16 +573,11 @@ export class BattleService {
     });
   };
 
-
-
   finishedSkirmish = () => {
     this.mainAGI = 0;
-    this.facade.getRanks();
-    this.facade.scoreSum();
-    this.facade.combatResult()
-    
-
-    
+    this.roosterFacade.getRanks();
+    this.roosterFacade.scoreSum();
+    this.roosterFacade.combatResult();
   };
 
   resolveHit = () => {
@@ -596,7 +594,7 @@ export class BattleService {
       hitUnits.forEach((unit) => {
         let totalWounds = 0;
         let offPlayerIndex = unit.playerIndex;
-        let offUnit = this.facade.getRoosterUnitByID(
+        let offUnit = this.roosterFacade.getRoosterUnitByID(
           offPlayerIndex,
           0,
           unit.ID
@@ -609,7 +607,7 @@ export class BattleService {
           let unitIndex = Number(
             attack.attackedUnitID.split(',')[1].split('=')[1]
           );
-          let defUnit = this.facade.getRoosterUnitByID(
+          let defUnit = this.roosterFacade.getRoosterUnitByID(
             defPlayerIndex,
             0,
             unitIndex
@@ -621,27 +619,27 @@ export class BattleService {
           if (wounds + defUnit.wounds >= defUnit.hp) {
             casualties++;
             wounds = wounds + defUnit.wounds - defUnit.hp;
-            this.facade.setWounds(unitIndex, defPlayerIndex, 0, wounds);
+            this.roosterFacade.setWounds(unitIndex, defPlayerIndex, 0, wounds);
           }
 
           if (casualties < defUnit.quantity) {
-            this.facade.decreaseQuantity(
+            this.roosterFacade.decreaseQuantity(
               unitIndex,
               defPlayerIndex,
               0,
               casualties
             );
 
-            this.facade.addWound(unitIndex, defPlayerIndex, 0, wounds);
+            this.roosterFacade.addWound(unitIndex, defPlayerIndex, 0, wounds);
           } else {
-            this.facade.deleteUnit(unitIndex, defPlayerIndex, 0);
+            this.roosterFacade.deleteUnit(unitIndex, defPlayerIndex, 0);
             this.fightUnits = this.fightUnits.filter(
               (unit) =>
                 unit.ID !== unitIndex || unit.playerIndex !== defPlayerIndex
             );
           }
 
-          this.facade.updateScore(
+          this.roosterFacade.updateScore(
             offPlayerIndex,
             unit.ID,
             'attacks',
@@ -649,7 +647,7 @@ export class BattleService {
           );
 
           totalWounds = totalWounds + attack.finalWounds;
-          this.facade.updateScore(
+          this.roosterFacade.updateScore(
             offPlayerIndex,
             unit.ID,
             'woundsDealt',
@@ -658,34 +656,38 @@ export class BattleService {
 
           offUnit.options.forEach((option) => {
             option.slice(0, 15) === 'Standard Bearer'
-              ? this.facade.updateScore(offPlayerIndex, unit.ID, 'standard', 1)
+              ? this.roosterFacade.updateScore(
+                  offPlayerIndex,
+                  unit.ID,
+                  'standard',
+                  1
+                )
               : null;
           });
         });
       });
 
-     
-
       if (hitUnits.length > 0) {
         this.mainAGI--;
-        this.facade.updateMessages('Reposition units and click resolve hit button to proceed to next agility step','prompt')
+        this.roosterFacade.updateMessages(
+          'Reposition units and click resolve hit button to proceed to next agility step',
+          'prompt'
+        );
         if (this.fightUnits.every((unit) => unit.currentAgi > this.mainAGI)) {
           this.finishedSkirmish();
         }
         break;
       }
-
-     
     }
   };
 
   runAllSkirmishes = () => {
-    this.facade.updateMessages('','prompt')
-    this.facade.updateMessages('','combatEnd')
+    this.roosterFacade.updateMessages('', 'prompt');
+    this.roosterFacade.updateMessages('', 'combatEnd');
     this.getAmountInContact();
     this.fightUnits = this.getAllUnitData();
     this.mainAGI = 10;
-    this.facade.clearScore();
+    this.roosterFacade.clearScore();
     this.initScores();
     this.resolveHit();
   };

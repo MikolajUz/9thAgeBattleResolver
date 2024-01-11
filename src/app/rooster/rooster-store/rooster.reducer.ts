@@ -5,7 +5,7 @@ import { immerOn } from 'ngrx-immer/store';
 import { UnitRules } from 'src/app/army/interfaces/unitRules.interface';
 import { skirmishScore } from 'src/app/main/interfaces/skirmishScore.interface';
 import { Action } from 'rxjs/internal/scheduler/Action';
-import { FacadeService } from 'src/app/facade/facade.service';
+
 
 export const RoosterFeatureKey = 'currentRooster';
 

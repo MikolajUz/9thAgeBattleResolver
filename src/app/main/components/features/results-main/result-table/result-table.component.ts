@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FacadeService } from 'src/app/facade/facade.service';
 import { skirmishScore } from 'src/app/main/interfaces/skirmishScore.interface';
+import { MainFacade } from 'src/app/main/main.facade';
 
 @Component({
   selector: 'app-result-table',
@@ -9,7 +9,7 @@ import { skirmishScore } from 'src/app/main/interfaces/skirmishScore.interface';
   styleUrls: ['./result-table.component.scss'],
 })
 export class ResultTableComponent {
-  constructor(private facade: FacadeService) {}
+  constructor(private mainFacade: MainFacade) {}
   @Input() player!: number;
 
   columns = [
@@ -25,6 +25,6 @@ export class ResultTableComponent {
   scores$!: Observable<skirmishScore[]>;
 
   ngOnInit(): void {
-    this.scores$ = this.facade.getPlayerScore$(this.player);
+    this.scores$ = this.mainFacade.getPlayerScore$(this.player);
   }
 }

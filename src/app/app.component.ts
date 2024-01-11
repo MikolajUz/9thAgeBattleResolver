@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FacadeService } from './facade/facade.service';
+import { MainFacade } from './main/main.facade';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private facade: FacadeService) {}
+  constructor(private mainFacade: MainFacade) {}
   ngOnInit(): void {
-    this.facade.init();
+    this.mainFacade.init();
   }
   title = '9thAgeBattleResolver';
 }

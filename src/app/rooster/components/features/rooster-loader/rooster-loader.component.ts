@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FacadeService } from 'src/app/facade/facade.service';
+import { RoosterFacade } from 'src/app/rooster/rooster.facade';
 
 @Component({
   selector: 'app-rooster-loader',
@@ -9,7 +9,7 @@ import { FacadeService } from 'src/app/facade/facade.service';
 export class RoosterLoaderComponent {
   @Input() playerIndex!: number;
   validFile = false;
-  constructor(private facade: FacadeService) {}
+  constructor(private roosterFacade: RoosterFacade) {}
 
   onDragOver(event: any) {
     event.preventDefault();
@@ -32,7 +32,7 @@ export class RoosterLoaderComponent {
       const reader = new FileReader();
       reader.addEventListener('load', () => {
         typeof reader.result === 'string' &&
-          this.facade.requestRoosterLoad(reader.result, this.playerIndex, 0);
+          this.roosterFacade.requestRoosterLoad(reader.result, this.playerIndex, 0);
       });
       reader.readAsText(files[0]);
     } else this.validFile = true;

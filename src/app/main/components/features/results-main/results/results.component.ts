@@ -1,35 +1,31 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { FacadeService } from 'src/app/facade/facade.service';
 import { BattleService } from 'src/app/main/services/battle.service';
-import { messages } from 'src/app/players/interfaces/messages.interface';
+import { messages } from 'src/app/rooster/interfaces/messages.interface';
+import { MainFacade } from 'src/app/main/main.facade';
 
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',
-  styleUrls: ['./results.component.scss']
+  styleUrls: ['./results.component.scss'],
 })
 export class ResultsComponent implements OnInit {
-  constructor(private facade: FacadeService, private battle: BattleService) {}
- 
- 
+  constructor(private mainFacade: MainFacade) {}
+
   ngOnInit(): void {
-    this.messages=this.facade.getMessages()
+    this.messages = this.mainFacade.getMessages();
   }
 
-  messages!:Observable<messages>
+  messages!: Observable<messages>;
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.messages=this.facade.getMessages()
+    this.messages = this.mainFacade.getMessages();
   }
 
-startSkirmish() {
-  this.facade.runAllSkirmishes();
- 
-}
-resolveHit(){
-  this.facade.resolveHit()
-}
- 
-
+  startSkirmish() {
+    this.mainFacade.runAllSkirmishes();
+  }
+  resolveHit() {
+    this.mainFacade.resolveHit();
+  }
 }

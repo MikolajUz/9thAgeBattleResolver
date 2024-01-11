@@ -9,7 +9,8 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { FacadeService } from 'src/app/facade/facade.service';
+
+import { RoosterFacade } from 'src/app/rooster/rooster.facade';
 
 @Component({
   selector: 'app-table-rooster',
@@ -53,42 +54,61 @@ export class TableRoosterComponent implements OnInit {
 
   expandedUnit: Unit | undefined;
 
-  constructor(private facade: FacadeService) {}
+  constructor( private roosterFacade: RoosterFacade) {}
   ngOnInit(): void {
-    this.Rooster = this.facade.getRooster(this.playerIndex, 0);
+    this.Rooster = this.roosterFacade.getRooster(this.playerIndex, 0);
   }
 
   setFileLength($event: any, unitID: number) {
-    this.facade.setFileLength(unitID, $event.target.value, this.playerIndex, 0);
+    this.roosterFacade.setFileLength(
+      unitID,
+      $event.target.value,
+      this.playerIndex,
+      0
+    );
   }
 
   pickUnit(unit: Unit) {
     if (!unit.onBattlefield) {
-      this.facade.pickUnit(unit.ID, this.playerIndex, 0);
-      this.facade.changeOnBattlefieldProperty(unit.ID, this.playerIndex, 0);
+      this.roosterFacade.pickUnit(unit.ID, this.playerIndex, 0);
+      this.roosterFacade.changeOnBattlefieldProperty(
+        unit.ID,
+        this.playerIndex,
+        0
+      );
     }
   }
 
   selectUnit(unitID: number) {
-    this.facade.selectUnit(unitID, this.playerIndex, 0);
+    this.roosterFacade.selectUnit(unitID, this.playerIndex, 0);
   }
 
   changeStat(unitID: number, action: string) {
     switch (action) {
       case 'Increase quantity':
-        this.facade.increaseQuantity(unitID, this.playerIndex, 0, 1);
+        this.roosterFacade.increaseQuantity(
+          unitID,
+          this.playerIndex,
+          0,
+          1
+        );
         break;
       case 'Decrease quantity':
-        this.facade.decreaseQuantity(unitID, this.playerIndex, 0, 1);
+        this.roosterFacade.decreaseQuantity(
+          unitID,
+          this.playerIndex,
+          0,
+          1
+        );
         break;
       case 'Add wound':
-        this.facade.addWound(unitID, this.playerIndex, 0, 1);
+        this.roosterFacade.addWound(unitID, this.playerIndex, 0, 1);
         break;
       case 'Remove wound':
-        this.facade.removeWound(unitID, this.playerIndex, 0, 1);
+        this.roosterFacade.removeWound(unitID, this.playerIndex, 0, 1);
         break;
       case 'Delete unit':
-        this.facade.deleteUnit(unitID, this.playerIndex, 0);
+        this.roosterFacade.deleteUnit(unitID, this.playerIndex, 0);
         break;
       default:
         console.log('Error button stat changer');

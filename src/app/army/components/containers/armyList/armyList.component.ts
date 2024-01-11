@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FacadeService } from 'src/app/facade/facade.service';
+import { ArmyFacade } from 'src/app/army/army.facade';
 
 @Component({
   selector: 'app-armyList',
@@ -7,8 +7,8 @@ import { FacadeService } from 'src/app/facade/facade.service';
   styleUrls: ['./armyList.component.scss'],
 })
 export class ArmyListComponent {
-  armyList$ = this.facade.getArmy();
-  constructor(private facade: FacadeService) {
-    this.facade.requestLoadArmy;
+  armyList$ = this.armyFacade.getArmy();
+  constructor(private armyFacade: ArmyFacade) {
+    this.armyFacade.requestLoadArmy;
   }
 }

@@ -2,18 +2,22 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { map } from 'rxjs';
 import { Unit } from '../../army/interfaces/unit.interface';
-import { FacadeService } from 'src/app/facade/facade.service';
+import { ArmyFacade } from '../../army/army.facade';
+import { RoosterFacade } from '../rooster.facade';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoosterService {
-  constructor(private facade: FacadeService) {}
+  constructor(
+    private armyFacade: ArmyFacade,
+    private roosterFacade: RoosterFacade
+  ) {}
 
   url = 'https://www.9thbuilder.com/api/v1/ninth_age/armies/207';
 
   getRoosterUnit(name: string): Observable<Unit | undefined> {
-    return this.facade.getArmyUnit(name);
+    return this.armyFacade.getArmyUnit(name);
   }
 
   readRooster(
@@ -79,7 +83,12 @@ export class RoosterService {
       this.getRoosterUnit(line[2])
         .pipe(map((unit) => roosterAdapter(unit, line, index)))
         .subscribe((unit) => {
-          unit && this.facade.addUnitToRooster(unit, playerIndex, roosterIndex);
+          unit &&
+            this.roosterFacade.addUnitToRooster(
+              unit,
+              playerIndex,
+              roosterIndex
+            );
         });
     });
   }

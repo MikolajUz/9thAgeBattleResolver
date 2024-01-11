@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { UnitDirective } from 'src/app/players/components/features/unit.directive';
-import { FacadeService } from 'src/app/facade/facade.service';
+import { UnitDirective } from 'src/app/rooster/components/features/unit.directive';
 import { ResizedEvent } from 'angular-resize-event';
+import { MainFacade } from 'src/app/main/main.facade';
 
 @Component({
   selector: 'app-battlefield',
@@ -16,14 +16,14 @@ export class BattlefieldComponent {
   height = 0;
   gridUnit: number = 10;
   gridDensity = 60;
-  gridsX = this.facade.createGridArray(this.gridDensity);
-  gridsY = this.facade.createGridArray(this.gridDensity);
+  gridsX = this.mainFacade.createGridArray(this.gridDensity);
+  gridsY = this.mainFacade.createGridArray(this.gridDensity);
   gridUnitScss = `${this.gridUnit}px`;
 
-  constructor(private facade: FacadeService) {}
+  constructor(private mainFacade: MainFacade) {}
 
   ngAfterViewInit(): void {
-    this.facade.setGridUnit(
+    this.mainFacade.setGridUnit(
       this.gridUnit,
       this.unitInjectPlace,
       this.battlefield
@@ -34,18 +34,18 @@ export class BattlefieldComponent {
     this.width = Math.round(event.newRect.width);
     this.height = Math.round(event.newRect.height);
     this.gridUnit = Math.round(this.width / this.gridDensity);
-    this.gridsX = this.facade.createGridArray(
+    this.gridsX = this.mainFacade.createGridArray(
       Math.round(this.width / this.gridUnit)
     );
-    this.gridsY = this.facade.createGridArray(
+    this.gridsY = this.mainFacade.createGridArray(
       Math.round(this.height / this.gridUnit-10)
     );
     this.gridUnitScss = `${this.gridUnit}px`;
-    this.facade.setGridUnit(
+    this.mainFacade.setGridUnit(
       this.gridUnit,
       this.unitInjectPlace,
       this.battlefield
     );
-    this.facade.updateAllUnitUIData();
+    this.mainFacade.updateAllUnitUIData();
   }
 }
