@@ -24,6 +24,7 @@ import { AngularResizeEventModule } from 'angular-resize-event';
 import { BattleComponent } from './main/components/features/battle/battle.component';
 import { ResultsComponent } from './main/components/features/results-main/results/results.component';
 import { ResultTableComponent } from './main/components/features/results-main/result-table/result-table.component';
+import { ModelVisualComponent } from './rooster/components/features/unit-visual/model-visual/model-visual.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { ResultTableComponent } from './main/components/features/results-main/re
     BattleComponent,
     ResultsComponent,
     ResultTableComponent,
+    ModelVisualComponent,
     
   ],
   imports: [
